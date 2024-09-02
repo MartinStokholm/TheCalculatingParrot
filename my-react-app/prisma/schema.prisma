@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  budgets Budget[]
+}
+
+model Budget {
+  id        Int       @id @default(autoincrement())
+  name      String
+  startingCapital Float
+  savings   Float
+  lineItems LineItem[]
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model LineItem {
+  id          Int         @id @default(autoincrement())
+  name        String
+  amount      Float
+  categoryId  Int
+  budgetId    Int
+  budget      Budget      @relation(fields: [budgetId], references: [id])
+  reacurrings Reacurring[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  colorHex String
+}
+
+model Reacurring {
+  id         Int       @id @default(autoincrement())
+  monthly    Boolean
+  daily      Boolean
+  weekly     Boolean
+  yearly     Boolean
+  lineItemId Int
+  lineItem   LineItem  @relation(fields: [lineItemId], references: [id])
+}
