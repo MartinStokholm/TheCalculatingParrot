@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
-import { useState } from "react";
+import React, { useState } from "react";
+import { GiMoneyStack } from "react-icons/gi";
 
 type NavigationLink = {
   title: string;
   path: string;
+  logo?: React.ReactNode;
 };
 
 type NavigationProps = {
@@ -26,8 +28,8 @@ export default function Navigation({ ...props }: NavigationProps) {
       <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
         <FiMenu className="text-2xl" onClick={handleMenuClicked} />
 
-        <Link className="text-3xl" to={`/`}>
-          {props.title}
+        <Link className="text-3xl flex p-4 " to={`/`}>
+          <p className="pr-4">{props.title}</p> <GiMoneyStack size={35} />
         </Link>
       </nav>
       <div
@@ -39,11 +41,12 @@ export default function Navigation({ ...props }: NavigationProps) {
           {props.navigationLinks.map((link) => (
             <li key={link.title}>
               <Link
-                className="text-lg"
+                className="text-lg flex items-center space-x-2 hover:bg-gray-700 p-2 rounded"
                 onClick={handleMenuClicked}
                 to={`/${link.path}`}
               >
-                {link.title}
+                {link.logo && <p>{link.logo}</p>}
+                <p>{link.title}</p>
               </Link>
             </li>
           ))}
