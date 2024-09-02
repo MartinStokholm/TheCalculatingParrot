@@ -3,5 +3,9 @@ type PageWrapperProps = {
 };
 
 export function PageWrapper({ ...props }: PageWrapperProps) {
-  return <div className="container mx-auto p-4">{props.children}</div>;
+  return (
+    <div className="p-4 flex flex-col place-items-center bg-zinc-200 text-black">
+      {props.children}
+    </div>
+  );
 }
