@@ -2,8 +2,6 @@ import prisma from "../config/db.config";
 import {
   BudgetSchema,
   budgetSchema,
-  LineItemSchema,
-  lineItemSchema,
   partialBudgetSchema,
 } from "../models/budget.schema";
 
@@ -15,6 +13,7 @@ class budgetServices {
   async getBudget(id: number) {
     return await prisma.budget.findUnique({
       where: { id },
+      include: { lineItems: true },
     });
   }
 
@@ -36,31 +35,6 @@ class budgetServices {
 
     return await prisma.budget.create({
       data: budgetData,
-    });
-  }
-
-  async createLineItem(newLineItem: LineItemSchema) {
-    const parsedLineItem = lineItemSchema.safeParse(newLineItem);
-
-    if (!parsedLineItem.success) {
-      throw new Error(`Validation error: ${parsedLineItem.error.message}`);
-    }
-
-    return await prisma.lineItem.create({
-      data: parsedLineItem.data,
-    });
-  }
-
-  async updateLineItem(id: number, updatedLineItem: Partial<LineItemSchema>) {
-    const parsedLineItem = lineItemSchema.partial().safeParse(updatedLineItem);
-
-    if (!parsedLineItem.success) {
-      throw new Error(`Validation error: ${parsedLineItem.error.message}`);
-    }
-
-    return await prisma.lineItem.update({
-      where: { id },
-      data: parsedLineItem.data,
     });
   }
 
@@ -89,8 +63,10 @@ class budgetServices {
     });
   }
 
-  async deleteBudget() {
-    return "Hello Budget World!";
+  async deleteBudget(id: number) {
+    return await prisma.budget.delete({
+      where: { id },
+    });
   }
 }
 

@@ -48,6 +48,17 @@ class budgetController {
       next(error);
     }
   };
+
+  // Delete a budget by id
+  deleteBudget = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const budgetId = parseInt(req.params.id, 10);
+      await BudgetServices.deleteBudget(Number(budgetId));
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 //export class

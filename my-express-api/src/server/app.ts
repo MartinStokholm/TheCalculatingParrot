@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/users", userRouter);
-app.use("/api/budgets", budgetRouter);
+app.use("/api/user", userRouter);
+app.use("/api/budget", budgetRouter);
 
 // Catch all route
 app.use("/api/", (req, res) => {
