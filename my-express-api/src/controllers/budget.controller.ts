@@ -2,14 +2,17 @@ import { BudgetServices } from "../services/budget.services";
 import { Request, Response } from "express";
 
 class budgetController {
-  async getBudgets(req: Request, res: Response) {
-    try {
-      const data = await BudgetServices.getBudgets();
-      res.status(200).json(data);
-    } catch (error) {
-      res.status(500).json({ message: error });
-    }
-  }
+  // Get all budgets
+  getBudgets = async (req: Request, res: Response) => {
+    const budgets = await BudgetServices.getBudgets();
+    res.send(budgets);
+  };
+
+  // Create new budget
+  createBudget = async (req: Request, res: Response) => {
+    const budget = await BudgetServices.createBudget(req.body);
+    res.send(budget);
+  };
 }
 
 //export class

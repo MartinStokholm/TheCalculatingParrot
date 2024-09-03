@@ -1,33 +1,9 @@
-import { db } from "../config/db.config";
 import express from "express";
+import { UserController } from "../controllers/user.controller";
 
-const router = express.Router();
+export const router = express.Router();
 
-// GET /users
-router.get("/", async (req, res) => {
-  try {
-    const users = await db.user.findMany();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: "An error occurred" });
-  }
-});
-
-// POST /users
-router.post("/", async (req, res) => {
-  const { name, email } = req.body;
-
-  try {
-    const user = await db.user.create({
-      data: {
-        name,
-        email,
-      },
-    });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: "An error occurred" });
-  }
-});
-
-export { router as userRouter };
+router.get("/", UserController.getUsers);
+router.post("/", UserController.createUser);
+router.get("/:id", UserController.getUser);
+router.put("/:id", UserController.updateUser);
