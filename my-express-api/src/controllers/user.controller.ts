@@ -12,17 +12,7 @@ class userController {
     }
   };
 
-  // Create new user
-  createUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await UserServices.createUser(req.body);
-      res.status(201).json(user);
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  // Get a single user
+  // Get a user by id
   getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = parseInt(req.params.id, 10);
@@ -37,7 +27,17 @@ class userController {
     }
   };
 
-  // Update a user
+  // Create new user with auto-generated id
+  createUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await UserServices.createUser(req.body);
+      res.status(201).json(user);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // Update a user by id
   updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = parseInt(req.params.id, 10);
