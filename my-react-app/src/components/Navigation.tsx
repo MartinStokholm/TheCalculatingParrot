@@ -20,7 +20,6 @@ export default function Navigation({ ...props }: NavigationProps) {
 
   function handleMenuClicked() {
     setIsMenuOpen(!isMenuOpen);
-    console.log("Menu opened?", isMenuOpen);
   }
 
   return (

@@ -1,19 +1,22 @@
-import prisma from "../config/db.config";
+import { Service, Inject } from "typedi";
+import { PrismaService } from "../config/db.config";
+
 import {
   BudgetSchema,
   budgetSchema,
   partialBudgetSchema,
 } from "../models/budget.schema";
-import { Service } from "typedi";
 
 @Service()
 export class BudgetService {
+  constructor(@Inject(() => PrismaService) private prisma: PrismaService) {}
+
   async getBudgets() {
-    return await prisma.budget.findMany();
+    return await this.prisma.budget.findMany();
   }
 
   async getBudget(id: number) {
-    return await prisma.budget.findUnique({
+    return await this.prisma.budget.findUnique({
       where: { id },
       include: { lineItems: true },
     });
@@ -35,7 +38,7 @@ export class BudgetService {
         : undefined,
     };
 
-    return await prisma.budget.create({
+    return await this.prisma.budget.create({
       data: budgetData,
     });
   }
@@ -59,14 +62,14 @@ export class BudgetService {
         : undefined,
     };
 
-    return await prisma.budget.update({
+    return await this.prisma.budget.update({
       where: { id },
       data: budgetData,
     });
   }
 
   async deleteBudget(id: number) {
-    return await prisma.budget.delete({
+    return await this.prisma.budget.delete({
       where: { id },
     });
   }

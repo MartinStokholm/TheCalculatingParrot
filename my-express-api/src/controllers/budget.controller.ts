@@ -6,9 +6,8 @@ import { Service, Inject } from "typedi";
 export class BudgetController {
   constructor(@Inject() private budgetServices: BudgetService) {}
   // Get all budgets
-  getBudgets = async (req: Request, res: Response, next: NextFunction) => {
+  getBudgets = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req.url);
       const budgets = await this.budgetServices.getBudgets();
       res.status(200).json(budgets);
     } catch (error) {

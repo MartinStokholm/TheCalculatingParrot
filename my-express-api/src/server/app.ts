@@ -7,13 +7,21 @@ import { errorHandler } from "../middleware/errorHandling";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "../swagger/swagger.json";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("tiny"));
+
+// Environment-based logging
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+} else {
+  app.use(morgan("tiny"));
+}
 
 // Routes
 app.use("/api/users", userRouter);

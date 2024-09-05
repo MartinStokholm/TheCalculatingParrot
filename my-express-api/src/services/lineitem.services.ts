@@ -1,15 +1,17 @@
-import prisma from "../config/db.config";
+import { Service, Inject } from "typedi";
+import { PrismaService } from "../config/db.config";
 import {
   createLineItemSchema,
   LineItemSchema,
   lineItemSchema,
 } from "../models/lineitem.schema";
-import { Service } from "typedi";
 
 @Service()
 export class LineItemService {
+  constructor(@Inject(() => PrismaService) private prisma: PrismaService) {}
+
   async getLineItems(budgetId: number) {
-    return await prisma.lineItem.findMany({
+    return await this.prisma.lineItem.findMany({
       where: { budgetId },
     });
   }
@@ -21,7 +23,7 @@ export class LineItemService {
       throw new Error(`Validation error: ${parsedLineItem.error.message}`);
     }
 
-    return await prisma.lineItem.create({
+    return await this.prisma.lineItem.create({
       data: {
         ...parsedLineItem.data,
         budgetId,
@@ -36,14 +38,14 @@ export class LineItemService {
       throw new Error(`Validation error: ${parsedLineItem.error.message}`);
     }
 
-    return await prisma.lineItem.update({
+    return await this.prisma.lineItem.update({
       where: { id },
       data: parsedLineItem.data,
     });
   }
 
   async deleteLineItem(id: number) {
-    return await prisma.lineItem.delete({
+    return await this.prisma.lineItem.delete({
       where: { id },
     });
   }

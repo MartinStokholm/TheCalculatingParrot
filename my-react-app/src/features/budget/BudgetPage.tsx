@@ -5,7 +5,10 @@ export default function BudgetPage() {
   const { data: budgets, error, isLoading } = useGetBudgetsQuery();
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading budgets</div>;
+  if (error) {
+    console.error(error);
+    return <div>Error loading budgets</div>;
+  }
 
   return (
     <PageWrapper>

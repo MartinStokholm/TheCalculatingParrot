@@ -1,19 +1,21 @@
-import prisma from "../config/db.config";
+import { Service, Inject } from "typedi";
+import { PrismaService } from "../config/db.config";
 import {
   partialUserSchema,
   UserSchema,
   userSchema,
 } from "../models/user.schema";
-import { Service } from "typedi";
 
 @Service()
 export class UserService {
+  constructor(@Inject(() => PrismaService) private prisma: PrismaService) {}
+
   async getUsers() {
-    return await prisma.user.findMany();
+    return await this.prisma.user.findMany();
   }
 
   async getUser(id: number) {
-    return await prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { id },
     });
   }
@@ -25,7 +27,7 @@ export class UserService {
       throw new Error(`Validation error: ${parsedUser.error.message}`);
     }
 
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await this.prisma.user.findUnique({
       where: { email: parsedUser.data.email },
     });
 
@@ -33,7 +35,7 @@ export class UserService {
       throw new Error("Email already in use");
     }
 
-    return await prisma.user.create({
+    return await this.prisma.user.create({
       data: parsedUser.data,
     });
   }
@@ -45,7 +47,7 @@ export class UserService {
       throw new Error(`Validation error: ${parsedUser.error.message}`);
     }
 
-    return await prisma.user.update({
+    return await this.prisma.user.update({
       where: { id },
       data: parsedUser.data,
     });
