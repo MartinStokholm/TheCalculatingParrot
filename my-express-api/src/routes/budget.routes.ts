@@ -1,32 +1,43 @@
 import express from "express";
+import { Container } from "typedi";
 import { BudgetController } from "../controllers/budget.controller";
 import { LineItemController } from "../controllers/lineitem.controller";
-import { CategoryController } from "../controllers/category.controller";
 
 export const router = express.Router();
 
+const budgetController = Container.get(BudgetController);
+const lineItemController = Container.get(LineItemController);
+
 // budgets
-router.get("/", BudgetController.getBudgets);
-router.get("/:id", BudgetController.getBudget);
-router.post("/", BudgetController.createBudget);
-router.put("/:id", BudgetController.updateBudget);
-router.delete("/:id", BudgetController.deleteBudget);
-
-// lineitems for a budget
-router.get("/:id/lineitem", LineItemController.getLineItems);
-router.post("/:id/lineitem", LineItemController.createLineItem);
-router.put("/:id/lineitem/:lineitemId", LineItemController.updateLineItem);
-router.delete("/:id/lineitem/:lineitemId", LineItemController.deleteLineItem);
-
-// category for a lineitem
-router.get("/:id/lineitem/category", CategoryController.getCategories);
-router.post("/:id/lineitem/category", CategoryController.createCategory);
-router.put(
-  "/:id/lineitem/category/:categoryId",
-  CategoryController.updateCategory
+router.get("/", (req, res, next) =>
+  budgetController.getBudgets(req, res, next)
+);
+router.get("/:id", (req, res, next) =>
+  budgetController.getBudget(req, res, next)
+);
+router.post("/", (req, res, next) =>
+  budgetController.createBudget(req, res, next)
+);
+router.put("/:id", (req, res, next) =>
+  budgetController.updateBudget(req, res, next)
+);
+router.delete("/:id", (req, res, next) =>
+  budgetController.deleteBudget(req, res, next)
 );
 
-router.delete(
-  "/:id/lineitem/category/:categoryId",
-  CategoryController.deleteCategory
+// lineitems for a budget
+router.get("/:id/lineitem", (req, res, next) =>
+  lineItemController.getLineItems(req, res, next)
+);
+
+router.post("/:id/lineitem", (req, res, next) =>
+  lineItemController.createLineItem(req, res, next)
+);
+
+router.put("/:id/lineitem/:lineitemId", (req, res, next) =>
+  lineItemController.updateLineItem(req, res, next)
+);
+
+router.delete("/:id/lineitem/:lineitemId", (req, res, next) =>
+  lineItemController.deleteLineItem(req, res, next)
 );

@@ -4,8 +4,10 @@ import {
   UserSchema,
   userSchema,
 } from "../models/user.schema";
+import { Service } from "typedi";
 
-class userServices {
+@Service()
+export class UserService {
   async getUsers() {
     return await prisma.user.findMany();
   }
@@ -50,8 +52,6 @@ class userServices {
   }
 
   async deleteUser() {
-    return "Hello User World!";
+    return "Hello User World! (no deletion happening here)";
   }
 }
-
-export const UserServices = new userServices();

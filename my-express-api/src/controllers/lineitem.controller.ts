@@ -1,13 +1,16 @@
-import { LineItemServices } from "../services/lineitem.services";
-
+import { LineItemService } from "../services/lineitem.services";
 import { NextFunction, Request, Response } from "express";
+import { Service, Inject } from "typedi";
 
-class lineItemController {
+@Service()
+export class LineItemController {
+  constructor(@Inject() private lineItemService: LineItemService) {}
+
   // Create new lineitem with auto-generated id
   createLineItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const budgetId = parseInt(req.params.id, 10);
-      const lineItem = await LineItemServices.createLineItem(
+      const lineItem = await this.lineItemService.createLineItem(
         budgetId,
         req.body
       );
@@ -21,7 +24,7 @@ class lineItemController {
     try {
       const { lineitemId } = req.params;
       const updatedLineItem = req.body;
-      const lineItem = await LineItemServices.updateLineItem(
+      const lineItem = await this.lineItemService.updateLineItem(
         Number(lineitemId),
         updatedLineItem
       );
@@ -36,7 +39,7 @@ class lineItemController {
   getLineItems = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const budgetId = parseInt(req.params.id, 10);
-      const lineItems = await LineItemServices.getLineItems(budgetId);
+      const lineItems = await this.lineItemService.getLineItems(budgetId);
       res.status(200).json(lineItems);
     } catch (error) {
       next(error);
@@ -46,13 +49,10 @@ class lineItemController {
   deleteLineItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { lineitemId } = req.params;
-      await LineItemServices.deleteLineItem(Number(lineitemId));
+      await this.lineItemService.deleteLineItem(Number(lineitemId));
       res.status(204).send();
     } catch (error) {
       next(error);
     }
   };
 }
-
-//export class
-export const LineItemController = new lineItemController();

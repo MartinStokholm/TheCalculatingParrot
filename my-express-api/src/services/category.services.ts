@@ -1,7 +1,9 @@
 import prisma from "../config/db.config";
 import { CategorySchema, categorySchema } from "../models/category.schema";
+import { Service } from "typedi";
 
-class categoryServices {
+@Service()
+export class CategoryService {
   async getCategories() {
     return await prisma.category.findMany();
   }
@@ -43,5 +45,3 @@ class categoryServices {
     });
   }
 }
-
-export const CategoryServices = new categoryServices();

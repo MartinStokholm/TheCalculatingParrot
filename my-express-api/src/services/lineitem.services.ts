@@ -4,8 +4,10 @@ import {
   LineItemSchema,
   lineItemSchema,
 } from "../models/lineitem.schema";
+import { Service } from "typedi";
 
-class lineItemServices {
+@Service()
+export class LineItemService {
   async getLineItems(budgetId: number) {
     return await prisma.lineItem.findMany({
       where: { budgetId },
@@ -46,5 +48,3 @@ class lineItemServices {
     });
   }
 }
-
-export const LineItemServices = new lineItemServices();

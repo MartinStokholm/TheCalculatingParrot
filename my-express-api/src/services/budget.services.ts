@@ -4,8 +4,10 @@ import {
   budgetSchema,
   partialBudgetSchema,
 } from "../models/budget.schema";
+import { Service } from "typedi";
 
-class budgetServices {
+@Service()
+export class BudgetService {
   async getBudgets() {
     return await prisma.budget.findMany();
   }
@@ -69,5 +71,3 @@ class budgetServices {
     });
   }
 }
-
-export const BudgetServices = new budgetServices();

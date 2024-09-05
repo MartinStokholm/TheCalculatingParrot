@@ -1,20 +1,26 @@
-import { CategoryServices } from "../services/category.services";
+import { CategoryService } from "../services/category.services";
 import { NextFunction, Request, Response } from "express";
+import { Service, Inject } from "typedi";
 
-class categoryController {
-  getCategories = async (req: Request, res: Response, next: NextFunction) => {
+@Service()
+export class CategoryController {
+  constructor(@Inject() private categoryService: CategoryService) {}
+
+  // Get all categories
+  getCategories = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const categories = await CategoryServices.getCategories();
+      const categories = await this.categoryService.getCategories();
       res.status(200).json(categories);
     } catch (error) {
       next(error);
     }
   };
 
+  // Get a category by id
   getCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const categoryId = parseInt(req.params.id, 10);
-      const category = await CategoryServices.getCategory(categoryId);
+      const category = await this.categoryService.getCategory(categoryId);
       if (category) {
         res.status(200).json(category);
       } else {
@@ -25,20 +31,22 @@ class categoryController {
     }
   };
 
+  // Create new category with auto-generated id
   createCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const category = await CategoryServices.createCategory(req.body);
+      const category = await this.categoryService.createCategory(req.body);
       res.status(201).json(category);
     } catch (error) {
       next(error);
     }
   };
 
+  // Update a category by id
   updateCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const categoryId = parseInt(req.params.categoryId, 10);
       const updatedCategory = req.body;
-      const category = await CategoryServices.updateCategory(
+      const category = await this.categoryService.updateCategory(
         categoryId,
         updatedCategory
       );
@@ -48,15 +56,14 @@ class categoryController {
     }
   };
 
+  // Delete a category by id
   deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const categoryId = parseInt(req.params.categoryId, 10);
-      await CategoryServices.deleteCategory(Number(categoryId));
+      await this.categoryService.deleteCategory(Number(categoryId));
       res.status(204).send();
     } catch (error) {
       next(error);
     }
   };
 }
-
-export const CategoryController = new categoryController();

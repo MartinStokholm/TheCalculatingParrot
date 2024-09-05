@@ -1,11 +1,15 @@
-import { UserServices } from "../services/user.services";
+import { UserService } from "../services/user.services";
 import { NextFunction, Request, Response } from "express";
+import { Service, Inject } from "typedi";
 
-class userController {
+@Service()
+export class UserController {
+  constructor(@Inject() private userService: UserService) {}
+
   // Get all users
-  getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  getUsers = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const users = await UserServices.getUsers();
+      const users = await this.userService.getUsers();
       res.status(200).json(users);
     } catch (error) {
       next(error);
@@ -16,7 +20,7 @@ class userController {
   getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = parseInt(req.params.id, 10);
-      const user = await UserServices.getUser(userId);
+      const user = await this.userService.getUser(userId);
       if (user) {
         res.status(200).json(user);
       } else {
@@ -30,7 +34,7 @@ class userController {
   // Create new user with auto-generated id
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await UserServices.createUser(req.body);
+      const user = await this.userService.createUser(req.body);
       res.status(201).json(user);
     } catch (error) {
       next(error);
@@ -42,13 +46,10 @@ class userController {
     try {
       const userId = parseInt(req.params.id, 10);
       const updatedUser = req.body;
-      const user = await UserServices.updateUser(userId, updatedUser);
+      const user = await this.userService.updateUser(userId, updatedUser);
       res.status(200).json(user);
     } catch (error) {
       next(error);
     }
   };
 }
-
-//export class
-export const UserController = new userController();

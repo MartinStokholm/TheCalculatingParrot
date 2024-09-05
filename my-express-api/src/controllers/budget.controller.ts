@@ -1,11 +1,15 @@
-import { BudgetServices } from "../services/budget.services";
+import { BudgetService } from "../services/budget.services";
 import { NextFunction, Request, Response } from "express";
+import { Service, Inject } from "typedi";
 
-class budgetController {
+@Service()
+export class BudgetController {
+  constructor(@Inject() private budgetServices: BudgetService) {}
   // Get all budgets
   getBudgets = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const budgets = await BudgetServices.getBudgets();
+      console.log(req.url);
+      const budgets = await this.budgetServices.getBudgets();
       res.status(200).json(budgets);
     } catch (error) {
       next(error);
@@ -16,7 +20,7 @@ class budgetController {
   getBudget = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const budgetId = parseInt(req.params.id, 10);
-      const budget = await BudgetServices.getBudget(budgetId);
+      const budget = await this.budgetServices.getBudget(budgetId);
       if (budget) {
         res.status(200).json(budget);
       } else {
@@ -30,7 +34,7 @@ class budgetController {
   // Create new budget with auto-generated id and optional lineitems
   createBudget = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const budget = await BudgetServices.createBudget(req.body);
+      const budget = await this.budgetServices.createBudget(req.body);
       res.status(201).json(budget);
     } catch (error) {
       next(error);
@@ -42,7 +46,10 @@ class budgetController {
     try {
       const budgetId = parseInt(req.params.id, 10);
       const updatedBudget = req.body;
-      const budget = await BudgetServices.updateBudget(budgetId, updatedBudget);
+      const budget = await this.budgetServices.updateBudget(
+        budgetId,
+        updatedBudget
+      );
       res.status(200).json(budget);
     } catch (error) {
       next(error);
@@ -53,13 +60,10 @@ class budgetController {
   deleteBudget = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const budgetId = parseInt(req.params.id, 10);
-      await BudgetServices.deleteBudget(Number(budgetId));
+      await this.budgetServices.deleteBudget(Number(budgetId));
       res.status(204).send();
     } catch (error) {
       next(error);
     }
   };
 }
-
-//export class
-export const BudgetController = new budgetController();

@@ -1,0 +1,22 @@
+{
+  "entryFile": "src/server/app.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
+  "controllerPathGlobs": ["src/controllers/*.ts"],
+  "spec": {
+    "outputDirectory": "src/swagger",
+    "specVersion": 3,
+    "basePath": "/api",
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "swagger": "3.0",
+    "security": [{ "bearerAuth": [] }]
+  },
+  "routes": {
+    "routesDir": "src/routes/generated",
+    "middleware": "express"
+  }
+}
