@@ -25,6 +25,9 @@
     /* Module Resolution Options */
     "moduleResolution": "node",
     "baseUrl": "./",
+    "paths": {
+      "shared/*": ["../shared/dist/*"]
+    },
     "resolveJsonModule": true,
     "esModuleInterop": true,
 
