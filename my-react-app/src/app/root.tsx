@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Navigation from "./components/Navigation";
+import Navigation from "../components/Navigation";
 import { GiReceiveMoney } from "react-icons/gi";
 import { GiCaptainHatProfile } from "react-icons/gi";
 import { GiHouse } from "react-icons/gi";
 
-function AppRoot() {
+function Root() {
   return (
     <>
       <Navigation
@@ -29,4 +29,4 @@ function AppRoot() {
   );
 }
 
-export default AppRoot;
+export default Root;

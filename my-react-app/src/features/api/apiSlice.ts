@@ -3,7 +3,7 @@ import { User, Budget, Category } from "shared/dist/types";
 
 const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:7070/api/" }),
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       query: () => "users",
