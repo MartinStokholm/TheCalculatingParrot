@@ -1,12 +1,21 @@
 import { UserService } from "../services/user.services";
 import { NextFunction, Request, Response } from "express";
+import { Controller, Get, Route, Tags } from "tsoa";
 import { Service, Inject } from "typedi";
 
 @Service()
-export class UserController {
-  constructor(@Inject() private userService: UserService) {}
+@Route("users")
+@Tags("Users")
+export class UserController extends Controller {
+  constructor(@Inject() private userService: UserService) {
+    super();
+  }
 
-  // Get all users
+  /**
+   * Get all users
+   * @returns {Promise<User[]>} List of users
+   */
+  @Get("/")
   getUsers = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const users = await this.userService.getUsers();

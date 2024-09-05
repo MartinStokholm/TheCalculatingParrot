@@ -1,5 +1,5 @@
 {
-  "entryFile": "src/server/app.ts",
+  "entryFile": "src/server/server.ts",
   "noImplicitAdditionalProperties": "silently-remove-extras",
   "controllerPathGlobs": ["src/controllers/*.ts"],
   "spec": {

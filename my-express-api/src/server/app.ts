@@ -9,6 +9,7 @@ import { errorHandler } from "../middleware/errorHandling";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "../swagger/swagger.json";
+import { RegisterRoutes } from "src/routes/generated/routes";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -18,6 +19,8 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+RegisterRoutes(app);
 
 // Environment-based logging
 if (process.env.NODE_ENV === "development") {
