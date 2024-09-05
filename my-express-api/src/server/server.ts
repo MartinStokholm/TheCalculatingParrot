@@ -33,9 +33,9 @@ const startServer = async () => {
   // Handle graceful shutdown
   const shutdown = () => {
     server.close(() => {
-      console.info("Server closed");
+      console.info("[server] Server closed");
       prismaService.$disconnect().then(() => {
-        console.info("Disconnected from the database");
+        console.info("[server] Disconnected from the database");
         process.exit(0);
       });
     });
