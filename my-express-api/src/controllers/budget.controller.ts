@@ -1,68 +1,52 @@
+import { Budget } from "@prisma/client";
 import { BudgetService } from "../services/budget.services";
-import { NextFunction, Request, Response } from "express";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Path,
+  Post,
+  Put,
+  Route,
+  Tags,
+} from "tsoa";
+
 import { Service, Inject } from "typedi";
 
 @Service()
-export class BudgetController {
-  constructor(@Inject() private budgetServices: BudgetService) {}
-  // Get all budgets
-  getBudgets = async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgets = await this.budgetServices.getBudgets();
-      res.status(200).json(budgets);
-    } catch (error) {
-      next(error);
-    }
-  };
+@Route("budgets")
+@Tags("Budgets")
+export class BudgetController extends Controller {
+  constructor(@Inject() private budgetServices: BudgetService) {
+    super();
+  }
 
-  // Get a budget by id
-  getBudget = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgetId = parseInt(req.params.id, 10);
-      const budget = await this.budgetServices.getBudget(budgetId);
-      if (budget) {
-        res.status(200).json(budget);
-      } else {
-        res.status(404).json({ error: "Budget not found" });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Get("/")
+  public async getBudgets(): Promise<Budget[]> {
+    return this.budgetServices.getBudgets();
+  }
 
-  // Create new budget with auto-generated id and optional lineitems
-  createBudget = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budget = await this.budgetServices.createBudget(req.body);
-      res.status(201).json(budget);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Get("{budgetId}")
+  public async getBudget(@Path() budgetId: number): Promise<Budget | null> {
+    return this.budgetServices.getBudget(budgetId);
+  }
 
-  // Update a budget by id
-  updateBudget = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgetId = parseInt(req.params.id, 10);
-      const updatedBudget = req.body;
-      const budget = await this.budgetServices.updateBudget(
-        budgetId,
-        updatedBudget
-      );
-      res.status(200).json(budget);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Post("/")
+  public async createBudget(@Body() requestBody: Budget): Promise<Budget> {
+    return this.budgetServices.createBudget(requestBody);
+  }
 
-  // Delete a budget by id
-  deleteBudget = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgetId = parseInt(req.params.id, 10);
-      await this.budgetServices.deleteBudget(Number(budgetId));
-      res.status(204).send();
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Put("{budgetId}")
+  public async updateBudget(
+    @Path() budgetId: number,
+    @Body() requestBody: Budget
+  ): Promise<Budget> {
+    return this.budgetServices.updateBudget(budgetId, requestBody);
+  }
+
+  @Delete("{budgetId}")
+  public async deleteBudget(@Path() budgetId: number): Promise<Budget> {
+    return this.budgetServices.deleteBudget(budgetId);
+  }
 }

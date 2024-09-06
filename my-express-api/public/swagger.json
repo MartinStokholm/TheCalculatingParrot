@@ -30,6 +30,100 @@
 			"User": {
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_UserPayload_",
 				"description": "Model User"
+			},
+			"DefaultSelection_Prisma._36_LineItemPayload_": {
+				"properties": {
+					"budgetId": {
+						"type": "number",
+						"format": "double"
+					},
+					"categoryId": {
+						"type": "number",
+						"format": "double"
+					},
+					"amount": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"budgetId",
+					"categoryId",
+					"amount",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"LineItem": {
+				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_LineItemPayload_",
+				"description": "Model LineItem"
+			},
+			"DefaultSelection_Prisma._36_CategoryPayload_": {
+				"properties": {
+					"colorHex": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"colorHex",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Category": {
+				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_CategoryPayload_",
+				"description": "Model Category"
+			},
+			"DefaultSelection_Prisma._36_BudgetPayload_": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"savings": {
+						"type": "number",
+						"format": "double"
+					},
+					"startingCapital": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"userId",
+					"savings",
+					"startingCapital",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Budget": {
+				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_BudgetPayload_",
+				"description": "Model Budget"
 			}
 		},
 		"securitySchemes": {
@@ -178,6 +272,477 @@
 						}
 					}
 				}
+			}
+		},
+		"/lineitems/{budgetId}": {
+			"get": {
+				"operationId": "GetLineItems",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/LineItem"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Lineitems"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "budgetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateLineItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LineItem"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Lineitems"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "budgetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LineItem"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/lineitems/{lineItemId}": {
+			"put": {
+				"operationId": "UpdateLineItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LineItem"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Lineitems"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "lineItemId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LineItem"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteLineItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LineItem"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Lineitems"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "lineItemId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/categories": {
+			"get": {
+				"operationId": "GetCategories",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Category"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Category"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Category"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/categories/{categoryId}": {
+			"get": {
+				"operationId": "GetCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Category"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Category"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Category"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Category"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/budgets": {
+			"get": {
+				"operationId": "GetBudgets",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Budget"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Budgets"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateBudget",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Budget"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Budgets"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Budget"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/budgets/{budgetId}": {
+			"get": {
+				"operationId": "GetBudget",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Budget"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Budgets"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "budgetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateBudget",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Budget"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Budgets"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "budgetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Budget"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteBudget",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Budget"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Budgets"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "budgetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		}
 	},

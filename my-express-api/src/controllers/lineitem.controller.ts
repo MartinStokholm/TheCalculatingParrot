@@ -1,58 +1,50 @@
+import { LineItem } from "@prisma/client";
 import { LineItemService } from "../services/lineitem.services";
-import { NextFunction, Request, Response } from "express";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Path,
+  Post,
+  Put,
+  Route,
+  Tags,
+} from "tsoa";
+
 import { Service, Inject } from "typedi";
 
 @Service()
-export class LineItemController {
-  constructor(@Inject() private lineItemService: LineItemService) {}
+@Route("lineitems")
+@Tags("Lineitems")
+export class LineItemController extends Controller {
+  constructor(@Inject() private lineItemService: LineItemService) {
+    super();
+  }
 
-  // Create new lineitem with auto-generated id
-  createLineItem = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgetId = parseInt(req.params.id, 10);
-      const lineItem = await this.lineItemService.createLineItem(
-        budgetId,
-        req.body
-      );
-      res.status(201).json(lineItem);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Get("{budgetId}")
+  public async getLineItems(@Path() budgetId: number): Promise<LineItem[]> {
+    return this.lineItemService.getLineItems(budgetId);
+  }
 
-  updateLineItem = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { lineitemId } = req.params;
-      const updatedLineItem = req.body;
-      const lineItem = await this.lineItemService.updateLineItem(
-        Number(lineitemId),
-        updatedLineItem
-      );
-      res.send(lineItem);
+  @Post("{budgetId}")
+  public async createLineItem(
+    @Path() budgetId: number,
+    @Body() requestBody: LineItem
+  ): Promise<LineItem> {
+    return this.lineItemService.createLineItem(budgetId, requestBody);
+  }
 
-      res.status(200).json(lineItem);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Put("{lineItemId}")
+  public async updateLineItem(
+    @Path() lineItemId: number,
+    @Body() requestBody: LineItem
+  ): Promise<LineItem> {
+    return this.lineItemService.updateLineItem(lineItemId, requestBody);
+  }
 
-  getLineItems = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const budgetId = parseInt(req.params.id, 10);
-      const lineItems = await this.lineItemService.getLineItems(budgetId);
-      res.status(200).json(lineItems);
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  deleteLineItem = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { lineitemId } = req.params;
-      await this.lineItemService.deleteLineItem(Number(lineitemId));
-      res.status(204).send();
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Delete("{lineItemId}")
+  public async deleteLineItem(@Path() lineItemId: number): Promise<LineItem> {
+    return this.lineItemService.deleteLineItem(lineItemId);
+  }
 }
