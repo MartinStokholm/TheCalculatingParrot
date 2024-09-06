@@ -5,6 +5,7 @@ import {
   UserSchema,
   userSchema,
 } from "../models/user.schema";
+import bcrypt from "bcrypt";
 
 @Service()
 export class UserService {
@@ -35,8 +36,17 @@ export class UserService {
       throw new Error("Email already in use");
     }
 
+    if (!parsedUser.data.password) {
+      throw new Error("Password is required");
+    }
+
+    const hashedPassword = await bcrypt.hash(parsedUser.data.password, 10);
+
     return await this.prisma.user.create({
-      data: parsedUser.data,
+      data: {
+        ...parsedUser.data,
+        password: hashedPassword,
+      },
     });
   }
 
