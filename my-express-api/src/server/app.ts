@@ -5,9 +5,12 @@ import { corsOptions } from "../config/cors.config";
 import { router as budgetRouter } from "../routes/budget.routes";
 import { router as userRouter } from "../routes/user.routes";
 import { router as categoryRouter } from "../routes/category.routes";
+import { router as lineItemRouter } from "../routes/lineitem.routes";
 import { errorHandler } from "../middleware/errorHandling";
+
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -29,6 +32,7 @@ app.use(express.static("public"));
 // Routes
 app.use("/api/users", userRouter);
 app.use("/api/budgets", budgetRouter);
+app.use("/api/lineitems", lineItemRouter);
 app.use("/api/categories", categoryRouter);
 
 // Error handling middleware

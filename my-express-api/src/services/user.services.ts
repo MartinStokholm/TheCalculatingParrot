@@ -53,7 +53,9 @@ export class UserService {
     });
   }
 
-  async deleteUser() {
-    return "Hello User World! (no deletion happening here)";
+  async deleteUser(id: number) {
+    return await this.prisma.user.delete({
+      where: { id },
+    });
   }
 }

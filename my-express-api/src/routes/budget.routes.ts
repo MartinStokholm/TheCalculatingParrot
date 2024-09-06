@@ -1,12 +1,10 @@
 import express from "express";
 import { Container } from "typedi";
 import { BudgetController } from "../controllers/budget.controller";
-import { LineItemController } from "../controllers/lineitem.controller";
 
 export const router = express.Router();
 
 const budgetController = Container.get(BudgetController);
-const lineItemController = Container.get(LineItemController);
 
 router.get("/", async (_req, _res, _next) => {
   try {
@@ -51,52 +49,6 @@ router.delete("/:id", async (_req, _res, _next) => {
   try {
     const budget = await budgetController.deleteBudget(Number(_req.params.id));
     return _res.status(204).json(budget);
-  } catch (error) {
-    return _next(error);
-  }
-});
-
-// lineitems for a budget
-router.get("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
-  try {
-    const lineitem = await lineItemController.getLineItem(
-      Number(_req.params.id)
-    );
-    return _res.status(201).json(lineitem);
-  } catch (error) {
-    return _next(error);
-  }
-});
-
-router.post("/:id/lineitems", async (_req, _res, _next) => {
-  try {
-    const lineitem = await lineItemController.createLineItem(
-      Number(_req.params.id),
-      _req.body
-    );
-    return _res.status(201).json(lineitem);
-  } catch (error) {
-    return _next(error);
-  }
-});
-
-router.put("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
-  try {
-    const lineitem = await lineItemController.updateLineItem(
-      Number(_req.params.id),
-      _req.body
-    );
-    return _res.status(200).json(lineitem);
-  } catch (error) {
-    return _next(error);
-  }
-});
-router.delete("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
-  try {
-    const lineitem = await lineItemController.deleteLineItem(
-      Number(_req.params.id)
-    );
-    return _res.status(204).json(lineitem);
   } catch (error) {
     return _next(error);
   }

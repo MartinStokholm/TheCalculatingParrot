@@ -44,3 +44,12 @@ router.put("/:id", async (_req, _res, _next) => {
     return _next(error);
   }
 });
+
+router.delete("/:id", async (_req, _res, _next) => {
+  try {
+    const user = await userController.deleteUser(Number(_req.params.id));
+    return _res.status(204).json(user);
+  } catch (error) {
+    return _next(error);
+  }
+});

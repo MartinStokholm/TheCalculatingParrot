@@ -1,6 +1,16 @@
 import { User } from "@prisma/client";
 import { UserService } from "../services/user.services";
-import { Body, Controller, Get, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Path,
+  Post,
+  Put,
+  Route,
+  Tags,
+} from "tsoa";
 import { Service, Inject } from "typedi";
 
 @Service()
@@ -32,5 +42,10 @@ export class UserController extends Controller {
     @Body() requestBody: User
   ): Promise<User> {
     return this.userService.updateUser(userId, requestBody);
+  }
+
+  @Delete("{userId}")
+  public async deleteUser(@Path() userId: number): Promise<User> {
+    return this.userService.deleteUser(userId);
   }
 }
