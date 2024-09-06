@@ -2,10 +2,12 @@ import "reflect-metadata";
 import express from "express";
 import cors from "cors";
 import { corsOptions } from "../config/cors.config";
+
 import { router as budgetRouter } from "../routes/budget.routes";
 import { router as userRouter } from "../routes/user.routes";
 import { router as categoryRouter } from "../routes/category.routes";
 import { router as lineItemRouter } from "../routes/lineitem.routes";
+
 import { errorHandler } from "../middleware/errorHandling";
 
 import morgan from "morgan";
