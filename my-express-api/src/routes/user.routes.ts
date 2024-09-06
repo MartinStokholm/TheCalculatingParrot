@@ -6,9 +6,39 @@ export const router = express.Router();
 
 const userController = Container.get(UserController);
 
-router.get("/", (req, res, next) => userController.getUsers(req, res, next));
-router.get("/:id", (req, res, next) => userController.getUser(req, res, next));
-router.post("/", (req, res, next) => userController.createUser(req, res, next));
-router.put("/:id", (req, res, next) =>
-  userController.updateUser(req, res, next)
-);
+router.get("/", async (_req, _res, _next) => {
+  try {
+    const users = await userController.getUsers();
+    return _res.status(200).json(users);
+  } catch (error) {
+    return _next(error);
+  }
+});
+
+router.get("/:id", async (_req, _res, _next) => {
+  try {
+    const users = await userController.getUser(Number(_req.params.id));
+    return _res.status(200).json(users);
+  } catch (error) {
+    return _next(error);
+  }
+});
+router.post("/", async (_req, _res, _next) => {
+  try {
+    const users = await userController.createUser(_req.body);
+    return _res.status(201).json(users);
+  } catch (error) {
+    return _next(error);
+  }
+});
+router.put("/:id", async (_req, _res, _next) => {
+  try {
+    const users = await userController.updateUser(
+      Number(_req.params.id),
+      _req.body
+    );
+    return _res.status(200).json(users);
+  } catch (error) {
+    return _next(error);
+  }
+});

@@ -1,6 +1,6 @@
+import { User } from "@prisma/client";
 import { UserService } from "../services/user.services";
-import { NextFunction, Request, Response } from "express";
-import { Controller, Get, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Post, Put, Route, Tags } from "tsoa";
 import { Service, Inject } from "typedi";
 
 @Service()
@@ -11,54 +11,26 @@ export class UserController extends Controller {
     super();
   }
 
-  /**
-   * Get all users
-   * @returns {Promise<User[]>} List of users
-   */
   @Get("/")
-  getUsers = async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const users = await this.userService.getUsers();
-      res.status(200).json(users);
-    } catch (error) {
-      next(error);
-    }
-  };
+  public async getUsers(): Promise<User[]> {
+    return this.userService.getUsers();
+  }
 
-  // Get a user by id
-  getUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = parseInt(req.params.id, 10);
-      const user = await this.userService.getUser(userId);
-      if (user) {
-        res.status(200).json(user);
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Get("{userId}")
+  public async getUser(@Path() userId: number): Promise<User | null> {
+    return this.userService.getUser(userId);
+  }
 
-  // Create new user with auto-generated id
-  createUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await this.userService.createUser(req.body);
-      res.status(201).json(user);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Post("/")
+  public async createUser(@Body() requestBody: User): Promise<User> {
+    return this.userService.createUser(requestBody);
+  }
 
-  // Update a user by id
-  updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = parseInt(req.params.id, 10);
-      const updatedUser = req.body;
-      const user = await this.userService.updateUser(userId, updatedUser);
-      res.status(200).json(user);
-    } catch (error) {
-      next(error);
-    }
-  };
+  @Put("{userId}")
+  public async updateUser(
+    @Path() userId: number,
+    @Body() requestBody: User
+  ): Promise<User> {
+    return this.userService.updateUser(userId, requestBody);
+  }
 }

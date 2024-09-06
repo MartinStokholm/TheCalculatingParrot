@@ -3,7 +3,7 @@
   "noImplicitAdditionalProperties": "silently-remove-extras",
   "controllerPathGlobs": ["src/controllers/*.ts"],
   "spec": {
-    "outputDirectory": "src/swagger",
+    "outputDirectory": "public",
     "specVersion": 3,
     "basePath": "/api",
     "securityDefinitions": {
@@ -16,7 +16,7 @@
     "security": [{ "bearerAuth": [] }]
   },
   "routes": {
-    "routesDir": "src/routes/generated",
+    "routesDir": "dist/generated",
     "middleware": "express"
   }
 }

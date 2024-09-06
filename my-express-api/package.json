@@ -4,10 +4,13 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon ./src/Server/server.ts",
+    "start": "node dist/server.js",
+    "predev": "npm run swagger",
+    "prebuild": "npm run swagger",
     "dev": "nodemon ./src/Server/server.ts",
     "build": "tsc --project tsconfig.json",
-    "prod": "node dist/server.js"
+    "prod": "node dist/server.js",
+    "swagger": "tsoa spec"
   },
   "keywords": [],
   "author": "",
