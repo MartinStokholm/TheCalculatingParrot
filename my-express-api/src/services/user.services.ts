@@ -63,6 +63,28 @@ export class UserService {
     });
   }
 
+  async validateUserCredentials(email: string, password: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (!user.password) {
+      throw new Error("Password not set");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new Error("Invalid password");
+    }
+
+    return user;
+  }
+
   async deleteUser(id: number) {
     return await this.prisma.user.delete({
       where: { id },
