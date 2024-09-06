@@ -57,9 +57,9 @@ router.delete("/:id", async (_req, _res, _next) => {
 });
 
 // lineitems for a budget
-router.get("/:id/lineitem", async (_req, _res, _next) => {
+router.get("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
   try {
-    const lineitem = await lineItemController.getLineItems(
+    const lineitem = await lineItemController.getLineItem(
       Number(_req.params.id)
     );
     return _res.status(201).json(lineitem);
@@ -68,7 +68,7 @@ router.get("/:id/lineitem", async (_req, _res, _next) => {
   }
 });
 
-router.post("/:id/lineitem", async (_req, _res, _next) => {
+router.post("/:id/lineitems", async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.createLineItem(
       Number(_req.params.id),
@@ -80,7 +80,7 @@ router.post("/:id/lineitem", async (_req, _res, _next) => {
   }
 });
 
-router.put("/:id/lineitem/:lineitemId", async (_req, _res, _next) => {
+router.put("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.updateLineItem(
       Number(_req.params.id),
@@ -91,7 +91,7 @@ router.put("/:id/lineitem/:lineitemId", async (_req, _res, _next) => {
     return _next(error);
   }
 });
-router.delete("/:id/lineitem/:lineitemId", async (_req, _res, _next) => {
+router.delete("/:id/lineitems/:lineitemId", async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.deleteLineItem(
       Number(_req.params.id)

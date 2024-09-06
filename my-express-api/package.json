@@ -7,7 +7,8 @@
     "start": "node dist/server.js",
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
-    "dev": "nodemon ./src/Server/server.ts",
+    "devOld": "concurrently \"nodemon ./src/Server/server.ts\" \"nodemon -x tsoa spec\"",
+    "dev": "concurrently \"nodemon --watch ./src --ignore tsoa.json ./src/Server/server.ts\" \"nodemon --watch ./src/controllers --watch ./src/routes -x tsoa spec\"",
     "build": "tsc --project tsconfig.json",
     "prod": "node dist/server.js",
     "swagger": "tsoa spec"

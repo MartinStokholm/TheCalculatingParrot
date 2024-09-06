@@ -16,6 +16,12 @@ export class LineItemService {
     });
   }
 
+  async getLineItem(id: number) {
+    return await this.prisma.lineItem.findUnique({
+      where: { id },
+    });
+  }
+
   async createLineItem(budgetId: number, newLineItem: LineItemSchema) {
     const parsedLineItem = createLineItemSchema.safeParse(newLineItem);
 

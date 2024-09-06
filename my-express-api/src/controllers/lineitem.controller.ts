@@ -22,9 +22,11 @@ export class LineItemController extends Controller {
     super();
   }
 
-  @Get("{budgetId}")
-  public async getLineItems(@Path() budgetId: number): Promise<LineItem[]> {
-    return this.lineItemService.getLineItems(budgetId);
+  @Get("{lineItemId}")
+  public async getLineItem(
+    @Path() lineItemId: number
+  ): Promise<LineItem | null> {
+    return this.lineItemService.getLineItem(lineItemId);
   }
 
   @Post("{budgetId}")
