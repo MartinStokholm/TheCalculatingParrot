@@ -9,6 +9,12 @@
 		"schemas": {
 			"DefaultSelection_Prisma._36_UserPayload_": {
 				"properties": {
+					"isVerified": {
+						"type": "boolean"
+					},
+					"password": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string"
 					},
@@ -21,6 +27,8 @@
 					}
 				},
 				"required": [
+					"isVerified",
+					"password",
 					"name",
 					"email",
 					"id"
