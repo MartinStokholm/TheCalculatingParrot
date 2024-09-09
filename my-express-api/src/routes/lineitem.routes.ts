@@ -21,7 +21,7 @@ router.get("/:id", async (_req, _res, _next) => {
 router.post("/:budgetId", async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.createLineItem(
-      Number(_req.params.budgetId),
+      _req.params.budgetId,
       _req.body
     );
     return _res.status(201).json(lineitem);

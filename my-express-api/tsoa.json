@@ -9,7 +9,8 @@
     "securityDefinitions": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "swagger": "3.0",

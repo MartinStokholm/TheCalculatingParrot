@@ -6,7 +6,7 @@ export const lineItemSchema = z.object({
   name: z.string().min(1, "Name is required"),
   amount: z.number().min(0, "Amount must be a positive number"),
   categoryId: z.number().min(1, "Category ID is required"),
-  budgetId: z.number().min(1, "Budget ID is required"),
+  budgetId: z.string().min(1, "Budget ID is required"),
 });
 
 export const createLineItemSchema = lineItemSchema.omit({ budgetId: true });

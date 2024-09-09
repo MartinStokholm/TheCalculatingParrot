@@ -9,21 +9,21 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id        String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   email String  @unique
-  name  String?
+  name  String  @default("DefaultUserName")
   password String? @default("")  
   isVerified Boolean @default(false)
   budgets Budget[]
 }
 
 model Budget {
-  id        Int       @id @default(autoincrement())
+  id        String   @id @default(dbgenerated("concat('bgt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   name      String
   startingCapital Float
   savings   Float
   lineItems LineItem[]
-  userId    Int
+  userId    String
   user      User      @relation(fields: [userId], references: [id])
 }
 
@@ -32,7 +32,7 @@ model LineItem {
   name        String
   amount      Float
   categoryId  Int
-  budgetId    Int
+  budgetId    String
   budget      Budget      @relation(fields: [budgetId], references: [id])
   reacurrings Reacurring[]
 }

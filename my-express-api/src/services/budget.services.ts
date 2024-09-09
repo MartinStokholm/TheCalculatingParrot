@@ -15,7 +15,7 @@ export class BudgetService {
     return await this.prisma.budget.findMany();
   }
 
-  async getBudget(id: number) {
+  async getBudget(id: string) {
     return await this.prisma.budget.findUnique({
       where: { id },
       include: { lineItems: true },
@@ -43,7 +43,7 @@ export class BudgetService {
     });
   }
 
-  async updateBudget(id: number, updatedBudget: Partial<BudgetSchema>) {
+  async updateBudget(id: string, updatedBudget: Partial<BudgetSchema>) {
     const parsedBudget = partialBudgetSchema.partial().safeParse(updatedBudget);
 
     if (!parsedBudget.success) {
@@ -68,7 +68,7 @@ export class BudgetService {
     });
   }
 
-  async deleteBudget(id: number) {
+  async deleteBudget(id: string) {
     return await this.prisma.budget.delete({
       where: { id },
     });

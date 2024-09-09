@@ -31,7 +31,7 @@ export class LineItemController extends Controller {
 
   @Post("{budgetId}")
   public async createLineItem(
-    @Path() budgetId: number,
+    @Path() budgetId: string,
     @Body() requestBody: LineItem
   ): Promise<LineItem> {
     return this.lineItemService.createLineItem(budgetId, requestBody);

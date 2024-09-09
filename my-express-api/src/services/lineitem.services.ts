@@ -10,7 +10,7 @@ import {
 export class LineItemService {
   constructor(@Inject(() => PrismaService) private prisma: PrismaService) {}
 
-  async getLineItems(budgetId: number) {
+  async getLineItems(budgetId: string) {
     return await this.prisma.lineItem.findMany({
       where: { budgetId },
     });
@@ -22,7 +22,7 @@ export class LineItemService {
     });
   }
 
-  async createLineItem(budgetId: number, newLineItem: LineItemSchema) {
+  async createLineItem(budgetId: string, newLineItem: LineItemSchema) {
     const parsedLineItem = createLineItemSchema.safeParse(newLineItem);
 
     if (!parsedLineItem.success) {

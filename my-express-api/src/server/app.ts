@@ -7,13 +7,13 @@ import { router as budgetRouter } from "../routes/budget.routes";
 import { router as userRouter } from "../routes/user.routes";
 import { router as categoryRouter } from "../routes/category.routes";
 import { router as lineItemRouter } from "../routes/lineitem.routes";
-
-import { errorHandler } from "../middleware/errorHandling";
+import { errorHandler } from "../middleware/error.middleware";
 
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
@@ -44,8 +44,11 @@ app.use(
   "/docs",
   swaggerUi.serve,
   swaggerUi.setup(undefined, {
+    explorer: true,
     swaggerOptions: {
       url: "/swagger.json",
+      docExpansion: "none",
+      persistAuthorization: true,
     },
   })
 );

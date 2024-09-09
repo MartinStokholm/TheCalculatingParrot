@@ -27,25 +27,39 @@ export class UserController extends Controller {
   }
 
   @Get("{userId}")
-  public async getUser(@Path() userId: number): Promise<User | null> {
+  public async getUser(@Path() userId: string): Promise<User | null> {
     return this.userService.getUser(userId);
-  }
-
-  @Post("/")
-  public async createUser(@Body() requestBody: User): Promise<User> {
-    return this.userService.createUser(requestBody);
   }
 
   @Put("{userId}")
   public async updateUser(
-    @Path() userId: number,
+    @Path() userId: string,
     @Body() requestBody: User
   ): Promise<User> {
     return this.userService.updateUser(userId, requestBody);
   }
 
   @Delete("{userId}")
-  public async deleteUser(@Path() userId: number): Promise<User> {
+  public async deleteUser(@Path() userId: string): Promise<User> {
     return this.userService.deleteUser(userId);
+  }
+
+  @Post("register")
+  public async createUser(@Body() requestBody: User): Promise<User> {
+    return this.userService.createUser(requestBody);
+  }
+
+  @Post("login")
+  public async login(@Body() requestBody: Partial<User>): Promise<string> {
+    if (requestBody.email == undefined) return "No email";
+
+    if (requestBody.password == undefined) return "No password";
+
+    const result = await this.userService.validateUserCredentials(
+      requestBody.email,
+      requestBody.password
+    );
+
+    return result.token;
   }
 }

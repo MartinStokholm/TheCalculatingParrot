@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 
@@ -23,12 +24,13 @@ export class BudgetController extends Controller {
   }
 
   @Get("/")
+  @Security("bearerAuth")
   public async getBudgets(): Promise<Budget[]> {
     return this.budgetServices.getBudgets();
   }
 
   @Get("{budgetId}")
-  public async getBudget(@Path() budgetId: number): Promise<Budget | null> {
+  public async getBudget(@Path() budgetId: string): Promise<Budget | null> {
     return this.budgetServices.getBudget(budgetId);
   }
 
@@ -39,14 +41,14 @@ export class BudgetController extends Controller {
 
   @Put("{budgetId}")
   public async updateBudget(
-    @Path() budgetId: number,
+    @Path() budgetId: string,
     @Body() requestBody: Budget
   ): Promise<Budget> {
     return this.budgetServices.updateBudget(budgetId, requestBody);
   }
 
   @Delete("{budgetId}")
-  public async deleteBudget(@Path() budgetId: number): Promise<Budget> {
+  public async deleteBudget(@Path() budgetId: string): Promise<Budget> {
     return this.budgetServices.deleteBudget(budgetId);
   }
 }

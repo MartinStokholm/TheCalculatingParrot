@@ -1,11 +1,13 @@
 import { Service, Inject } from "typedi";
 import { PrismaService } from "../config/db.config";
 import {
+  JwtResponseSchema,
   partialUserSchema,
   UserSchema,
   userSchema,
 } from "../models/user.schema";
 import bcrypt from "bcrypt";
+import { generateToken } from "../utils/jwt";
 
 @Service()
 export class UserService {
@@ -15,9 +17,17 @@ export class UserService {
     return await this.prisma.user.findMany();
   }
 
-  async getUser(id: number) {
+  async getUser(id: string) {
     return await this.prisma.user.findUnique({
       where: { id },
+    });
+  }
+
+  async getUserByEmail(email: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
     });
   }
 
@@ -50,7 +60,7 @@ export class UserService {
     });
   }
 
-  async updateUser(id: number, updatedUser: Partial<UserSchema>) {
+  async updateUser(id: string, updatedUser: Partial<UserSchema>) {
     const parsedUser = partialUserSchema.safeParse(updatedUser);
 
     if (!parsedUser.success) {
@@ -63,7 +73,10 @@ export class UserService {
     });
   }
 
-  async validateUserCredentials(email: string, password: string) {
+  async validateUserCredentials(
+    email: string,
+    password: string
+  ): Promise<JwtResponseSchema> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
@@ -79,13 +92,25 @@ export class UserService {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new Error("Invalid password");
+      throw new Error("Invalid credentials");
     }
 
-    return user;
+    // Generate token
+    const token = generateToken({
+      id: user.id,
+      username: user.name,
+      email: user.email,
+    });
+
+    // Create response object
+    const response = {
+      token,
+    };
+
+    return response;
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     return await this.prisma.user.delete({
       where: { id },
     });

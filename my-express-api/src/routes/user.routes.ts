@@ -17,17 +17,8 @@ router.get("/", async (_req, _res, _next) => {
 
 router.get("/:id", async (_req, _res, _next) => {
   try {
-    const user = await userController.getUser(Number(_req.params.id));
+    const user = await userController.getUser(_req.params.id);
     return _res.status(200).json(user);
-  } catch (error) {
-    return _next(error);
-  }
-});
-
-router.post("/", async (_req, _res, _next) => {
-  try {
-    const user = await userController.createUser(_req.body);
-    return _res.status(201).json(user);
   } catch (error) {
     return _next(error);
   }
@@ -35,10 +26,7 @@ router.post("/", async (_req, _res, _next) => {
 
 router.put("/:id", async (_req, _res, _next) => {
   try {
-    const user = await userController.updateUser(
-      Number(_req.params.id),
-      _req.body
-    );
+    const user = await userController.updateUser(_req.params.id, _req.body);
     return _res.status(200).json(user);
   } catch (error) {
     return _next(error);
@@ -47,8 +35,26 @@ router.put("/:id", async (_req, _res, _next) => {
 
 router.delete("/:id", async (_req, _res, _next) => {
   try {
-    const user = await userController.deleteUser(Number(_req.params.id));
+    const user = await userController.deleteUser(_req.params.id);
     return _res.status(204).json(user);
+  } catch (error) {
+    return _next(error);
+  }
+});
+
+router.post("/register", async (_req, _res, _next) => {
+  try {
+    const user = await userController.createUser(_req.body);
+    return _res.status(201).json(user);
+  } catch (error) {
+    return _next(error);
+  }
+});
+
+router.post("/login", async (_req, _res, _next) => {
+  try {
+    const token = await userController.login(_req.body);
+    return _res.status(200).json(token);
   } catch (error) {
     return _next(error);
   }
