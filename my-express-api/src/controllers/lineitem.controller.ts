@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 
@@ -23,6 +24,7 @@ export class LineItemController extends Controller {
   }
 
   @Get("{lineItemId}")
+  @Security("bearerAuth")
   public async getLineItem(
     @Path() lineItemId: number
   ): Promise<LineItem | null> {
@@ -30,6 +32,7 @@ export class LineItemController extends Controller {
   }
 
   @Post("{budgetId}")
+  @Security("bearerAuth")
   public async createLineItem(
     @Path() budgetId: string,
     @Body() requestBody: LineItem
@@ -38,6 +41,7 @@ export class LineItemController extends Controller {
   }
 
   @Put("{lineItemId}")
+  @Security("bearerAuth")
   public async updateLineItem(
     @Path() lineItemId: number,
     @Body() requestBody: LineItem
@@ -46,6 +50,7 @@ export class LineItemController extends Controller {
   }
 
   @Delete("{lineItemId}")
+  @Security("bearerAuth")
   public async deleteLineItem(@Path() lineItemId: number): Promise<LineItem> {
     return this.lineItemService.deleteLineItem(lineItemId);
   }

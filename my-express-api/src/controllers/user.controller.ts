@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 import { Service, Inject } from "typedi";
@@ -22,16 +23,19 @@ export class UserController extends Controller {
   }
 
   @Get("/")
+  @Security("bearerAuth")
   public async getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
   @Get("{userId}")
+  @Security("bearerAuth")
   public async getUser(@Path() userId: string): Promise<User | null> {
     return this.userService.getUser(userId);
   }
 
   @Put("{userId}")
+  @Security("bearerAuth")
   public async updateUser(
     @Path() userId: string,
     @Body() requestBody: User
@@ -40,6 +44,7 @@ export class UserController extends Controller {
   }
 
   @Delete("{userId}")
+  @Security("bearerAuth")
   public async deleteUser(@Path() userId: string): Promise<User> {
     return this.userService.deleteUser(userId);
   }

@@ -189,7 +189,11 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": []
 			}
 		},
@@ -216,7 +220,11 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -245,7 +253,11 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -284,7 +296,11 @@
 				"tags": [
 					"Users"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -384,7 +400,11 @@
 				"tags": [
 					"Lineitems"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -414,7 +434,11 @@
 				"tags": [
 					"Lineitems"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -454,7 +478,11 @@
 				"tags": [
 					"Lineitems"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -486,7 +514,11 @@
 				"tags": [
 					"Lineitems"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -716,7 +748,11 @@
 				"tags": [
 					"Budgets"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -753,7 +789,11 @@
 				"tags": [
 					"Budgets"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -782,7 +822,11 @@
 				"tags": [
 					"Budgets"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -821,7 +865,11 @@
 				"tags": [
 					"Budgets"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -838,6 +886,24 @@
 	"servers": [
 		{
 			"url": "/api"
+		}
+	],
+	"tags": [
+		{
+			"name": "Users",
+			"description": "Manage user data aswell as registration and login"
+		},
+		{
+			"name": "Budgets",
+			"description": "Manage budgets created by the user"
+		},
+		{
+			"name": "Lineitems",
+			"description": "Manage lineitems related to a budget"
+		},
+		{
+			"name": "Categories",
+			"description": "Manage categories related to lineitems"
 		}
 	]
 }

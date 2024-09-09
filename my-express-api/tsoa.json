@@ -6,6 +6,29 @@
     "outputDirectory": "public",
     "specVersion": 3,
     "basePath": "/api",
+    "info": {
+      "title": "The Calculating Parrot",
+      "description": "For creating and managing budgets",
+      "version": "1.0.1"
+    },
+    "tags": [
+      {
+        "name": "Users",
+        "description": "Manage user data aswell as registration and login"
+      },
+      {
+        "name": "Budgets",
+        "description": "Manage budgets created by the user"
+      },
+      {
+        "name": "Lineitems",
+        "description": "Manage lineitems related to a budget"
+      },
+      {
+        "name": "Categories",
+        "description": "Manage categories related to lineitems"
+      }
+    ],
     "securityDefinitions": {
       "bearerAuth": {
         "type": "http",

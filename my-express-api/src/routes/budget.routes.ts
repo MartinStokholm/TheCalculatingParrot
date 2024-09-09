@@ -16,7 +16,7 @@ router.get("/", verifyToken, async (_req, _res, _next) => {
   }
 });
 
-router.get("/:id", async (_req, _res, _next) => {
+router.get("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const budget = await budgetController.getBudget(_req.params.id);
     return _res.status(200).json(budget);
@@ -25,7 +25,7 @@ router.get("/:id", async (_req, _res, _next) => {
   }
 });
 
-router.post("/", async (_req, _res, _next) => {
+router.post("/", verifyToken, async (_req, _res, _next) => {
   try {
     const budget = await budgetController.createBudget(_req.body);
     return _res.status(201).json(budget);
@@ -34,7 +34,7 @@ router.post("/", async (_req, _res, _next) => {
   }
 });
 
-router.put("/:id", async (_req, _res, _next) => {
+router.put("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const budget = await budgetController.updateBudget(
       _req.params.id,
@@ -46,7 +46,7 @@ router.put("/:id", async (_req, _res, _next) => {
   }
 });
 
-router.delete("/:id", async (_req, _res, _next) => {
+router.delete("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const budget = await budgetController.deleteBudget(_req.params.id);
     return _res.status(204).json(budget);

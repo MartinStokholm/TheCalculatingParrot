@@ -1,12 +1,13 @@
 import express from "express";
 import { Container } from "typedi";
 import { UserController } from "../controllers/user.controller";
+import { verifyToken } from "../middleware/auth.middelware";
 
 export const router = express.Router();
 
 const userController = Container.get(UserController);
 
-router.get("/", async (_req, _res, _next) => {
+router.get("/", verifyToken, async (_req, _res, _next) => {
   try {
     const users = await userController.getUsers();
     return _res.status(200).json(users);
@@ -15,7 +16,7 @@ router.get("/", async (_req, _res, _next) => {
   }
 });
 
-router.get("/:id", async (_req, _res, _next) => {
+router.get("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const user = await userController.getUser(_req.params.id);
     return _res.status(200).json(user);
@@ -24,7 +25,7 @@ router.get("/:id", async (_req, _res, _next) => {
   }
 });
 
-router.put("/:id", async (_req, _res, _next) => {
+router.put("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const user = await userController.updateUser(_req.params.id, _req.body);
     return _res.status(200).json(user);
@@ -33,7 +34,7 @@ router.put("/:id", async (_req, _res, _next) => {
   }
 });
 
-router.delete("/:id", async (_req, _res, _next) => {
+router.delete("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const user = await userController.deleteUser(_req.params.id);
     return _res.status(204).json(user);

@@ -30,16 +30,19 @@ export class BudgetController extends Controller {
   }
 
   @Get("{budgetId}")
+  @Security("bearerAuth")
   public async getBudget(@Path() budgetId: string): Promise<Budget | null> {
     return this.budgetServices.getBudget(budgetId);
   }
 
   @Post("/")
+  @Security("bearerAuth")
   public async createBudget(@Body() requestBody: Budget): Promise<Budget> {
     return this.budgetServices.createBudget(requestBody);
   }
 
   @Put("{budgetId}")
+  @Security("bearerAuth")
   public async updateBudget(
     @Path() budgetId: string,
     @Body() requestBody: Budget
@@ -48,6 +51,7 @@ export class BudgetController extends Controller {
   }
 
   @Delete("{budgetId}")
+  @Security("bearerAuth")
   public async deleteBudget(@Path() budgetId: string): Promise<Budget> {
     return this.budgetServices.deleteBudget(budgetId);
   }
