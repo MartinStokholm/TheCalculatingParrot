@@ -8,7 +8,7 @@ const budgetsApiSlice = api.injectEndpoints({
     }),
     // Add more budget-related endpoints if needed
   }),
-  overrideExisting: false, // Avoid overriding existing endpoints
+  overrideExisting: false,
 });
 
 export const { useGetBudgetsQuery } = budgetsApiSlice;
