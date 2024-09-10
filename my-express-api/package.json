@@ -7,8 +7,7 @@
     "start": "node dist/server.js",
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
-    "devOld": "nodemon",
-    "dev": "concurrently \"nodemon --watch ./src --ignore tsoa.json \" \"nodemon --watch ./src/controllers --watch ./src/routes --watch ./src/models -x tsoa spec\"",
+    "dev": "concurrently \"nodemon --watch ./src --ignore tsoa.json \" \"nodemon --watch ./src/controllers/* --watch ./src/routes/* --watch ./src/models/* -x tsoa spec\"",
     "build": "tsc --project tsconfig.json",
     "prod": "node dist/server.js",
     "swagger": "tsoa spec"
@@ -36,6 +35,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@swc/core": "^1.7.24",
+    "@swc/helpers": "^0.5.13",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
