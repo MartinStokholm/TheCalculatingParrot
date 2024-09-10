@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import Root from "./app/root.tsx";
-import BudgetPage from "./features/budget/BudgetPage.tsx";
-import ProfilePage from "./features/profile/ProfilePage.tsx";
-import HomePage from "./features/home/HomePage.tsx";
-import { store } from "./app/store";
+import Root from "./pages/root.tsx";
+import BudgetPage from "./pages/budget.page.tsx";
+import ProfilePage from "./pages/profile.page.tsx";
+import HomePage from "./pages/home.page.tsx";
+import { store } from "./redux/store.ts";
 import "./index.css";
 
 const router = createBrowserRouter([

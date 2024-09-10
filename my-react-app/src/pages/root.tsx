@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Navigation from "../components/Navigation";
+import { Navigation } from "../components/Navigation";
 import { GiReceiveMoney } from "react-icons/gi";
 import { GiCaptainHatProfile } from "react-icons/gi";
 import { GiHouse } from "react-icons/gi";
+import { Toaster } from "react-hot-toast";
 
 function Root() {
   return (
@@ -24,6 +25,7 @@ function Root() {
         ]}
       >
         <Outlet />
+        <Toaster />
       </Navigation>
     </>
   );

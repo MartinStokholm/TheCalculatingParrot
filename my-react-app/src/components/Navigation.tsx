@@ -15,7 +15,7 @@ type NavigationProps = {
   children: React.ReactNode;
 };
 
-export default function Navigation({ ...props }: NavigationProps) {
+export function Navigation({ ...props }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleMenuClicked() {
@@ -27,7 +27,7 @@ export default function Navigation({ ...props }: NavigationProps) {
       <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
         <FiMenu className="text-2xl" onClick={handleMenuClicked} />
 
-        <Link className="text-3xl flex p-4 " to={`/`}>
+        <Link className="text-3xl flex p-4 mr-4 " to={`/`}>
           <p className="pr-4">{props.title}</p> <GiMoneyStack size={35} />
         </Link>
       </nav>
