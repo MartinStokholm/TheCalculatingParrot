@@ -1,37 +1,40 @@
-import { getToken } from "../utils/jwt.utils";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { ErrorBanner } from "../components/Error";
 import { Card } from "../components/Card";
-import { useGetUserQuery } from "../redux/features/userApiSlice";
-import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "../types/jwt.types";
+import { useProfile } from "../hooks/useProfile";
 
 export default function ProfilePage() {
-  const token = getToken();
-  if (!token) return null;
+  const { user, isLoading, error, token } = useProfile();
 
-  const decodedToken = jwtDecode<JwtPayload>(token);
+  // Error handling for authentication or fetch issues
+  if (!token) {
+    return <ErrorBanner title="Error!" text="Unauthenticated" />;
+  }
+  if (error) {
+    return <ErrorBanner title="Error!" text={error.toString()} />;
+  }
 
-  const { data: user, error, isLoading } = useGetUserQuery(decodedToken.id);
-
+  // Display a loading spinner if the user data is still loading
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  if (error) {
-    return <ErrorBanner title="Error!" text="Failed to fetch user data" />;
+
+  // Check if user data exists
+  if (!user) {
+    return <ErrorBanner title="Error!" text="User data not available" />;
   }
 
   return (
     <>
       {user && (
         <Card
-          title="My "
+          title="My profile"
           imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fgelatologia.com%2Fwp-content%2Fuploads%2F2020%2F07%2Fplaceholder.png%3Fssl%3D1&f=1&nofb=1&ipt=63e8e92612698422f80cd2e68d683a71fef4e13f7acd0377020d4bab370da50a&ipo=images"
           fields={{
-            ID: user.id,
+            ID: user.id.slice(0, 12) + ". . .",
             Name: user.name,
             Email: user.email,
-            Verified: user.isVerified ? "Yes" : "No",
+            Verified: user.isVerified ? "✅" : "❌",
           }}
         />
       )}

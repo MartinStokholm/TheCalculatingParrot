@@ -1,0 +1,271 @@
+import { calculatingParrotApi as api } from "../apiSlice";
+const injectedRtkApi = api.injectEndpoints({
+  endpoints: (build) => ({
+    getUsers: build.query<GetUsersApiResponse, GetUsersApiArg>({
+      query: () => ({ url: `/users` }),
+    }),
+    getUser: build.query<GetUserApiResponse, GetUserApiArg>({
+      query: (queryArg) => ({ url: `/users/${queryArg.userId}` }),
+    }),
+    updateUser: build.mutation<UpdateUserApiResponse, UpdateUserApiArg>({
+      query: (queryArg) => ({
+        url: `/users/${queryArg.userId}`,
+        method: "PUT",
+        body: queryArg.user,
+      }),
+    }),
+    deleteUser: build.mutation<DeleteUserApiResponse, DeleteUserApiArg>({
+      query: (queryArg) => ({
+        url: `/users/${queryArg.userId}`,
+        method: "DELETE",
+      }),
+    }),
+    createUser: build.mutation<CreateUserApiResponse, CreateUserApiArg>({
+      query: (queryArg) => ({
+        url: `/users/register`,
+        method: "POST",
+        body: queryArg.user,
+      }),
+    }),
+    login: build.mutation<LoginApiResponse, LoginApiArg>({
+      query: (queryArg) => ({
+        url: `/users/login`,
+        method: "POST",
+        body: queryArg.partialUser,
+      }),
+    }),
+    getLineItem: build.query<GetLineItemApiResponse, GetLineItemApiArg>({
+      query: (queryArg) => ({ url: `/lineitems/${queryArg.lineItemId}` }),
+    }),
+    updateLineItem: build.mutation<
+      UpdateLineItemApiResponse,
+      UpdateLineItemApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/lineitems/${queryArg.lineItemId}`,
+        method: "PUT",
+        body: queryArg.lineItem,
+      }),
+    }),
+    deleteLineItem: build.mutation<
+      DeleteLineItemApiResponse,
+      DeleteLineItemApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/lineitems/${queryArg.lineItemId}`,
+        method: "DELETE",
+      }),
+    }),
+    createLineItem: build.mutation<
+      CreateLineItemApiResponse,
+      CreateLineItemApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/lineitems/${queryArg.budgetId}`,
+        method: "POST",
+        body: queryArg.lineItem,
+      }),
+    }),
+    getCategories: build.query<GetCategoriesApiResponse, GetCategoriesApiArg>({
+      query: () => ({ url: `/categories` }),
+    }),
+    createCategory: build.mutation<
+      CreateCategoryApiResponse,
+      CreateCategoryApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/categories`,
+        method: "POST",
+        body: queryArg.category,
+      }),
+    }),
+    getCategory: build.query<GetCategoryApiResponse, GetCategoryApiArg>({
+      query: (queryArg) => ({ url: `/categories/${queryArg.categoryId}` }),
+    }),
+    updateCategory: build.mutation<
+      UpdateCategoryApiResponse,
+      UpdateCategoryApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/categories/${queryArg.categoryId}`,
+        method: "PUT",
+        body: queryArg.category,
+      }),
+    }),
+    deleteCategory: build.mutation<
+      DeleteCategoryApiResponse,
+      DeleteCategoryApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/categories/${queryArg.categoryId}`,
+        method: "DELETE",
+      }),
+    }),
+    getBudgets: build.query<GetBudgetsApiResponse, GetBudgetsApiArg>({
+      query: () => ({ url: `/budgets` }),
+    }),
+    createBudget: build.mutation<CreateBudgetApiResponse, CreateBudgetApiArg>({
+      query: (queryArg) => ({
+        url: `/budgets`,
+        method: "POST",
+        body: queryArg.budget,
+      }),
+    }),
+    getBudget: build.query<GetBudgetApiResponse, GetBudgetApiArg>({
+      query: (queryArg) => ({ url: `/budgets/${queryArg.budgetId}` }),
+    }),
+    updateBudget: build.mutation<UpdateBudgetApiResponse, UpdateBudgetApiArg>({
+      query: (queryArg) => ({
+        url: `/budgets/${queryArg.budgetId}`,
+        method: "PUT",
+        body: queryArg.budget,
+      }),
+    }),
+    deleteBudget: build.mutation<DeleteBudgetApiResponse, DeleteBudgetApiArg>({
+      query: (queryArg) => ({
+        url: `/budgets/${queryArg.budgetId}`,
+        method: "DELETE",
+      }),
+    }),
+  }),
+  overrideExisting: false,
+});
+export { injectedRtkApi as calculatingParrotApi };
+export type GetUsersApiResponse = /** status 200 Ok */ User[];
+export type GetUsersApiArg = void;
+export type GetUserApiResponse = /** status 200 Ok */ User | null;
+export type GetUserApiArg = {
+  userId: string;
+};
+export type UpdateUserApiResponse = /** status 200 Ok */ User;
+export type UpdateUserApiArg = {
+  userId: string;
+  user: User;
+};
+export type DeleteUserApiResponse = /** status 200 Ok */ User;
+export type DeleteUserApiArg = {
+  userId: string;
+};
+export type CreateUserApiResponse = /** status 200 Ok */ User;
+export type CreateUserApiArg = {
+  user: User;
+};
+export type LoginApiResponse = /** status 200 Ok */ string;
+export type LoginApiArg = {
+  partialUser: PartialUser;
+};
+export type GetLineItemApiResponse = /** status 200 Ok */ LineItem | null;
+export type GetLineItemApiArg = {
+  lineItemId: number;
+};
+export type UpdateLineItemApiResponse = /** status 200 Ok */ LineItem;
+export type UpdateLineItemApiArg = {
+  lineItemId: number;
+  lineItem: LineItem;
+};
+export type DeleteLineItemApiResponse = /** status 200 Ok */ LineItem;
+export type DeleteLineItemApiArg = {
+  lineItemId: number;
+};
+export type CreateLineItemApiResponse = /** status 200 Ok */ LineItem;
+export type CreateLineItemApiArg = {
+  budgetId: string;
+  lineItem: LineItem;
+};
+export type GetCategoriesApiResponse = /** status 200 Ok */ Category[];
+export type GetCategoriesApiArg = void;
+export type CreateCategoryApiResponse = /** status 200 Ok */ Category;
+export type CreateCategoryApiArg = {
+  category: Category;
+};
+export type GetCategoryApiResponse = /** status 200 Ok */ Category | null;
+export type GetCategoryApiArg = {
+  categoryId: number;
+};
+export type UpdateCategoryApiResponse = /** status 200 Ok */ Category;
+export type UpdateCategoryApiArg = {
+  categoryId: number;
+  category: Category;
+};
+export type DeleteCategoryApiResponse = /** status 200 Ok */ Category;
+export type DeleteCategoryApiArg = {
+  categoryId: number;
+};
+export type GetBudgetsApiResponse = /** status 200 Ok */ Budget[];
+export type GetBudgetsApiArg = void;
+export type CreateBudgetApiResponse = /** status 200 Ok */ Budget;
+export type CreateBudgetApiArg = {
+  budget: Budget;
+};
+export type GetBudgetApiResponse = /** status 200 Ok */ Budget | null;
+export type GetBudgetApiArg = {
+  budgetId: string;
+};
+export type UpdateBudgetApiResponse = /** status 200 Ok */ Budget;
+export type UpdateBudgetApiArg = {
+  budgetId: string;
+  budget: Budget;
+};
+export type DeleteBudgetApiResponse = /** status 200 Ok */ Budget;
+export type DeleteBudgetApiArg = {
+  budgetId: string;
+};
+export type DefaultSelectionPrisma36UserPayload = {
+  isVerified: boolean;
+  password: string;
+  name: string;
+  email: string;
+  id: string;
+};
+export type User = DefaultSelectionPrisma36UserPayload;
+export type PartialUser = {
+  id?: string;
+  email?: string;
+  name?: string;
+  password?: string;
+  isVerified?: boolean;
+};
+export type DefaultSelectionPrisma36LineItemPayload = {
+  budgetId: string;
+  categoryId: number;
+  amount: number;
+  name: string;
+  id: number;
+};
+export type LineItem = DefaultSelectionPrisma36LineItemPayload;
+export type DefaultSelectionPrisma36CategoryPayload = {
+  colorHex: string;
+  name: string;
+  id: number;
+};
+export type Category = DefaultSelectionPrisma36CategoryPayload;
+export type DefaultSelectionPrisma36BudgetPayload = {
+  userId: string;
+  savings: number;
+  startingCapital: number;
+  name: string;
+  id: string;
+};
+export type Budget = DefaultSelectionPrisma36BudgetPayload;
+export const {
+  useGetUsersQuery,
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useCreateUserMutation,
+  useLoginMutation,
+  useGetLineItemQuery,
+  useUpdateLineItemMutation,
+  useDeleteLineItemMutation,
+  useCreateLineItemMutation,
+  useGetCategoriesQuery,
+  useCreateCategoryMutation,
+  useGetCategoryQuery,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetBudgetsQuery,
+  useCreateBudgetMutation,
+  useGetBudgetQuery,
+  useUpdateBudgetMutation,
+  useDeleteBudgetMutation,
+} = injectedRtkApi;

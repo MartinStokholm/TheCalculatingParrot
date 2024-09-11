@@ -30,7 +30,10 @@ export class UserController extends Controller {
 
   @Get("{userId}")
   @Security("bearerAuth")
-  public async getUser(@Path() userId: string): Promise<User | null> {
+  public async getUser(
+    @Path() userId: string | undefined
+  ): Promise<User | null> {
+    if (userId == undefined) return null;
     return this.userService.getUser(userId);
   }
 

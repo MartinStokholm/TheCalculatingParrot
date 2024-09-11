@@ -5,6 +5,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { SignOut } from "../components/SignOut";
+import { Breadcrumb } from "../components/Breadcrumb";
 import { NavigationButton } from "./NavigationButton";
 import { IoIosLogIn } from "react-icons/io";
 
@@ -33,7 +34,7 @@ export function Navigation({ ...props }: NavigationProps) {
       <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
         <FiMenu className="text-2xl" onClick={handleMenuClicked} />
         <Link className="text-3xl flex p-4 mr-4 " to={`/home`}>
-          <p className="pr-4">{props.title}</p>{" "}
+          <p className="text-2xl pr-2">{props.title}</p>
           <GiMoneyStack className="hidden md:flex" size={35} />
         </Link>
         {isLoggedIn ? (
@@ -68,6 +69,7 @@ export function Navigation({ ...props }: NavigationProps) {
           onClick={handleMenuClicked}
         ></div>
       )}
+      <Breadcrumb />
       <div className="relative z-30">{props.children}</div>
     </>
   );

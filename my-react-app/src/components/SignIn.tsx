@@ -6,31 +6,28 @@ import { FormInput } from "./FormInput";
 import { FormSubmit } from "./FormSubmit";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "../types/jwt.types";
-import { useSignInMutation } from "../redux/features/userApiSlice";
 import { setToken } from "../utils/jwt.utils";
-import { setAuth } from "../redux/features/authSlice";
+import { setAuth } from "../redux/api/authSlice";
+import { useLoginMutation } from "../redux/api/endpoints/calculatingParrotApi";
 import { Title, TitleSizes } from "./Title";
-
-type SignInFormInputs = {
-  email: string;
-  password: string;
-};
 
 export function SignInForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInFormInputs>();
+  } = useForm<{ email: string; password: string }>();
 
-  const [signIn, { isLoading }] = useSignInMutation();
+  const [signIn, { isLoading }] = useLoginMutation();
   const [apiError, setApiError] = useState<string | null>(null);
   const dispatch = useDispatch(); // Get the dispatch function
 
-  const onSubmit = async (data: SignInFormInputs) => {
+  const onSubmit = async (data: { email: string; password: string }) => {
     setApiError(null);
     try {
-      const token = await signIn(data).unwrap();
+      // Structure the data to match the expected `partialUser` format
+      const response = await signIn({ partialUser: data }).unwrap();
+      const token = response; // Assuming the response is the token
       const decodedToken = jwtDecode<JwtPayload>(token);
 
       succesfullSignInToast(decodedToken.username);

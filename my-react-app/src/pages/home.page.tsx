@@ -11,7 +11,7 @@ export default function HomePage() {
       {isLoggedIn ? (
         <Title
           size={TitleSizes.Large}
-          text="Welcome to the calculating parrot"
+          text="Welcome to The Calculating Parrot"
         />
       ) : (
         <SignInForm />

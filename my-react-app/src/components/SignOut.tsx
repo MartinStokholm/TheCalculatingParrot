@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { clearAuth } from "../redux/features/authSlice";
+import { clearAuth } from "../redux/api/authSlice";
 import { clearToken } from "../utils/jwt.utils";
 import { IoIosLogOut } from "react-icons/io";
 

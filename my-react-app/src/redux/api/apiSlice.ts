@@ -5,6 +5,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:7070/api/",
   prepareHeaders: (headers) => {
     const token = getToken();
+
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
@@ -12,11 +13,10 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const api = createApi({
+export const calculatingParrotApi = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: () => ({}), // Empty to allow for endpoint injection
 });
 
-export default api;
 export { baseQuery };

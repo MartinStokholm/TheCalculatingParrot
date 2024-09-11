@@ -5,11 +5,12 @@ import { GiCaptainHatProfile } from "react-icons/gi";
 import { GiHouse } from "react-icons/gi";
 import { Toaster } from "react-hot-toast";
 import { PageWrapper } from "../components/PageWrapper";
+import { Footer } from "../components/Footer";
 
 export default function Root() {
   return (
     <Navigation
-      title="The Calculating Parrot"
+      title="TCP"
       navigationLinks={[
         { title: "Home", path: "home", logo: <GiHouse size={35} /> },
         {
@@ -28,10 +29,7 @@ export default function Root() {
         <Toaster />
         <Outlet />
       </PageWrapper>
-      <footer className="w-full bg-zinc-500 h-20 flex flex-col text-center py-4 ">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, illum
-        laboriosam reiciendis temporibus doloribus hic harum!
-      </footer>
+      <Footer />
     </Navigation>
   );
 }
