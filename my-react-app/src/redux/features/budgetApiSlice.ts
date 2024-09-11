@@ -1,5 +1,5 @@
-import { Budget } from "shared/dist/types";
 import api from "../api/apiSlice"; // Import base API slice
+import { Budget } from "shared/dist/types";
 
 const budgetsApiSlice = api.injectEndpoints({
   endpoints: (builder) => ({

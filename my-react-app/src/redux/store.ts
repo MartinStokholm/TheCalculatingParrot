@@ -5,10 +5,10 @@ import authReducer from "./features/authSlice";
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
-    auth: authReducer, // Add the auth reducer
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware), // Include the api middleware
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -14,7 +14,7 @@ const baseQuery = fetchBaseQuery({
 
 const api = createApi({
   reducerPath: "api",
-  baseQuery, // Shared base query
+  baseQuery,
   endpoints: () => ({}), // Empty to allow for endpoint injection
 });
 

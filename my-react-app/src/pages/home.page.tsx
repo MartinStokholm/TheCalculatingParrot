@@ -1,11 +1,21 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store"; // Import the RootState type
+import { RootState } from "../redux/store";
 import { SignInForm } from "../components/SignIn";
-import { PageWrapper } from "../components/PageWrapper";
-import { SignOut } from "../components/SignOut";
+import { Title, TitleSizes } from "../components/Title";
 
 export default function HomePage() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
-  return <PageWrapper>{isLoggedIn ? <SignOut /> : <SignInForm />}</PageWrapper>;
+  return (
+    <>
+      {isLoggedIn ? (
+        <Title
+          size={TitleSizes.Large}
+          text="Welcome to the calculating parrot"
+        />
+      ) : (
+        <SignInForm />
+      )}
+    </>
+  );
 }

@@ -55,7 +55,7 @@ export function SignInForm() {
       />
 
       <form
-        className="shadow-md flex flex-col p-4 gap-4 min-w-[500px]"
+        className="shadow-md flex flex-col p-4 gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormInput

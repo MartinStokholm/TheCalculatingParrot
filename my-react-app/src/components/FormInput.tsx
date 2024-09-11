@@ -20,11 +20,10 @@ export function FormInput({
   ...rest
 }: FormInputProps) {
   return (
-    <div className="p-2 flex gap-4 items-center justify-between">
+    <div className="p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
       <label className=" text-lg" htmlFor={name}>
         {label}
       </label>
-      {error && <span className="text-red-500">{error}</span>}
 
       <input
         className="p-2 text-black bg-white rounded-md"
@@ -33,6 +32,7 @@ export function FormInput({
         {...register(name, validation)}
         {...rest}
       />
+      {error && <span className="text-red-500">{error}</span>}
     </div>
   );
 }

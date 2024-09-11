@@ -26,7 +26,7 @@ export function Title({ text, size }: TitleProps) {
   return (
     <h1
       className={
-        "border-l-4 rounded-md border-blue-200 p-4 m-4 font-light text-zinc-800 bg-slate-200 " +
+        "border-b-4  border-blue-200 pb-1 m-4 font-light text-zinc-800  " +
         className
       }
     >

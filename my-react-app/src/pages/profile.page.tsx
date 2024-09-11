@@ -1,5 +1,4 @@
 import { getToken } from "../utils/jwt.utils";
-import { PageWrapper } from "../components/PageWrapper";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { ErrorBanner } from "../components/Error";
 import { Card } from "../components/Card";
@@ -23,7 +22,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <PageWrapper>
+    <>
       {user && (
         <Card
           title="My "
@@ -36,6 +35,6 @@ export default function ProfilePage() {
           }}
         />
       )}
-    </PageWrapper>
+    </>
   );
 }
