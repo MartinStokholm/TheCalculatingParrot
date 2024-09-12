@@ -10,7 +10,7 @@ export class CategoryService {
     return await this.prisma.category.findMany();
   }
 
-  async getCategory(id: number) {
+  async getCategory(id: string) {
     return await this.prisma.category.findUnique({
       where: { id },
     });
@@ -28,7 +28,7 @@ export class CategoryService {
     });
   }
 
-  async updateCategory(id: number, updatedCategory: Partial<CategorySchema>) {
+  async updateCategory(id: string, updatedCategory: Partial<CategorySchema>) {
     const parsedCategory = categorySchema.partial().safeParse(updatedCategory);
 
     if (!parsedCategory.success) {
@@ -41,7 +41,7 @@ export class CategoryService {
     });
   }
 
-  async deleteCategory(id: number) {
+  async deleteCategory(id: string) {
     return await this.prisma.category.delete({
       where: { id },
     });

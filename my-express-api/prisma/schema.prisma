@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
@@ -9,46 +9,46 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
-  email String  @unique
-  name  String  @default("DefaultUserName")
-  password String? @default("")  
-  isVerified Boolean @default(false)
-  budgets Budget[]
+  id         String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  email      String   @unique
+  name       String   @default("DefaultUserName")
+  password   String?  @default("")
+  isVerified Boolean  @default(false)
+  budgets    Budget[]
 }
 
 model Budget {
-  id        String   @id @default(dbgenerated("concat('bgt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
-  name      String
+  id              String     @id @default(dbgenerated("concat('bgt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  name            String
   startingCapital Float
-  savings   Float
-  lineItems LineItem[]
-  userId    String
-  user      User      @relation(fields: [userId], references: [id])
+  savings         Float
+  userId          String
+  user            User       @relation(fields: [userId], references: [id])
+  lineItems       LineItem[]
 }
 
 model LineItem {
-  id          String         @id @default(dbgenerated("concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  id          String       @id @default(dbgenerated("concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   name        String
   amount      Float
-  categoryId  Int
+  categoryId  String?
   budgetId    String
-  budget      Budget      @relation(fields: [budgetId], references: [id])
+  budget      Budget       @relation(fields: [budgetId], references: [id])
   reacurrings Reacurring[]
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       String    @id @default(dbgenerated("concat('ctg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  name     String
   colorHex String
 }
 
 model Reacurring {
-  id         Int       @id @default(autoincrement())
+  id         String      @id @default(dbgenerated("concat('rcg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   monthly    Boolean
   daily      Boolean
   weekly     Boolean
   yearly     Boolean
   lineItemId String
-  lineItem   LineItem  @relation(fields: [lineItemId], references: [id])
+  lineItem   LineItem @relation(fields: [lineItemId], references: [id])
 }

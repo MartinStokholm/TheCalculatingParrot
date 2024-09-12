@@ -24,14 +24,14 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/users/register`,
         method: "POST",
-        body: queryArg.user,
+        body: queryArg.userRegistration,
       }),
     }),
     login: build.mutation<LoginApiResponse, LoginApiArg>({
       query: (queryArg) => ({
         url: `/users/login`,
         method: "POST",
-        body: queryArg.partialUser,
+        body: queryArg.userLogin,
       }),
     }),
     getLineItem: build.query<GetLineItemApiResponse, GetLineItemApiArg>({
@@ -108,7 +108,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/budgets`,
         method: "POST",
-        body: queryArg.budget,
+        body: queryArg.budgetCreate,
       }),
     }),
     getBudget: build.query<GetBudgetApiResponse, GetBudgetApiArg>({
@@ -131,7 +131,7 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as calculatingParrotApi };
-export type GetUsersApiResponse = /** status 200 Ok */ User[];
+export type GetUsersApiResponse = /** status 200 Ok */ UsersResponse[];
 export type GetUsersApiArg = void;
 export type GetUserApiResponse = /** status 200 Ok */ User | null;
 export type GetUserApiArg = {
@@ -148,24 +148,24 @@ export type DeleteUserApiArg = {
 };
 export type CreateUserApiResponse = /** status 200 Ok */ User;
 export type CreateUserApiArg = {
-  user: User;
+  userRegistration: UserRegistration;
 };
-export type LoginApiResponse = /** status 200 Ok */ string;
+export type LoginApiResponse = /** status 200 Ok */ UserLoginResponse;
 export type LoginApiArg = {
-  partialUser: PartialUser;
+  userLogin: UserLogin;
 };
 export type GetLineItemApiResponse = /** status 200 Ok */ LineItem | null;
 export type GetLineItemApiArg = {
-  lineItemId: number;
+  lineItemId: string;
 };
 export type UpdateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type UpdateLineItemApiArg = {
-  lineItemId: number;
+  lineItemId: string;
   lineItem: LineItem;
 };
 export type DeleteLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type DeleteLineItemApiArg = {
-  lineItemId: number;
+  lineItemId: string;
 };
 export type CreateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type CreateLineItemApiArg = {
@@ -193,9 +193,9 @@ export type DeleteCategoryApiArg = {
 };
 export type GetBudgetsApiResponse = /** status 200 Ok */ Budget[];
 export type GetBudgetsApiArg = void;
-export type CreateBudgetApiResponse = /** status 200 Ok */ Budget;
+export type CreateBudgetApiResponse = /** status 200 Ok */ BudgetResponse;
 export type CreateBudgetApiArg = {
-  budget: Budget;
+  budgetCreate: BudgetCreate;
 };
 export type GetBudgetApiResponse = /** status 200 Ok */ BudgetResponse | null;
 export type GetBudgetApiArg = {
@@ -210,6 +210,11 @@ export type DeleteBudgetApiResponse = /** status 200 Ok */ Budget;
 export type DeleteBudgetApiArg = {
   budgetId: string;
 };
+export type UsersResponse = {
+  isVerified: boolean;
+  email: string;
+  name: string;
+};
 export type DefaultSelectionPrisma36UserPayload = {
   isVerified: boolean;
   password: string;
@@ -218,19 +223,24 @@ export type DefaultSelectionPrisma36UserPayload = {
   id: string;
 };
 export type User = DefaultSelectionPrisma36UserPayload;
-export type PartialUser = {
-  id?: string;
-  email?: string;
-  name?: string;
-  password?: string;
-  isVerified?: boolean;
+export type UserRegistration = {
+  password: string;
+  email: string;
+  name: string;
+};
+export type UserLoginResponse = {
+  token: string;
+};
+export type UserLogin = {
+  password: string;
+  email: string;
 };
 export type DefaultSelectionPrisma36LineItemPayload = {
   budgetId: string;
   categoryId: number;
   amount: number;
   name: string;
-  id: number;
+  id: string;
 };
 export type LineItem = DefaultSelectionPrisma36LineItemPayload;
 export type DefaultSelectionPrisma36CategoryPayload = {
@@ -256,6 +266,10 @@ export type BudgetWithLineItems = {
   lineItems: LineItem[];
 };
 export type BudgetResponse = BudgetWithLineItems | null;
+export type BudgetCreate = {
+  name: string;
+  startingCapital: number;
+};
 export const {
   useGetUsersQuery,
   useGetUserQuery,

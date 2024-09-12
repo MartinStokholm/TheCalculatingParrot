@@ -1,17 +1,18 @@
-import { useParams } from "react-router-dom";
 import { useGetBudgetQuery } from "../../redux/api/endpoints/calculatingParrotApi";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ErrorBanner } from "../../components/Error";
 import { Title, TitleSizes } from "../../components/Title";
+import { useParams } from "react-router-dom";
 
 export default function BudgetDetailsPage() {
-  //const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const {
     data: budget,
     error,
     isLoading,
-  } = useGetBudgetQuery({ budgetId: "1" });
+  } = useGetBudgetQuery({ budgetId: id || "NaN" });
 
+  console.log(id);
   if (isLoading) {
     return <LoadingSpinner />;
   }

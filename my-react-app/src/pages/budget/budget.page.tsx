@@ -27,7 +27,10 @@ export default function BudgetPage() {
           <li
             className="shadow-md p-4"
             key={budget.id}
-            onClick={() => navigate(budget.id)}
+            onClick={() => {
+              console.log(budget.id);
+              navigate("/budgets/" + budget.id);
+            }}
           >
             <p> Name: {budget.name} </p>
             <p> UserId: {budget.userId} </p>

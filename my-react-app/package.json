@@ -3,11 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "predev": "npx @rtk-query/codegen-openapi openapi-config.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "generateApiSlice": "npx @rtk-query/codegen-openapi openapi-config.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",

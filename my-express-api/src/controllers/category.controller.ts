@@ -29,7 +29,7 @@ export class CategoryController extends Controller {
 
   @Get("{categoryId}")
   public async getCategory(
-    @Path() categoryId: number
+    @Path() categoryId: string
   ): Promise<Category | null> {
     return this.categoryService.getCategory(categoryId);
   }
@@ -43,14 +43,14 @@ export class CategoryController extends Controller {
 
   @Put("{categoryId}")
   public async updateCategory(
-    @Path() categoryId: number,
+    @Path() categoryId: string,
     @Body() requestBody: Category
   ): Promise<Category> {
     return this.categoryService.updateCategory(categoryId, requestBody);
   }
 
   @Delete("{categoryId}")
-  public async deleteCategory(@Path() categoryId: number): Promise<Category> {
+  public async deleteCategory(@Path() categoryId: string): Promise<Category> {
     return this.categoryService.deleteCategory(categoryId);
   }
 }

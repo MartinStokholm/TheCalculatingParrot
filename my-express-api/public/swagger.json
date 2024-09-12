@@ -108,8 +108,7 @@
 						"type": "string"
 					},
 					"categoryId": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					},
 					"amount": {
 						"type": "number",
@@ -119,8 +118,7 @@
 						"type": "string"
 					},
 					"id": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					}
 				},
 				"required": [
@@ -145,8 +143,7 @@
 						"type": "string"
 					},
 					"id": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					}
 				},
 				"required": [
@@ -519,8 +516,7 @@
 						"name": "lineItemId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -553,8 +549,7 @@
 						"name": "lineItemId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				],
@@ -597,8 +592,7 @@
 						"name": "lineItemId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -734,8 +728,7 @@
 						"name": "categoryId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -764,8 +757,7 @@
 						"name": "categoryId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				],
@@ -804,8 +796,7 @@
 						"name": "categoryId",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]

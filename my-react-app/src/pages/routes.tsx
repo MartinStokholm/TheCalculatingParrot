@@ -17,12 +17,10 @@ export const router = createBrowserRouter([
       {
         path: "budgets",
         element: <BudgetPage />,
-        children: [
-          {
-            path: ":id",
-            element: <BudgetDetailsPage />,
-          },
-        ],
+      },
+      {
+        path: "budgets/:id",
+        element: <BudgetDetailsPage />,
       },
       {
         path: "profile",

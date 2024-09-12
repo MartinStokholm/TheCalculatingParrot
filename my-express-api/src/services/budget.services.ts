@@ -5,10 +5,9 @@ import {
   BudgetCreateSchema,
   budgetCreateSchema,
   BudgetSchema,
-  budgetSchema,
   partialBudgetSchema,
 } from "../models/budget.schema";
-import { BudgetCreate, BudgetResponse } from "../types/budget.types";
+import { BudgetResponse } from "../types/budget.types";
 
 @Service()
 export class BudgetService {
@@ -36,7 +35,6 @@ export class BudgetService {
     if (!parsedBudget.success) {
       throw new Error(`Validation error: ${parsedBudget.error.message}`);
     }
-
     const budgetData = {
       userId: userId,
       name: parsedBudget.data.name,
@@ -47,7 +45,7 @@ export class BudgetService {
           {
             name: "Update this lineitem with an expense ",
             amount: 69,
-            categoryId: 1,
+            categoryId: "",
           },
         ],
       },

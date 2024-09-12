@@ -1,30 +1,32 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL DEFAULT concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text)),
     "email" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL DEFAULT 'DefaultUserName',
+    "password" TEXT DEFAULT '',
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Budget" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL DEFAULT concat('bgt_', replace((gen_random_uuid())::text, '-'::text, ''::text)),
     "name" TEXT NOT NULL,
     "startingCapital" DOUBLE PRECISION NOT NULL,
     "savings" DOUBLE PRECISION NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "Budget_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "LineItem" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL DEFAULT concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text)),
     "name" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "categoryId" INTEGER NOT NULL,
-    "budgetId" INTEGER NOT NULL,
+    "budgetId" TEXT NOT NULL,
 
     CONSTRAINT "LineItem_pkey" PRIMARY KEY ("id")
 );
@@ -45,7 +47,7 @@ CREATE TABLE "Reacurring" (
     "daily" BOOLEAN NOT NULL,
     "weekly" BOOLEAN NOT NULL,
     "yearly" BOOLEAN NOT NULL,
-    "lineItemId" INTEGER NOT NULL,
+    "lineItemId" TEXT NOT NULL,
 
     CONSTRAINT "Reacurring_pkey" PRIMARY KEY ("id")
 );
