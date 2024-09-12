@@ -10,9 +10,7 @@ const lineItemController = Container.get(LineItemController);
 // lineitems for a budget
 router.get("/:id", verifyToken, async (_req, _res, _next) => {
   try {
-    const lineitem = await lineItemController.getLineItem(
-      Number(_req.params.id)
-    );
+    const lineitem = await lineItemController.getLineItem(_req.params.id);
     return _res.status(201).json(lineitem);
   } catch (error) {
     return _next(error);
@@ -34,7 +32,7 @@ router.post("/:budgetId", verifyToken, async (_req, _res, _next) => {
 router.put("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.updateLineItem(
-      Number(_req.params.id),
+      _req.params.id,
       _req.body
     );
     return _res.status(200).json(lineitem);
@@ -45,9 +43,7 @@ router.put("/:id", verifyToken, async (_req, _res, _next) => {
 
 router.delete("/:id", verifyToken, async (_req, _res, _next) => {
   try {
-    const lineitem = await lineItemController.deleteLineItem(
-      Number(_req.params.id)
-    );
+    const lineitem = await lineItemController.deleteLineItem(_req.params.id);
     return _res.status(204).json(lineitem);
   } catch (error) {
     return _next(error);

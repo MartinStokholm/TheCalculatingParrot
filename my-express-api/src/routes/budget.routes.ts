@@ -9,7 +9,7 @@ const budgetController = Container.get(BudgetController);
 
 router.get("/", verifyToken, async (_req, _res, _next) => {
   try {
-    const budgets = await budgetController.getBudgets();
+    const budgets = await budgetController.getBudgets(_req);
     return _res.status(200).json(budgets);
   } catch (error) {
     return _next(error);
@@ -27,7 +27,7 @@ router.get("/:id", verifyToken, async (_req, _res, _next) => {
 
 router.post("/", verifyToken, async (_req, _res, _next) => {
   try {
-    const budget = await budgetController.createBudget(_req.body);
+    const budget = await budgetController.createBudget(_req, _req.body);
     return _res.status(201).json(budget);
   } catch (error) {
     return _next(error);

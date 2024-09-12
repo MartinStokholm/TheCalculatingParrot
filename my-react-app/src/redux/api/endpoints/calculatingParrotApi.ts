@@ -197,7 +197,7 @@ export type CreateBudgetApiResponse = /** status 200 Ok */ Budget;
 export type CreateBudgetApiArg = {
   budget: Budget;
 };
-export type GetBudgetApiResponse = /** status 200 Ok */ Budget | null;
+export type GetBudgetApiResponse = /** status 200 Ok */ BudgetResponse | null;
 export type GetBudgetApiArg = {
   budgetId: string;
 };
@@ -247,6 +247,15 @@ export type DefaultSelectionPrisma36BudgetPayload = {
   id: string;
 };
 export type Budget = DefaultSelectionPrisma36BudgetPayload;
+export type BudgetWithLineItems = {
+  id: string;
+  name: string;
+  startingCapital: number;
+  savings: number;
+  userId: string;
+  lineItems: LineItem[];
+};
+export type BudgetResponse = BudgetWithLineItems | null;
 export const {
   useGetUsersQuery,
   useGetUserQuery,

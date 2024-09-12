@@ -26,7 +26,7 @@ export class LineItemController extends Controller {
   @Get("{lineItemId}")
   @Security("bearerAuth")
   public async getLineItem(
-    @Path() lineItemId: number
+    @Path() lineItemId: string
   ): Promise<LineItem | null> {
     return this.lineItemService.getLineItem(lineItemId);
   }
@@ -43,7 +43,7 @@ export class LineItemController extends Controller {
   @Put("{lineItemId}")
   @Security("bearerAuth")
   public async updateLineItem(
-    @Path() lineItemId: number,
+    @Path() lineItemId: string,
     @Body() requestBody: LineItem
   ): Promise<LineItem> {
     return this.lineItemService.updateLineItem(lineItemId, requestBody);
@@ -51,7 +51,7 @@ export class LineItemController extends Controller {
 
   @Delete("{lineItemId}")
   @Security("bearerAuth")
-  public async deleteLineItem(@Path() lineItemId: number): Promise<LineItem> {
+  public async deleteLineItem(@Path() lineItemId: string): Promise<LineItem> {
     return this.lineItemService.deleteLineItem(lineItemId);
   }
 }

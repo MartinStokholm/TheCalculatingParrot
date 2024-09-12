@@ -13,6 +13,12 @@ import {
   Tags,
 } from "tsoa";
 import { Service, Inject } from "typedi";
+import {
+  UserLogin,
+  UserLoginResponse,
+  UserRegistration,
+  UsersResponse,
+} from "../types/user.types";
 
 @Service()
 @Route("users")
@@ -24,8 +30,14 @@ export class UserController extends Controller {
 
   @Get("/")
   @Security("bearerAuth")
-  public async getUsers(): Promise<User[]> {
-    return this.userService.getUsers();
+  public async getUsers(): Promise<UsersResponse[]> {
+    const users = await this.userService.getUsers();
+    const usersResponse: UsersResponse[] = users.map((user) => ({
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified,
+    }));
+    return usersResponse;
   }
 
   @Get("{userId}")
@@ -53,21 +65,19 @@ export class UserController extends Controller {
   }
 
   @Post("register")
-  public async createUser(@Body() requestBody: User): Promise<User> {
+  public async createUser(
+    @Body() requestBody: UserRegistration
+  ): Promise<User> {
     return this.userService.createUser(requestBody);
   }
 
   @Post("login")
-  public async login(@Body() requestBody: Partial<User>): Promise<string> {
-    if (requestBody.email == undefined) return "No email";
-
-    if (requestBody.password == undefined) return "No password";
-
-    const result = await this.userService.validateUserCredentials(
+  public async login(
+    @Body() requestBody: UserLogin
+  ): Promise<UserLoginResponse> {
+    return await this.userService.validateUserCredentials(
       requestBody.email,
       requestBody.password
     );
-
-    return result.token;
   }
 }

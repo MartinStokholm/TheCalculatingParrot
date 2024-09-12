@@ -10,10 +10,12 @@ import {
   Put,
   Route,
   Security,
+  Request,
   Tags,
 } from "tsoa";
-
+import { Request as exRequest } from "express";
 import { Service, Inject } from "typedi";
+import { BudgetCreateBody, BudgetResponse } from "../types/budget.types";
 
 @Service()
 @Route("budgets")
@@ -25,20 +27,25 @@ export class BudgetController extends Controller {
 
   @Get("/")
   @Security("bearerAuth")
-  public async getBudgets(): Promise<Budget[]> {
-    return this.budgetServices.getBudgets();
+  public async getBudgets(@Request() req: exRequest): Promise<Budget[]> {
+    return this.budgetServices.getBudgets(req.tokenData.id);
   }
 
   @Get("{budgetId}")
   @Security("bearerAuth")
-  public async getBudget(@Path() budgetId: string): Promise<Budget | null> {
+  public async getBudget(
+    @Path() budgetId: string
+  ): Promise<BudgetResponse | null> {
     return this.budgetServices.getBudget(budgetId);
   }
 
   @Post("/")
   @Security("bearerAuth")
-  public async createBudget(@Body() requestBody: Budget): Promise<Budget> {
-    return this.budgetServices.createBudget(requestBody);
+  public async createBudget(
+    @Request() req: exRequest,
+    @Body() requestBody: BudgetCreateBody
+  ): Promise<BudgetResponse> {
+    return this.budgetServices.createBudget(req.tokenData.id, requestBody);
   }
 
   @Put("{budgetId}")

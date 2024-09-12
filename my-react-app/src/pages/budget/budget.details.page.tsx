@@ -25,7 +25,6 @@ export default function BudgetDetailsPage() {
         size={TitleSizes.Large}
         text={`Details for Budget: ${budget?.name}`}
       />
-      <ul></ul>
     </>
   );
 }

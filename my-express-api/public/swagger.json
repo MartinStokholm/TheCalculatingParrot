@@ -7,6 +7,25 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"UsersResponse": {
+				"properties": {
+					"isVerified": {
+						"type": "boolean"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"isVerified",
+					"email",
+					"name"
+				],
+				"type": "object"
+			},
 			"DefaultSelection_Prisma._36_UserPayload_": {
 				"properties": {
 					"isVerified": {
@@ -38,9 +57,9 @@
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_UserPayload_",
 				"description": "Model User"
 			},
-			"Partial_User_": {
+			"UserRegistration": {
 				"properties": {
-					"id": {
+					"password": {
 						"type": "string"
 					},
 					"email": {
@@ -48,16 +67,40 @@
 					},
 					"name": {
 						"type": "string"
-					},
+					}
+				},
+				"required": [
+					"password",
+					"email",
+					"name"
+				],
+				"type": "object"
+			},
+			"UserLoginResponse": {
+				"properties": {
+					"token": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"token"
+				],
+				"type": "object"
+			},
+			"UserLogin": {
+				"properties": {
 					"password": {
 						"type": "string"
 					},
-					"isVerified": {
-						"type": "boolean"
+					"email": {
+						"type": "string"
 					}
 				},
-				"type": "object",
-				"description": "Make all properties in T optional"
+				"required": [
+					"password",
+					"email"
+				],
+				"type": "object"
 			},
 			"DefaultSelection_Prisma._36_LineItemPayload_": {
 				"properties": {
@@ -149,6 +192,71 @@
 			"Budget": {
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_BudgetPayload_",
 				"description": "Model Budget"
+			},
+			"BudgetWithLineItems": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"startingCapital": {
+						"type": "number",
+						"format": "double"
+					},
+					"savings": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"lineItems": {
+						"items": {
+							"$ref": "#/components/schemas/LineItem"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"startingCapital",
+					"savings",
+					"userId",
+					"lineItems"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BudgetResponse": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/BudgetWithLineItems"
+					}
+				],
+				"nullable": true
+			},
+			"BudgetCreate": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"startingCapital": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"startingCapital"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BudgetCreateBody": {
+				"$ref": "#/components/schemas/BudgetCreate"
 			}
 		},
 		"securitySchemes": {
@@ -178,7 +286,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/User"
+										"$ref": "#/components/schemas/UsersResponse"
 									},
 									"type": "array"
 								}
@@ -338,7 +446,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/User"
+								"$ref": "#/components/schemas/UserRegistration"
 							}
 						}
 					}
@@ -354,7 +462,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"$ref": "#/components/schemas/UserLoginResponse"
 								}
 							}
 						}
@@ -370,7 +478,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_User_"
+								"$ref": "#/components/schemas/UserLogin"
 							}
 						}
 					}
@@ -739,7 +847,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Budget"
+									"$ref": "#/components/schemas/BudgetResponse"
 								}
 							}
 						}
@@ -759,7 +867,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Budget"
+								"$ref": "#/components/schemas/BudgetCreateBody"
 							}
 						}
 					}
@@ -777,7 +885,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Budget"
+											"$ref": "#/components/schemas/BudgetResponse"
 										}
 									],
 									"nullable": true

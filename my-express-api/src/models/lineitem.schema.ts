@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Define the schema for LineItem
 export const lineItemSchema = z.object({
-  id: z.number().optional(), // id is optional because it is auto-generated
+  id: z.string().optional(), // id is optional because it is auto-generated
   name: z.string().min(1, "Name is required"),
   amount: z.number().min(0, "Amount must be a positive number"),
   categoryId: z.number().min(1, "Category ID is required"),

@@ -2,17 +2,22 @@ import { Service, Inject } from "typedi";
 import { PrismaService } from "../config/db.config";
 
 import {
+  BudgetCreateSchema,
+  budgetCreateSchema,
   BudgetSchema,
   budgetSchema,
   partialBudgetSchema,
 } from "../models/budget.schema";
+import { BudgetCreate, BudgetResponse } from "../types/budget.types";
 
 @Service()
 export class BudgetService {
   constructor(@Inject(() => PrismaService) private prisma: PrismaService) {}
 
-  async getBudgets() {
-    return await this.prisma.budget.findMany();
+  async getBudgets(userId: string) {
+    return await this.prisma.budget.findMany({
+      where: { userId: userId },
+    });
   }
 
   async getBudget(id: string) {
@@ -22,24 +27,37 @@ export class BudgetService {
     });
   }
 
-  async createBudget(newBudget: BudgetSchema) {
-    const parsedBudget = budgetSchema.safeParse(newBudget);
+  async createBudget(
+    userId: string,
+    newBudget: BudgetCreateSchema
+  ): Promise<BudgetResponse> {
+    const parsedBudget = budgetCreateSchema.safeParse(newBudget);
 
     if (!parsedBudget.success) {
       throw new Error(`Validation error: ${parsedBudget.error.message}`);
     }
 
     const budgetData = {
-      ...parsedBudget.data,
-      lineItems: parsedBudget.data.lineItems
-        ? {
-            create: parsedBudget.data.lineItems,
-          }
-        : undefined,
+      userId: userId,
+      name: parsedBudget.data.name,
+      startingCapital: parsedBudget.data.startingCapital,
+      savings: 0,
+      lineItems: {
+        create: [
+          {
+            name: "Update this lineitem with an expense ",
+            amount: 69,
+            categoryId: 1,
+          },
+        ],
+      },
     };
 
     return await this.prisma.budget.create({
       data: budgetData,
+      include: {
+        lineItems: true,
+      },
     });
   }
 

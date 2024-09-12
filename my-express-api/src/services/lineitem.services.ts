@@ -16,7 +16,7 @@ export class LineItemService {
     });
   }
 
-  async getLineItem(id: number) {
+  async getLineItem(id: string) {
     return await this.prisma.lineItem.findUnique({
       where: { id },
     });
@@ -37,7 +37,7 @@ export class LineItemService {
     });
   }
 
-  async updateLineItem(id: number, updatedLineItem: Partial<LineItemSchema>) {
+  async updateLineItem(id: string, updatedLineItem: Partial<LineItemSchema>) {
     const parsedLineItem = lineItemSchema.partial().safeParse(updatedLineItem);
 
     if (!parsedLineItem.success) {
@@ -50,7 +50,7 @@ export class LineItemService {
     });
   }
 
-  async deleteLineItem(id: number) {
+  async deleteLineItem(id: string) {
     return await this.prisma.lineItem.delete({
       where: { id },
     });

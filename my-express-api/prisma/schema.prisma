@@ -28,7 +28,7 @@ model Budget {
 }
 
 model LineItem {
-  id          Int         @id @default(autoincrement())
+  id          String         @id @default(dbgenerated("concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   name        String
   amount      Float
   categoryId  Int
@@ -49,6 +49,6 @@ model Reacurring {
   daily      Boolean
   weekly     Boolean
   yearly     Boolean
-  lineItemId Int
+  lineItemId String
   lineItem   LineItem  @relation(fields: [lineItemId], references: [id])
 }
