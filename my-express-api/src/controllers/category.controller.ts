@@ -24,21 +24,21 @@ export class CategoryController extends Controller {
 
   @Get("/")
   public async getCategories(): Promise<Category[]> {
-    return this.categoryService.getCategories();
+    return await this.categoryService.getCategories();
   }
 
   @Get("{categoryId}")
   public async getCategory(
     @Path() categoryId: string
   ): Promise<Category | null> {
-    return this.categoryService.getCategory(categoryId);
+    return await this.categoryService.getCategory(categoryId);
   }
 
   @Post("/")
   public async createCategory(
     @Body() requestBody: Category
   ): Promise<Category> {
-    return this.categoryService.createCategory(requestBody);
+    return await this.categoryService.createCategory(requestBody);
   }
 
   @Put("{categoryId}")
@@ -46,11 +46,11 @@ export class CategoryController extends Controller {
     @Path() categoryId: string,
     @Body() requestBody: Category
   ): Promise<Category> {
-    return this.categoryService.updateCategory(categoryId, requestBody);
+    return await this.categoryService.updateCategory(categoryId, requestBody);
   }
 
   @Delete("{categoryId}")
   public async deleteCategory(@Path() categoryId: string): Promise<Category> {
-    return this.categoryService.deleteCategory(categoryId);
+    return await this.categoryService.deleteCategory(categoryId);
   }
 }

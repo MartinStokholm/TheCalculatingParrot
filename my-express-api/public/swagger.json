@@ -313,7 +313,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/User"
+											"$ref": "#/components/schemas/UsersResponse"
 										}
 									],
 									"nullable": true

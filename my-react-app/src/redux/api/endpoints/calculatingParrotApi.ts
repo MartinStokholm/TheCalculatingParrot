@@ -133,7 +133,7 @@ const injectedRtkApi = api.injectEndpoints({
 export { injectedRtkApi as calculatingParrotApi };
 export type GetUsersApiResponse = /** status 200 Ok */ UsersResponse[];
 export type GetUsersApiArg = void;
-export type GetUserApiResponse = /** status 200 Ok */ User | null;
+export type GetUserApiResponse = /** status 200 Ok */ UsersResponse | null;
 export type GetUserApiArg = {
   userId: string;
 };
@@ -180,16 +180,16 @@ export type CreateCategoryApiArg = {
 };
 export type GetCategoryApiResponse = /** status 200 Ok */ Category | null;
 export type GetCategoryApiArg = {
-  categoryId: number;
+  categoryId: string;
 };
 export type UpdateCategoryApiResponse = /** status 200 Ok */ Category;
 export type UpdateCategoryApiArg = {
-  categoryId: number;
+  categoryId: string;
   category: Category;
 };
 export type DeleteCategoryApiResponse = /** status 200 Ok */ Category;
 export type DeleteCategoryApiArg = {
-  categoryId: number;
+  categoryId: string;
 };
 export type GetBudgetsApiResponse = /** status 200 Ok */ Budget[];
 export type GetBudgetsApiArg = void;
@@ -237,7 +237,7 @@ export type UserLogin = {
 };
 export type DefaultSelectionPrisma36LineItemPayload = {
   budgetId: string;
-  categoryId: number;
+  categoryId: string;
   amount: number;
   name: string;
   id: string;
@@ -246,7 +246,7 @@ export type LineItem = DefaultSelectionPrisma36LineItemPayload;
 export type DefaultSelectionPrisma36CategoryPayload = {
   colorHex: string;
   name: string;
-  id: number;
+  id: string;
 };
 export type Category = DefaultSelectionPrisma36CategoryPayload;
 export type DefaultSelectionPrisma36BudgetPayload = {

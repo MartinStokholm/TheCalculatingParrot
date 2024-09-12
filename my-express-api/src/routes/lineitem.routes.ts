@@ -7,7 +7,6 @@ export const router = express.Router();
 
 const lineItemController = Container.get(LineItemController);
 
-// lineitems for a budget
 router.get("/:id", verifyToken, async (_req, _res, _next) => {
   try {
     const lineitem = await lineItemController.getLineItem(_req.params.id);

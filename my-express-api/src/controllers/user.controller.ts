@@ -44,9 +44,18 @@ export class UserController extends Controller {
   @Security("bearerAuth")
   public async getUser(
     @Path() userId: string | undefined
-  ): Promise<User | null> {
+  ): Promise<UsersResponse | null> {
     if (userId == undefined) return null;
-    return this.userService.getUser(userId);
+    const user = await this.userService.getUser(userId);
+
+    if (!user) return null;
+
+    // Return only the required fields
+    return {
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified,
+    };
   }
 
   @Put("{userId}")
@@ -55,20 +64,20 @@ export class UserController extends Controller {
     @Path() userId: string,
     @Body() requestBody: User
   ): Promise<User> {
-    return this.userService.updateUser(userId, requestBody);
+    return await this.userService.updateUser(userId, requestBody);
   }
 
   @Delete("{userId}")
   @Security("bearerAuth")
   public async deleteUser(@Path() userId: string): Promise<User> {
-    return this.userService.deleteUser(userId);
+    return await this.userService.deleteUser(userId);
   }
 
   @Post("register")
   public async createUser(
     @Body() requestBody: UserRegistration
   ): Promise<User> {
-    return this.userService.createUser(requestBody);
+    return await this.userService.createUser(requestBody);
   }
 
   @Post("login")

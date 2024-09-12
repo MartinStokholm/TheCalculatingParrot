@@ -31,7 +31,6 @@ export default function ProfilePage() {
           title="My profile"
           imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fgelatologia.com%2Fwp-content%2Fuploads%2F2020%2F07%2Fplaceholder.png%3Fssl%3D1&f=1&nofb=1&ipt=63e8e92612698422f80cd2e68d683a71fef4e13f7acd0377020d4bab370da50a&ipo=images"
           fields={{
-            ID: user.id.slice(0, 12) + ". . .",
             Name: user.name,
             Email: user.email,
             Verified: user.isVerified ? "✅" : "❌",
