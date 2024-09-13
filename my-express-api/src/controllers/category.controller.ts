@@ -9,10 +9,12 @@ import {
   Post,
   Put,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 
 import { Service, Inject } from "typedi";
+import { CategoryCreate } from "../types/category.types";
 
 @Service()
 @Route("categories")
@@ -23,11 +25,13 @@ export class CategoryController extends Controller {
   }
 
   @Get("/")
+  @Security("bearerAuth")
   public async getCategories(): Promise<Category[]> {
     return await this.categoryService.getCategories();
   }
 
   @Get("{categoryId}")
+  @Security("bearerAuth")
   public async getCategory(
     @Path() categoryId: string
   ): Promise<Category | null> {
@@ -35,13 +39,15 @@ export class CategoryController extends Controller {
   }
 
   @Post("/")
+  @Security("bearerAuth")
   public async createCategory(
-    @Body() requestBody: Category
+    @Body() requestBody: CategoryCreate
   ): Promise<Category> {
     return await this.categoryService.createCategory(requestBody);
   }
 
   @Put("{categoryId}")
+  @Security("bearerAuth")
   public async updateCategory(
     @Path() categoryId: string,
     @Body() requestBody: Category
@@ -50,6 +56,7 @@ export class CategoryController extends Controller {
   }
 
   @Delete("{categoryId}")
+  @Security("bearerAuth")
   public async deleteCategory(@Path() categoryId: string): Promise<Category> {
     return await this.categoryService.deleteCategory(categoryId);
   }

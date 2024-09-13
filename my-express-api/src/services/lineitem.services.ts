@@ -2,9 +2,9 @@ import { Service, Inject } from "typedi";
 import { PrismaService } from "../config/db.config";
 import {
   createLineItemSchema,
-  LineItemSchema,
   lineItemSchema,
 } from "../models/lineitem.schema";
+import { LineitemNoId } from "../types/lineitem.types";
 
 @Service()
 export class LineItemService {
@@ -22,7 +22,7 @@ export class LineItemService {
     });
   }
 
-  async createLineItem(budgetId: string, newLineItem: LineItemSchema) {
+  async createLineItem(budgetId: string, newLineItem: LineitemNoId) {
     const parsedLineItem = createLineItemSchema.safeParse(newLineItem);
 
     if (!parsedLineItem.success) {
@@ -37,7 +37,7 @@ export class LineItemService {
     });
   }
 
-  async updateLineItem(id: string, updatedLineItem: Partial<LineItemSchema>) {
+  async updateLineItem(id: string, updatedLineItem: LineitemNoId) {
     const parsedLineItem = lineItemSchema.partial().safeParse(updatedLineItem);
 
     if (!parsedLineItem.success) {

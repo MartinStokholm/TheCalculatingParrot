@@ -14,6 +14,7 @@ import {
 } from "tsoa";
 
 import { Service, Inject } from "typedi";
+import { LineitemNoId } from "../types/lineitem.types";
 
 @Service()
 @Route("lineitems")
@@ -35,7 +36,7 @@ export class LineItemController extends Controller {
   @Security("bearerAuth")
   public async createLineItem(
     @Path() budgetId: string,
-    @Body() requestBody: LineItem
+    @Body() requestBody: LineitemNoId
   ): Promise<LineItem> {
     return await this.lineItemService.createLineItem(budgetId, requestBody);
   }
@@ -44,7 +45,7 @@ export class LineItemController extends Controller {
   @Security("bearerAuth")
   public async updateLineItem(
     @Path() lineItemId: string,
-    @Body() requestBody: LineItem
+    @Body() requestBody: LineitemNoId
   ): Promise<LineItem> {
     return await this.lineItemService.updateLineItem(lineItemId, requestBody);
   }

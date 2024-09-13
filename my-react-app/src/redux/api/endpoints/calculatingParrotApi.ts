@@ -44,7 +44,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/lineitems/${queryArg.lineItemId}`,
         method: "PUT",
-        body: queryArg.lineItem,
+        body: queryArg.lineitemNoId,
       }),
     }),
     deleteLineItem: build.mutation<
@@ -63,7 +63,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/lineitems/${queryArg.budgetId}`,
         method: "POST",
-        body: queryArg.lineItem,
+        body: queryArg.lineitemNoId,
       }),
     }),
     getCategories: build.query<GetCategoriesApiResponse, GetCategoriesApiArg>({
@@ -76,7 +76,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/categories`,
         method: "POST",
-        body: queryArg.category,
+        body: queryArg.categoryCreate,
       }),
     }),
     getCategory: build.query<GetCategoryApiResponse, GetCategoryApiArg>({
@@ -161,7 +161,7 @@ export type GetLineItemApiArg = {
 export type UpdateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type UpdateLineItemApiArg = {
   lineItemId: string;
-  lineItem: LineItem;
+  lineitemNoId: LineitemNoId;
 };
 export type DeleteLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type DeleteLineItemApiArg = {
@@ -170,13 +170,13 @@ export type DeleteLineItemApiArg = {
 export type CreateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type CreateLineItemApiArg = {
   budgetId: string;
-  lineItem: LineItem;
+  lineitemNoId: LineitemNoId;
 };
 export type GetCategoriesApiResponse = /** status 200 Ok */ Category[];
 export type GetCategoriesApiArg = void;
 export type CreateCategoryApiResponse = /** status 200 Ok */ Category;
 export type CreateCategoryApiArg = {
-  category: Category;
+  categoryCreate: CategoryCreate;
 };
 export type GetCategoryApiResponse = /** status 200 Ok */ Category | null;
 export type GetCategoryApiArg = {
@@ -235,20 +235,37 @@ export type UserLogin = {
   password: string;
   email: string;
 };
+export type $36EnumsRecurrence = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+export type $36EnumsCurrency = "USD" | "EUR" | "DKK";
 export type DefaultSelectionPrisma36LineItemPayload = {
   budgetId: string;
   categoryId: string;
+  recurrence: $36EnumsRecurrence;
+  currency: $36EnumsCurrency;
   amount: number;
   name: string;
   id: string;
 };
 export type LineItem = DefaultSelectionPrisma36LineItemPayload;
+export type LineitemNoId = {
+  recurrence: $36EnumsRecurrence | null;
+  currency: $36EnumsCurrency;
+  amount: number;
+  name: string;
+  categoryId: string | null;
+};
 export type DefaultSelectionPrisma36CategoryPayload = {
   colorHex: string;
+  description: string;
   name: string;
   id: string;
 };
 export type Category = DefaultSelectionPrisma36CategoryPayload;
+export type CategoryCreate = {
+  colorHex: string;
+  description: string;
+  name: string;
+};
 export type DefaultSelectionPrisma36BudgetPayload = {
   userId: string;
   savings: number;

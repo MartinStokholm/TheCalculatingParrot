@@ -8,11 +8,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Recurrence {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum Currency {
+  USD
+  EUR
+  DKK
+}
+
 model User {
   id         String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   email      String   @unique
   name       String   @default("DefaultUserName")
-  password   String  @default("")
+  password   String   @default("")
   isVerified Boolean  @default(false)
   budgets    Budget[]
 }
@@ -31,24 +44,16 @@ model LineItem {
   id          String       @id @default(dbgenerated("concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   name        String
   amount      Float
+  currency    Currency     @default(DKK)     
+  recurrence  Recurrence?  
   categoryId  String?
   budgetId    String
   budget      Budget       @relation(fields: [budgetId], references: [id])
-  reacurrings Reacurring[]
 }
 
 model Category {
   id       String    @id @default(dbgenerated("concat('ctg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
-  name     String
+  name     String     @default("Default category name")
+  description String @default("A category description for default category name") 
   colorHex String
-}
-
-model Reacurring {
-  id         String      @id @default(dbgenerated("concat('rcg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
-  monthly    Boolean
-  daily      Boolean
-  weekly     Boolean
-  yearly     Boolean
-  lineItemId String
-  lineItem   LineItem @relation(fields: [lineItemId], references: [id])
 }
