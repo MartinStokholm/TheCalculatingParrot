@@ -14,7 +14,7 @@ import {
 } from "tsoa";
 
 import { Service, Inject } from "typedi";
-import { LineItemCreate, LineitemNoId } from "../types/lineitem.types";
+import { LineItemCreate } from "../types/lineitem.types";
 
 @Service()
 @Route("lineitems")

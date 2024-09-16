@@ -23,7 +23,7 @@ interface FormValues {
   categoryId: string; // Change to categoryId to capture the selected category ID
 }
 
-const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
+export const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
   budgetId,
   refetch, // Destructure refetch from props
 }) => {
@@ -123,5 +123,3 @@ const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
     </form>
   );
 };
-
-export default CreateLineItemForm;

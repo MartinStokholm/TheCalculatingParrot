@@ -25,7 +25,7 @@ export default function BudgetPage() {
       <ul>
         {budgets?.map((budget) => (
           <li
-            className="shadow-md p-4"
+            className="shadow-md bg-white p-4 hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer animate-pulse hover:animate-none"
             key={budget.id}
             onClick={() => {
               console.log(budget.id);

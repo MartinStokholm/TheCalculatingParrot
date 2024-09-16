@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ColumnDef } from "@tanstack/react-table";
+import { CreateLineItemForm } from "../../components/NewLineItemForm";
+import { Title, TitleSizes } from "../../components/Title";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { ErrorBanner } from "../../components/Error";
 import { Table } from "../../components/Table";
-import CreateLineItemForm from "../../components/NewLineItemForm";
+
 import {
   LineItemWithCategory,
   useGetBudgetQuery,
   useUpdateLineItemMutation,
   useDeleteLineItemMutation,
-  LineItemCreate,
 } from "../../redux/api/endpoints/calculatingParrotApi";
-import { Title, TitleSizes } from "../../components/Title";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { ErrorBanner } from "../../components/Error";
 
 export default function BudgetDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -47,8 +47,6 @@ export default function BudgetDetailsPage() {
   const handleDeleteLineItem = async (lineItem: LineItemWithCategory) => {
     try {
       await deleteLineItem({ lineItemId: lineItem.id }).unwrap();
-      console.log("Line item deleted successfully with id:", lineItem.id);
-      // Reset the current line item
       setCurrentLineItem(null);
       refetch();
     } catch (error) {
@@ -76,12 +74,6 @@ export default function BudgetDetailsPage() {
           categoryId: lineItem.categoryId,
         },
       }).unwrap();
-      console.log(
-        "Line item updated successfully with id:",
-        lineItem.id,
-        lineItem
-      );
-      // Reset the current line item
       setCurrentLineItem(null);
       refetch();
     } catch (error) {
@@ -127,6 +119,12 @@ export default function BudgetDetailsPage() {
         header: "Category",
         accessorKey: "category.name",
       },
+      {
+        id: "recurrence",
+        header: "Recurrence",
+        accessorKey: "recurrence",
+        cell: (row) => row.renderValue(),
+      },
     ],
     [refetch]
   );
@@ -144,19 +142,19 @@ export default function BudgetDetailsPage() {
         size={TitleSizes.Large}
         text={`Details for Budget: ${budget?.name}`}
       />
-      <div className="p-4 bg-orange-400 mb-4">
-        <Table
-          data={budget?.lineItems || []}
-          columns={cols}
-          showFooter
-          selectedRowId={currentLineItem?.id}
-          onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
-          onRowChange={handleRowChange} // Pass the onRowChange prop
-        />
-      </div>
+
+      <Table
+        data={budget?.lineItems || []}
+        columns={cols}
+        showFooter
+        selectedRowId={currentLineItem?.id}
+        onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
+        onRowChange={handleRowChange} // Pass the onRowChange prop
+      />
+
       <div className="flex flex-col gap-4 w-[50%]">
         {currentLineItem && (
-          <>
+          <div className="flex flex-row justify-between">
             <button
               className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300"
               onClick={handleSaveButtonClick}
@@ -170,7 +168,7 @@ export default function BudgetDetailsPage() {
             >
               Delete Line Item
             </button>
-          </>
+          </div>
         )}
 
         <button
