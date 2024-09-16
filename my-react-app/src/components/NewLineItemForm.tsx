@@ -1,6 +1,8 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import { useCreateLineItemMutation } from "../../src/redux/api/endpoints/calculatingParrotApi";
+import {
+  useCreateLineItemMutation,
+  useGetCategoriesQuery,
+} from "../../src/redux/api/endpoints/calculatingParrotApi";
 import {
   $36EnumsCurrency,
   $36EnumsRecurrence,
@@ -10,6 +12,7 @@ import { FormSubmit } from "./FormSubmit";
 
 interface CreateLineItemFormProps {
   budgetId: string;
+  refetch: () => void; // Add refetch function to props
 }
 
 interface FormValues {
@@ -17,11 +20,12 @@ interface FormValues {
   amount: number;
   currency: $36EnumsCurrency;
   recurrence?: $36EnumsRecurrence;
-  categoryId?: string; // Adjust based on your actual category type
+  categoryId: string; // Change to categoryId to capture the selected category ID
 }
 
 const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
   budgetId,
+  refetch, // Destructure refetch from props
 }) => {
   const {
     register,
@@ -31,23 +35,31 @@ const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
   } = useForm<FormValues>();
   const [createLineItem] = useCreateLineItemMutation();
 
+  const { data: categories, error, isLoading } = useGetCategoriesQuery();
+
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log(data);
+
       await createLineItem({
         budgetId,
-        lineitemNoId: {
+        lineItemCreate: {
           name: data.name,
           amount: Number(data.amount),
           currency: data.currency,
-          recurrence: data.recurrence ?? null,
-          categoryId: data.categoryId ?? "",
+          recurrence: data.recurrence ?? undefined,
+          categoryId: data.categoryId,
         },
       }).unwrap();
       reset();
+      refetch(); // Call refetch after successful creation
     } catch (error) {
       console.error("Failed to create line item:", error);
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading categories</div>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -67,47 +79,40 @@ const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
         validation={{ required: "Amount is required" }}
         error={errors.amount?.message}
       />
-      <div className="p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <label className="text-lg" htmlFor="currency">
-          Currency
-        </label>
-        <select
-          id="currency"
-          {...register("currency", { required: "Currency is required" })}
-          className="p-2 text-black bg-white rounded-md"
-        >
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="DKK">DKK</option>
-        </select>
-        {errors.currency && (
-          <span className="text-red-500">{errors.currency.message}</span>
-        )}
-      </div>
-      <div className="p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <label className="text-lg" htmlFor="recurrence">
-          Recurrence
-        </label>
-        <select
-          id="recurrence"
-          {...register("recurrence")}
-          className="p-2 text-black bg-white rounded-md"
-        >
-          <option value="">None</option> {/* Option for null */}
-          <option value="DAILY">DAILY</option>
-          <option value="WEEKLY">WEEKLY</option>
-          <option value="MONTHLY">MONTHLY</option>
-          <option value="YEARLY">YEARLY</option>
-        </select>
-        {errors.recurrence && (
-          <span className="text-red-500">{errors.recurrence.message}</span>
-        )}
-      </div>
       <FormInput
-        label="Category ID"
-        name="categoryId"
-        type="text"
+        label="Currency"
+        name="currency"
+        type="select"
+        options={[
+          { id: "DKK", name: "DKK" },
+          { id: "EUR", name: "EUR" },
+          { id: "USD", name: "USD" },
+        ]}
         register={register}
+        validation={{ required: "Currency is required" }}
+        error={errors.currency?.message}
+      />
+      <FormInput
+        label="Recurrence"
+        name="recurrence"
+        type="select"
+        options={[
+          { id: "", name: "None" },
+          { id: "DAILY", name: "DAILY" },
+          { id: "WEEKLY", name: "WEEKLY" },
+          { id: "MONTHLY", name: "MONTHLY" },
+          { id: "YEARLY", name: "YEARLY" },
+        ]}
+        register={register}
+        error={errors.recurrence?.message}
+      />
+      <FormInput
+        label="Category"
+        name="categoryId" // Change to categoryId to capture the selected category ID
+        type="select"
+        options={categories}
+        register={register}
+        validation={{ required: "Category is required" }}
         error={errors.categoryId?.message}
       />
       <FormSubmit

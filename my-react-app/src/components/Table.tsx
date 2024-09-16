@@ -35,7 +35,7 @@ export const Table = <T extends Identifiable>({
 
   return (
     <div className="flex flex-col">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="overflow-x-auto ">
         <div className="inline-block min-w-full py-4 sm:px-6 lg:px-8">
           <div className="overflow-hidden p-2">
             <table className="min-w-full text-center">

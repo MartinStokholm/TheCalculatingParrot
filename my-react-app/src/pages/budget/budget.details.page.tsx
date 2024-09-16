@@ -4,10 +4,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "../../components/Table";
 import CreateLineItemForm from "../../components/NewLineItemForm";
 import {
-  LineitemNoId,
   LineItemWithCategory,
   useGetBudgetQuery,
   useUpdateLineItemMutation,
+  useDeleteLineItemMutation,
+  LineItemCreate,
 } from "../../redux/api/endpoints/calculatingParrotApi";
 import { Title, TitleSizes } from "../../components/Title";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
@@ -22,6 +23,8 @@ export default function BudgetDetailsPage() {
     refetch,
   } = useGetBudgetQuery({ budgetId: id || "NaN" });
 
+  const [deleteLineItem] = useDeleteLineItemMutation();
+
   const [showAddLineItem, setShowAddLineItem] = useState(false);
 
   const [updateLineItem] = useUpdateLineItemMutation();
@@ -32,7 +35,30 @@ export default function BudgetDetailsPage() {
     setShowAddLineItem((prevState) => !prevState);
   };
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (currentLineItem) {
+      handleDeleteLineItem(currentLineItem);
+    }
+  };
+
+  const handleDeleteLineItem = async (lineItem: LineItemWithCategory) => {
+    try {
+      await deleteLineItem({ lineItemId: lineItem.id }).unwrap();
+      console.log("Line item deleted successfully with id:", lineItem.id);
+      // Reset the current line item
+      setCurrentLineItem(null);
+      refetch();
+    } catch (error) {
+      console.error("Failed to delete line item:", error);
+    }
+  };
+
+  const handleSaveButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     if (currentLineItem) {
       handleSaveChanges(currentLineItem);
@@ -43,9 +69,18 @@ export default function BudgetDetailsPage() {
     try {
       await updateLineItem({
         lineItemId: lineItem.id,
-        lineitemNoId: lineItem as LineitemNoId,
+        lineItemCreate: {
+          name: lineItem.name,
+          amount: lineItem.amount,
+          currency: lineItem.currency,
+          categoryId: lineItem.categoryId,
+        },
       }).unwrap();
-      console.log("Line item updated successfully with id:", lineItem.id);
+      console.log(
+        "Line item updated successfully with id:",
+        lineItem.id,
+        lineItem
+      );
       // Reset the current line item
       setCurrentLineItem(null);
       refetch();
@@ -109,32 +144,44 @@ export default function BudgetDetailsPage() {
         size={TitleSizes.Large}
         text={`Details for Budget: ${budget?.name}`}
       />
-      <Table
-        data={budget?.lineItems || []}
-        columns={cols}
-        showFooter
-        selectedRowId={currentLineItem?.id}
-        onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
-        onRowChange={handleRowChange} // Pass the onRowChange prop
-      />
-
-      <div className="flex flex-col gap-4">
+      <div className="p-4 bg-orange-400 mb-4">
+        <Table
+          data={budget?.lineItems || []}
+          columns={cols}
+          showFooter
+          selectedRowId={currentLineItem?.id}
+          onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
+          onRowChange={handleRowChange} // Pass the onRowChange prop
+        />
+      </div>
+      <div className="flex flex-col gap-4 w-[50%]">
         {currentLineItem && (
-          <button
-            className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300"
-            onClick={handleButtonClick}
-          >
-            Save Changes
-          </button>
+          <>
+            <button
+              className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300"
+              onClick={handleSaveButtonClick}
+            >
+              Save Changes
+            </button>
+
+            <button
+              className="rounded-md px-4 py-2 bg-red-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-red-500 hover:text-zinc-300"
+              onClick={handleDeleteButtonClick}
+            >
+              Delete Line Item
+            </button>
+          </>
         )}
 
         <button
-          className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300"
+          className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300 "
           onClick={toggleShowAddLineItem}
         >
           {showAddLineItem ? "Hide Form" : "Add Line Item"}
         </button>
-        {showAddLineItem && <CreateLineItemForm budgetId={id || "NaN"} />}
+        {showAddLineItem && (
+          <CreateLineItemForm budgetId={id || "NaN"} refetch={refetch} />
+        )}
       </div>
     </>
   );

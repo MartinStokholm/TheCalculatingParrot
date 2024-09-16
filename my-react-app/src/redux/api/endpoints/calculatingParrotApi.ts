@@ -44,7 +44,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/lineitems/${queryArg.lineItemId}`,
         method: "PUT",
-        body: queryArg.lineitemNoId,
+        body: queryArg.lineItemCreate,
       }),
     }),
     deleteLineItem: build.mutation<
@@ -63,7 +63,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/lineitems/${queryArg.budgetId}`,
         method: "POST",
-        body: queryArg.lineitemNoId,
+        body: queryArg.lineItemCreate,
       }),
     }),
     getCategories: build.query<GetCategoriesApiResponse, GetCategoriesApiArg>({
@@ -161,7 +161,7 @@ export type GetLineItemApiArg = {
 export type UpdateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type UpdateLineItemApiArg = {
   lineItemId: string;
-  lineitemNoId: LineitemNoId;
+  lineItemCreate: LineItemCreate;
 };
 export type DeleteLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type DeleteLineItemApiArg = {
@@ -170,7 +170,7 @@ export type DeleteLineItemApiArg = {
 export type CreateLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type CreateLineItemApiArg = {
   budgetId: string;
-  lineitemNoId: LineitemNoId;
+  lineItemCreate: LineItemCreate;
 };
 export type GetCategoriesApiResponse = /** status 200 Ok */ Category[];
 export type GetCategoriesApiArg = void;
@@ -247,17 +247,12 @@ export type DefaultSelectionPrisma36LineItemPayload = {
   id: string;
 };
 export type LineItem = DefaultSelectionPrisma36LineItemPayload;
-export type CategoryNoId = {
-  colorHex: string;
-  description: string;
+export type LineItemCreate = {
   name: string;
-};
-export type LineitemNoId = {
-  recurrence: $36EnumsRecurrence | null;
-  currency: $36EnumsCurrency;
   amount: number;
-  name: string;
-  category: CategoryNoId;
+  currency: $36EnumsCurrency;
+  recurrence?: $36EnumsRecurrence;
+  categoryId: string;
 };
 export type DefaultSelectionPrisma36CategoryPayload = {
   colorHex: string;
@@ -266,6 +261,11 @@ export type DefaultSelectionPrisma36CategoryPayload = {
   id: string;
 };
 export type Category = DefaultSelectionPrisma36CategoryPayload;
+export type CategoryNoId = {
+  colorHex: string;
+  description: string;
+  name: string;
+};
 export type DefaultSelectionPrisma36BudgetPayload = {
   userId: string;
   savings: number;
@@ -281,6 +281,7 @@ export type LineItemWithCategory = {
   amount: number;
   name: string;
   category: CategoryNoId | null;
+  categoryId: string;
 };
 export type BudgetWithLineItems = {
   id: string;

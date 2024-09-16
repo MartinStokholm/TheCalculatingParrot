@@ -31,7 +31,7 @@ const EditableRow = <T,>({ row, columns, onChange }: EditableRowProps<T>) => {
             onChange={(e) =>
               handleInputChange(col.id as keyof T, e.target.value)
             }
-            className="text-center whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900 bg-inherit"
+            className="text-center whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900 rounded-full m-2"
           />
         </td>
       ))}

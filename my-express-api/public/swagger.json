@@ -159,62 +159,36 @@
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_LineItemPayload_",
 				"description": "Model LineItem"
 			},
-			"Recurrence": {
-				"$ref": "#/components/schemas/_36_Enums.Recurrence"
-			},
 			"Currency": {
 				"$ref": "#/components/schemas/_36_Enums.Currency"
 			},
-			"CategoryNoId": {
+			"Recurrence": {
+				"$ref": "#/components/schemas/_36_Enums.Recurrence"
+			},
+			"LineItemCreate": {
 				"properties": {
-					"colorHex": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
 					"name": {
 						"type": "string"
-					}
-				},
-				"required": [
-					"colorHex",
-					"description",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"LineitemNoId": {
-				"properties": {
-					"recurrence": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Recurrence"
-							}
-						],
-						"nullable": true
-					},
-					"currency": {
-						"$ref": "#/components/schemas/Currency"
 					},
 					"amount": {
 						"type": "number",
 						"format": "double"
 					},
-					"name": {
-						"type": "string"
+					"currency": {
+						"$ref": "#/components/schemas/Currency"
 					},
-					"category": {
-						"$ref": "#/components/schemas/CategoryNoId"
+					"recurrence": {
+						"$ref": "#/components/schemas/Recurrence"
+					},
+					"categoryId": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"recurrence",
-					"currency",
-					"amount",
 					"name",
-					"category"
+					"amount",
+					"currency",
+					"categoryId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -245,6 +219,26 @@
 			"Category": {
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_CategoryPayload_",
 				"description": "Model Category"
+			},
+			"CategoryNoId": {
+				"properties": {
+					"colorHex": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"colorHex",
+					"description",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"DefaultSelection_Prisma._36_BudgetPayload_": {
 				"properties": {
@@ -309,6 +303,9 @@
 							}
 						],
 						"nullable": true
+					},
+					"categoryId": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -317,7 +314,8 @@
 					"currency",
 					"amount",
 					"name",
-					"category"
+					"category",
+					"categoryId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -690,7 +688,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LineitemNoId"
+								"$ref": "#/components/schemas/LineItemCreate"
 							}
 						}
 					}
@@ -768,7 +766,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LineitemNoId"
+								"$ref": "#/components/schemas/LineItemCreate"
 							}
 						}
 					}

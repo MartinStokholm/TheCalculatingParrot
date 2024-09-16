@@ -16,4 +16,13 @@ export interface LineItemWithCategory {
   amount: number;
   name: string;
   category: CategoryNoId | null;
+  categoryId: string;
+}
+
+export interface LineItemCreate {
+  name: string;
+  amount: number;
+  currency: Currency;
+  recurrence?: Recurrence;
+  categoryId: string;
 }

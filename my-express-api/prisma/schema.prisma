@@ -25,7 +25,7 @@ model User {
   id         String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   email      String   @unique
   name       String   @default("DefaultUserName")
-  password   String   @default("")
+  password   String   @default("DefaultPassword")
   isVerified Boolean  @default(false)
   budgets    Budget[]
 }

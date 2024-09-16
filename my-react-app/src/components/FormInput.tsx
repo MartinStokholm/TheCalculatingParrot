@@ -1,14 +1,16 @@
-import { HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute, SelectHTMLAttributes } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 type FormInputProps = {
   label: string;
   name: string;
-  type: HTMLInputTypeAttribute | undefined;
+  type: HTMLInputTypeAttribute | "select";
   register: UseFormRegister<any>;
   validation?: object;
   error?: string;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+  options?: { id: string; name: string }[];
+} & React.InputHTMLAttributes<HTMLInputElement> &
+  SelectHTMLAttributes<HTMLSelectElement>;
 
 export function FormInput({
   register,
@@ -17,21 +19,37 @@ export function FormInput({
   name,
   error,
   type,
+  options,
   ...rest
 }: FormInputProps) {
   return (
     <div className="p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
-      <label className=" text-lg" htmlFor={name}>
+      <label className="text-lg" htmlFor={name}>
         {label}
       </label>
 
-      <input
-        className="p-2 text-black bg-white rounded-md"
-        id={name}
-        type={type}
-        {...register(name, validation)}
-        {...rest}
-      />
+      {type === "select" ? (
+        <select
+          className="p-2 text-black bg-white rounded-md"
+          id={name}
+          {...register(name, validation)}
+          {...(rest as SelectHTMLAttributes<HTMLSelectElement>)}
+        >
+          {options?.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          className="p-2 text-black bg-white rounded-md"
+          id={name}
+          type={type}
+          {...register(name, validation)}
+          {...rest}
+        />
+      )}
       {error && <span className="text-red-500">{error}</span>}
     </div>
   );

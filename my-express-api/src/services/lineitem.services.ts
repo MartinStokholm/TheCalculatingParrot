@@ -4,7 +4,7 @@ import {
   createLineItemSchema,
   lineItemSchema,
 } from "../models/lineitem.schema";
-import { LineitemNoId } from "../types/lineitem.types";
+import { LineItemCreate } from "../types/lineitem.types";
 
 @Service()
 export class LineItemService {
@@ -22,7 +22,7 @@ export class LineItemService {
     });
   }
 
-  async createLineItem(budgetId: string, newLineItem: LineitemNoId) {
+  async createLineItem(budgetId: string, newLineItem: LineItemCreate) {
     const parsedLineItem = createLineItemSchema.safeParse(newLineItem);
 
     if (!parsedLineItem.success) {
@@ -37,7 +37,7 @@ export class LineItemService {
     });
   }
 
-  async updateLineItem(id: string, updatedLineItem: LineitemNoId) {
+  async updateLineItem(id: string, updatedLineItem: LineItemCreate) {
     const parsedLineItem = lineItemSchema.partial().safeParse(updatedLineItem);
 
     if (!parsedLineItem.success) {
