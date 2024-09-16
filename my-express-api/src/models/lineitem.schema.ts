@@ -1,3 +1,4 @@
+import { Currency, Recurrence } from "@prisma/client";
 import { z } from "zod";
 
 // Define the schema for LineItem
@@ -6,6 +7,8 @@ export const lineItemSchema = z.object({
   name: z.string().min(1, "Name is required"),
   amount: z.number(),
   categoryId: z.string().optional(),
+  currency: z.nativeEnum(Currency), // Ensure this matches the Prisma Currency type
+  recurrence: z.nativeEnum(Recurrence).optional(),
   budgetId: z.string().min(1, "Budget ID is required"),
 });
 

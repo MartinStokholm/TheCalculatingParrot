@@ -72,6 +72,7 @@ export default function BudgetDetailsPage() {
           amount: lineItem.amount,
           currency: lineItem.currency,
           categoryId: lineItem.categoryId,
+          recurrence: lineItem.recurrence || undefined,
         },
       }).unwrap();
       setCurrentLineItem(null);

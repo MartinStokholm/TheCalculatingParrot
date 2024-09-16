@@ -27,7 +27,7 @@ const EditableRow = <T,>({ row, columns, onChange }: EditableRowProps<T>) => {
         <td key={col.id as string}>
           <input
             type="text"
-            value={localRow[col.id as keyof T] as string | number}
+            value={(localRow[col.id as keyof T] as string | number) || ""}
             onChange={(e) =>
               handleInputChange(col.id as keyof T, e.target.value)
             }
