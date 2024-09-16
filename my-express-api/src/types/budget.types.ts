@@ -1,4 +1,4 @@
-import { LineItem } from "@prisma/client";
+import { LineItemWithCategory } from "./lineitem.types";
 
 export interface BudgetCreate {
   name: string;
@@ -12,7 +12,7 @@ export interface BudgetWithLineItems {
   startingCapital: number;
   savings: number;
   userId: string;
-  lineItems: LineItem[];
+  lineItems: LineItemWithCategory[];
 }
 
 export type BudgetCreateBody = BudgetCreate;

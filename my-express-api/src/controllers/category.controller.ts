@@ -14,7 +14,7 @@ import {
 } from "tsoa";
 
 import { Service, Inject } from "typedi";
-import { CategoryCreate } from "../types/category.types";
+import { CategoryNoId } from "../types/category.types";
 
 @Service()
 @Route("categories")
@@ -41,7 +41,7 @@ export class CategoryController extends Controller {
   @Post("/")
   @Security("bearerAuth")
   public async createCategory(
-    @Body() requestBody: CategoryCreate
+    @Body() requestBody: CategoryNoId
   ): Promise<Category> {
     return await this.categoryService.createCategory(requestBody);
   }

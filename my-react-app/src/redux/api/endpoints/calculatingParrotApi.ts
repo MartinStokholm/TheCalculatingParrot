@@ -76,7 +76,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/categories`,
         method: "POST",
-        body: queryArg.categoryCreate,
+        body: queryArg.categoryNoId,
       }),
     }),
     getCategory: build.query<GetCategoryApiResponse, GetCategoryApiArg>({
@@ -176,7 +176,7 @@ export type GetCategoriesApiResponse = /** status 200 Ok */ Category[];
 export type GetCategoriesApiArg = void;
 export type CreateCategoryApiResponse = /** status 200 Ok */ Category;
 export type CreateCategoryApiArg = {
-  categoryCreate: CategoryCreate;
+  categoryNoId: CategoryNoId;
 };
 export type GetCategoryApiResponse = /** status 200 Ok */ Category | null;
 export type GetCategoryApiArg = {
@@ -247,12 +247,17 @@ export type DefaultSelectionPrisma36LineItemPayload = {
   id: string;
 };
 export type LineItem = DefaultSelectionPrisma36LineItemPayload;
+export type CategoryNoId = {
+  colorHex: string;
+  description: string;
+  name: string;
+};
 export type LineitemNoId = {
   recurrence: $36EnumsRecurrence | null;
   currency: $36EnumsCurrency;
   amount: number;
   name: string;
-  categoryId: string | null;
+  category: CategoryNoId;
 };
 export type DefaultSelectionPrisma36CategoryPayload = {
   colorHex: string;
@@ -261,11 +266,6 @@ export type DefaultSelectionPrisma36CategoryPayload = {
   id: string;
 };
 export type Category = DefaultSelectionPrisma36CategoryPayload;
-export type CategoryCreate = {
-  colorHex: string;
-  description: string;
-  name: string;
-};
 export type DefaultSelectionPrisma36BudgetPayload = {
   userId: string;
   savings: number;
@@ -274,13 +274,21 @@ export type DefaultSelectionPrisma36BudgetPayload = {
   id: string;
 };
 export type Budget = DefaultSelectionPrisma36BudgetPayload;
+export type LineItemWithCategory = {
+  id: string;
+  recurrence: $36EnumsRecurrence | null;
+  currency: $36EnumsCurrency;
+  amount: number;
+  name: string;
+  category: CategoryNoId | null;
+};
 export type BudgetWithLineItems = {
   id: string;
   name: string;
   startingCapital: number;
   savings: number;
   userId: string;
-  lineItems: LineItem[];
+  lineItems: LineItemWithCategory[];
 };
 export type BudgetResponse = BudgetWithLineItems | null;
 export type BudgetCreate = {

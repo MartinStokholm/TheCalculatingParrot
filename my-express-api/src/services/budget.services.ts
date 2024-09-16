@@ -22,7 +22,13 @@ export class BudgetService {
   async getBudget(id: string) {
     return await this.prisma.budget.findUnique({
       where: { id },
-      include: { lineItems: true },
+      include: {
+        lineItems: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
   }
 
@@ -35,6 +41,11 @@ export class BudgetService {
     if (!parsedBudget.success) {
       throw new Error(`Validation error: ${parsedBudget.error.message}`);
     }
+
+    const defaultCategory = await this.prisma.category.findFirst({
+      where: { name: "Uncategorized" },
+    });
+
     const budgetData = {
       userId: userId,
       name: parsedBudget.data.name,
@@ -45,7 +56,7 @@ export class BudgetService {
           {
             name: "Update this lineitem with an expense ",
             amount: 69,
-            categoryId: "",
+            categoryId: defaultCategory?.id,
           },
         ],
       },
@@ -54,7 +65,11 @@ export class BudgetService {
     return await this.prisma.budget.create({
       data: budgetData,
       include: {
-        lineItems: true,
+        lineItems: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
   }

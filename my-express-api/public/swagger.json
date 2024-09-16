@@ -165,6 +165,26 @@
 			"Currency": {
 				"$ref": "#/components/schemas/_36_Enums.Currency"
 			},
+			"CategoryNoId": {
+				"properties": {
+					"colorHex": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"colorHex",
+					"description",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"LineitemNoId": {
 				"properties": {
 					"recurrence": {
@@ -185,9 +205,8 @@
 					"name": {
 						"type": "string"
 					},
-					"categoryId": {
-						"type": "string",
-						"nullable": true
+					"category": {
+						"$ref": "#/components/schemas/CategoryNoId"
 					}
 				},
 				"required": [
@@ -195,7 +214,7 @@
 					"currency",
 					"amount",
 					"name",
-					"categoryId"
+					"category"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -226,26 +245,6 @@
 			"Category": {
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_CategoryPayload_",
 				"description": "Model Category"
-			},
-			"CategoryCreate": {
-				"properties": {
-					"colorHex": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"colorHex",
-					"description",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"DefaultSelection_Prisma._36_BudgetPayload_": {
 				"properties": {
@@ -280,6 +279,49 @@
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_BudgetPayload_",
 				"description": "Model Budget"
 			},
+			"LineItemWithCategory": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"recurrence": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Recurrence"
+							}
+						],
+						"nullable": true
+					},
+					"currency": {
+						"$ref": "#/components/schemas/Currency"
+					},
+					"amount": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CategoryNoId"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"recurrence",
+					"currency",
+					"amount",
+					"name",
+					"category"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"BudgetWithLineItems": {
 				"properties": {
 					"id": {
@@ -301,7 +343,7 @@
 					},
 					"lineItems": {
 						"items": {
-							"$ref": "#/components/schemas/LineItem"
+							"$ref": "#/components/schemas/LineItemWithCategory"
 						},
 						"type": "array"
 					}
@@ -789,7 +831,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CategoryCreate"
+								"$ref": "#/components/schemas/CategoryNoId"
 							}
 						}
 					}

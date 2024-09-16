@@ -44,16 +44,19 @@ model LineItem {
   id          String       @id @default(dbgenerated("concat('lnt_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
   name        String
   amount      Float
-  currency    Currency     @default(DKK)     
+  currency    Currency     @default(DKK)
   recurrence  Recurrence?  
-  categoryId  String?
+  categoryId  String?      
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull) // Set to null if Category is deleted
   budgetId    String
   budget      Budget       @relation(fields: [budgetId], references: [id])
 }
 
+
 model Category {
-  id       String    @id @default(dbgenerated("concat('ctg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
-  name     String     @default("Default category name")
-  description String @default("A category description for default category name") 
-  colorHex String
+  id          String    @id @default(dbgenerated("concat('ctg_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  name        String    @default("Default category name")
+  description String    @default("A category description for default category name")
+  colorHex    String
+  lineItems   LineItem[] // Back-reference to LineItem
 }

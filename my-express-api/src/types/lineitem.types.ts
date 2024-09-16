@@ -1,9 +1,19 @@
 import { Currency, Recurrence } from "@prisma/client";
+import { CategoryNoId } from "./category.types";
 
 export interface LineitemNoId {
   recurrence: Recurrence | null;
   currency: Currency;
   amount: number;
   name: string;
-  categoryId: string | null;
+  category: CategoryNoId;
+}
+
+export interface LineItemWithCategory {
+  id: string;
+  recurrence: Recurrence | null;
+  currency: Currency;
+  amount: number;
+  name: string;
+  category: CategoryNoId | null;
 }

@@ -4,6 +4,7 @@ import {
   Body,
   Controller,
   Delete,
+  Example,
   Get,
   Path,
   Post,
