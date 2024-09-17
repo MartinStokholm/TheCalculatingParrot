@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "./Button"; // Adjust the import based on your project structure
-import { LineItemWithCategory } from "../redux/api/endpoints/calculatingParrotApi"; // Adjust the import based on your project structure
+import { Button } from "../common/Button"; // Adjust the import based on your project structure
+import { LineItemWithCategory } from "../../redux/api/endpoints/calculatingParrotApi"; // Adjust the import based on your project structure
 
 interface LineItemActionsProps {
   currentLineItem: LineItemWithCategory | null;
@@ -9,16 +9,16 @@ interface LineItemActionsProps {
   onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const LineItemActions: React.FC<LineItemActionsProps> = ({
+export function LineItemActions({
   currentLineItem,
   onSave,
   onCancel,
   onDelete,
-}) => {
+}: LineItemActionsProps) {
   if (!currentLineItem) return null;
 
   return (
-    <div className="flex justify-between bg-white p-4 rounded-3xl shadow-md mx-4">
+    <div className="flex justify-between bg-white p-4 rounded-3xl shadow-md mx-4 mt-4">
       <Button
         onClick={onSave}
         className="bg-blue-600 text-zinc-200 border-zinc-700 hover:bg-blue-500"
@@ -39,6 +39,4 @@ const LineItemActions: React.FC<LineItemActionsProps> = ({
       </Button>
     </div>
   );
-};
-
-export default LineItemActions;
+}

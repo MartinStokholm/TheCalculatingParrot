@@ -34,9 +34,9 @@ export const Table = <T extends Identifiable>({
   });
 
   return (
-    <div className="flex flex-col bg-white rounded-3xl shadow-md m-4">
-      <div className="inline-block min-w-full py-4 sm:px-6 lg:px-8 ">
-        <div className="overflow-x-auto p-2">
+    <div className="flex flex-col bg-white rounded-3xl shadow-md my-4">
+      <div className="inline-block min-w-full p-4">
+        <div className="overflow-x-auto">
           <table className="min-w-full text-center bg-zinc-300 table table-zebra ">
             <thead className="border-b-4 border-b-black bg-gray-50 ">
               {table.getHeaderGroups().map((headerGroup) => (

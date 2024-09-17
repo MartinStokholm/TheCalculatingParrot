@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { FormInput } from "./FormInput";
 import { FormSubmit } from "./FormSubmit";
 import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "../types/jwt.types";
-import { setToken } from "../utils/jwt.utils";
-import { setAuth } from "../redux/api/authSlice";
+import { JwtPayload } from "../../types/jwt.types";
+import { setToken } from "../../utils/jwt.utils";
+import { setAuth } from "../../redux/api/authSlice";
 import {
   useLoginMutation,
   UserLogin,
-} from "../redux/api/endpoints/calculatingParrotApi";
-import { Title, TitleSizes } from "./Title";
+} from "../../redux/api/endpoints/calculatingParrotApi";
+import { Title, TitleSizes } from "../common/Title";
 
 export function SignInForm() {
   const {

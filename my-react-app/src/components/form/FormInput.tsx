@@ -30,7 +30,7 @@ export function FormInput({
 
       {type === "select" ? (
         <select
-          className="p-2 text-black bg-white rounded-md"
+          className="p-2 text-black bg-zinc-200 rounded-md"
           id={name}
           {...register(name, validation)}
           {...(rest as SelectHTMLAttributes<HTMLSelectElement>)}
@@ -43,7 +43,7 @@ export function FormInput({
         </select>
       ) : (
         <input
-          className="p-2 text-black bg-white rounded-md"
+          className="p-2 text-black bg-zinc-200 rounded-md"
           id={name}
           type={type}
           {...register(name, validation)}

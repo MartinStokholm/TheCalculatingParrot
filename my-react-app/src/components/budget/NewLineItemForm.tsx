@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import {
   useCreateLineItemMutation,
   useGetCategoriesQuery,
-} from "../../src/redux/api/endpoints/calculatingParrotApi";
+} from "../../redux/api/endpoints/calculatingParrotApi";
 import {
   $36EnumsCurrency,
   $36EnumsRecurrence,
-} from "../../src/redux/api/endpoints/calculatingParrotApi";
-import { FormInput } from "./FormInput";
-import { FormSubmit } from "./FormSubmit";
+} from "../../redux/api/endpoints/calculatingParrotApi";
+import { FormInput } from "../form/FormInput";
+import { FormSubmit } from "../form/FormSubmit";
 
 interface CreateLineItemFormProps {
   budgetId: string;
@@ -64,7 +64,7 @@ export const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 shadow-md bg-zinc-300 p-4 my-4 rounded-3xl"
+      className="space-y-4 shadow-md bg-white p-4 my-4 rounded-3xl"
     >
       <FormInput
         label="Name"
@@ -100,7 +100,7 @@ export const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
         name="recurrence"
         type="select"
         options={[
-          { id: "", name: "None" },
+          { id: "ONCE", name: "ONCE" },
           { id: "DAILY", name: "DAILY" },
           { id: "WEEKLY", name: "WEEKLY" },
           { id: "MONTHLY", name: "MONTHLY" },

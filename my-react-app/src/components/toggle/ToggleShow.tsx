@@ -1,6 +1,6 @@
 import React from "react";
 import { useToggle } from "./ToggleContext";
-import { ToggleLabelValues } from "../constants/toggleLabels";
+import { ToggleLabelValues } from "../../constants/toggleLabels";
 
 interface ToggleShowProps {
   label: ToggleLabelValues;

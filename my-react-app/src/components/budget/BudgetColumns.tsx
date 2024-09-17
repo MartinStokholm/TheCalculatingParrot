@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { LineItemWithCategory } from "../../redux/api/endpoints/calculatingParrotApi";
 
-export const budgetColumns: ColumnDef<LineItemWithCategory>[] = [
+export const BudgetColumns: ColumnDef<LineItemWithCategory>[] = [
   {
     id: "name",
     header: "Name",

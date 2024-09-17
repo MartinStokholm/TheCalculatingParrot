@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { CreateLineItemForm } from "../../components/NewLineItemForm";
-import { Title, TitleSizes } from "../../components/Title";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { ErrorBanner } from "../../components/Error";
-import { Button } from "../../components/Button";
-import { Table } from "../../components/Table";
-import { ToggleShow } from "../../components/ToggleShow";
-import { budgetColumns } from "./budgetColumns";
-import { BudgetSummary } from "../../components/BudgetSummary";
-import { ToggleProvider } from "../../components/ToggleContext";
-import { ToggleMenu } from "../../components/ToggleMenu";
+import { Title, TitleSizes } from "../../components/common/Title";
+
+import { LoadingSpinner } from "../../components/state/LoadingSpinner";
+import { ErrorBanner } from "../../components/state/Error";
+
+import { CreateLineItemForm } from "../../components/budget/NewLineItemForm";
+import { LineItemActions } from "../../components/budget/LineItemActions";
+import { BudgetColumns } from "../../components/budget/BudgetColumns";
+import { CategoryChart } from "../../components/budget/CategoryChart";
+import { BudgetSummary } from "../../components/budget/BudgetSummary";
+import { Table } from "../../components/budget/Table";
+
+import { ToggleShow } from "../../components/toggle/ToggleShow";
+import { ToggleMenu } from "../../components/toggle/ToggleMenu";
+import { ToggleProvider } from "../../components/toggle/ToggleContext";
 import { ToggleLabels } from "../../constants/toggleLabels";
 import {
   LineItemWithCategory,
@@ -18,7 +22,6 @@ import {
   useUpdateLineItemMutation,
   useDeleteLineItemMutation,
 } from "../../redux/api/endpoints/calculatingParrotApi";
-import LineItemActions from "../../components/LineItemActions";
 
 export default function BudgetDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -96,6 +99,21 @@ export default function BudgetDetailsPage() {
     }
   };
 
+  const categoryExpensesData =
+    budget?.lineItems.reduce((acc, lineItem) => {
+      const category = lineItem.category.name;
+      const amount = lineItem.amount;
+
+      if (!acc[category]) {
+        acc[category] = { category, amount: 0 };
+      }
+
+      acc[category].amount += amount;
+      return acc;
+    }, {} as Record<string, { category: string; amount: number }>) || {};
+
+  const categoryExpensesArray = Object.values(categoryExpensesData);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -120,9 +138,10 @@ export default function BudgetDetailsPage() {
 
       <ToggleShow label={ToggleLabels.Summary}>
         <BudgetSummary
-          startingCapital={budget?.startingCapital || 1}
+          startingCapital={budget?.startingCapital || 0}
           lineItems={budget?.lineItems || []}
         />
+        <CategoryChart lineItems={budget?.lineItems || []} />
       </ToggleShow>
 
       <ToggleShow label={ToggleLabels.Table}>
@@ -134,7 +153,7 @@ export default function BudgetDetailsPage() {
         />
         <Table
           data={budget?.lineItems || []}
-          columns={budgetColumns}
+          columns={BudgetColumns}
           showFooter
           selectedRowId={currentLineItem?.id}
           onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}

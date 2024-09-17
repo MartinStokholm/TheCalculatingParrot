@@ -1,6 +1,6 @@
-import { LoadingSpinner } from "../components/LoadingSpinner";
-import { ErrorBanner } from "../components/Error";
-import { Card } from "../components/Card";
+import { LoadingSpinner } from "../components/state/LoadingSpinner";
+import { ErrorBanner } from "../components/state/Error";
+import { Card } from "../components/common/Card";
 import { useProfile } from "../hooks/useProfile";
 
 export default function ProfilePage() {

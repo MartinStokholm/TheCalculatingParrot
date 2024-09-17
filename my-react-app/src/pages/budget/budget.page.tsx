@@ -1,7 +1,7 @@
-import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { ErrorBanner } from "../../components/Error";
+import { LoadingSpinner } from "../../components/state/LoadingSpinner";
+import { ErrorBanner } from "../../components/state/Error";
 import { useGetBudgetsQuery } from "../../redux/api/endpoints/calculatingParrotApi";
-import { Title, TitleSizes } from "../../components/Title";
+import { Title, TitleSizes } from "../../components/common/Title";
 import { useNavigate } from "react-router-dom";
 
 export default function BudgetPage() {

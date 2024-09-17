@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { SignInForm } from "../components/SignIn";
-import { Title, TitleSizes } from "../components/Title";
+import { SignInForm } from "../components/form/SignIn";
+import { Title, TitleSizes } from "../components/common/Title";
 
 export default function HomePage() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);

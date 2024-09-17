@@ -3,9 +3,9 @@ import { FiMenu } from "react-icons/fi";
 import React, { useState } from "react";
 import { GiMoneyStack } from "react-icons/gi";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { SignOut } from "../components/SignOut";
-import { Breadcrumb } from "../components/Breadcrumb";
+import { RootState } from "../../redux/store";
+import { SignOut } from "../form/SignOut";
+import { Breadcrumb } from "./Breadcrumb";
 import { NavigationButton } from "./NavigationButton";
 import { IoIosLogIn } from "react-icons/io";
 
