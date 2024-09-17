@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -11,6 +10,7 @@ import {
   Cell,
 } from "recharts";
 import { $36EnumsRecurrence } from "../../redux/api/endpoints/calculatingParrotApi";
+import { useState } from "react";
 
 type LineItem = {
   category: {

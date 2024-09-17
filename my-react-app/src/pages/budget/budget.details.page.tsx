@@ -99,21 +99,6 @@ export default function BudgetDetailsPage() {
     }
   };
 
-  const categoryExpensesData =
-    budget?.lineItems.reduce((acc, lineItem) => {
-      const category = lineItem.category.name;
-      const amount = lineItem.amount;
-
-      if (!acc[category]) {
-        acc[category] = { category, amount: 0 };
-      }
-
-      acc[category].amount += amount;
-      return acc;
-    }, {} as Record<string, { category: string; amount: number }>) || {};
-
-  const categoryExpensesArray = Object.values(categoryExpensesData);
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
