@@ -39,10 +39,11 @@
 
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src/**/*.ts", "src/types/index.d.ts"],
+  "include": ["src/**/*.ts", "src/types/index.d.ts", "prisma/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

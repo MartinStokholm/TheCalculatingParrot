@@ -1,18 +1,24 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { ColumnDef } from "@tanstack/react-table";
 import { CreateLineItemForm } from "../../components/NewLineItemForm";
 import { Title, TitleSizes } from "../../components/Title";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ErrorBanner } from "../../components/Error";
+import { Button } from "../../components/Button";
 import { Table } from "../../components/Table";
-
+import { ToggleShow } from "../../components/ToggleShow";
+import { budgetColumns } from "./budgetColumns";
+import { BudgetSummary } from "../../components/BudgetSummary";
+import { ToggleProvider } from "../../components/ToggleContext";
+import { ToggleMenu } from "../../components/ToggleMenu";
+import { ToggleLabels } from "../../constants/toggleLabels";
 import {
   LineItemWithCategory,
   useGetBudgetQuery,
   useUpdateLineItemMutation,
   useDeleteLineItemMutation,
 } from "../../redux/api/endpoints/calculatingParrotApi";
+import LineItemActions from "../../components/LineItemActions";
 
 export default function BudgetDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,18 +28,10 @@ export default function BudgetDetailsPage() {
     isLoading,
     refetch,
   } = useGetBudgetQuery({ budgetId: id || "NaN" });
-
-  const [deleteLineItem] = useDeleteLineItemMutation();
-
-  const [showAddLineItem, setShowAddLineItem] = useState(false);
-
-  const [updateLineItem] = useUpdateLineItemMutation();
   const [currentLineItem, setCurrentLineItem] =
     useState<LineItemWithCategory | null>(null);
-
-  const toggleShowAddLineItem = () => {
-    setShowAddLineItem((prevState) => !prevState);
-  };
+  const [deleteLineItem] = useDeleteLineItemMutation();
+  const [updateLineItem] = useUpdateLineItemMutation();
 
   const handleDeleteButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -61,6 +59,13 @@ export default function BudgetDetailsPage() {
     if (currentLineItem) {
       handleSaveChanges(currentLineItem);
     }
+  };
+
+  const handleCancelButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    setCurrentLineItem(null);
   };
 
   const handleSaveChanges = async (lineItem: LineItemWithCategory) => {
@@ -91,45 +96,6 @@ export default function BudgetDetailsPage() {
     }
   };
 
-  const cols = useMemo<ColumnDef<LineItemWithCategory>[]>(
-    () => [
-      {
-        id: "name",
-        header: "Name",
-        accessorKey: "name",
-        cell: (row) => row.renderValue(),
-      },
-      {
-        id: "amount",
-        header: "Amount",
-        accessorKey: "amount",
-        cell: ({ getValue }) => {
-          const amount = getValue<number>();
-          const amountClass = amount < 0 ? "text-red-500" : "text-green-500";
-          return <span className={amountClass}>{amount}</span>;
-        },
-      },
-      {
-        id: "currency",
-        header: "Currency",
-        accessorKey: "currency",
-        cell: (row) => row.renderValue(),
-      },
-      {
-        id: "category.name",
-        header: "Category",
-        accessorKey: "category.name",
-      },
-      {
-        id: "recurrence",
-        header: "Recurrence",
-        accessorKey: "recurrence",
-        cell: (row) => row.renderValue(),
-      },
-    ],
-    [refetch]
-  );
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -138,50 +104,53 @@ export default function BudgetDetailsPage() {
   }
 
   return (
-    <>
+    <ToggleProvider>
       <Title
+        className="place-self-start ml-0 "
         size={TitleSizes.Large}
         text={`Details for Budget: ${budget?.name}`}
       />
-
-      <Table
-        data={budget?.lineItems || []}
-        columns={cols}
-        showFooter
-        selectedRowId={currentLineItem?.id}
-        onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
-        onRowChange={handleRowChange} // Pass the onRowChange prop
+      <ToggleMenu
+        labels={[
+          ToggleLabels.Summary,
+          ToggleLabels.Table,
+          ToggleLabels.AddLineItem,
+        ]}
       />
 
-      <div className="flex flex-col gap-4 w-[50%]">
-        {currentLineItem && (
-          <div className="flex flex-row justify-between">
-            <button
-              className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300"
-              onClick={handleSaveButtonClick}
-            >
-              Save Changes
-            </button>
+      <ToggleShow label={ToggleLabels.Summary}>
+        <BudgetSummary
+          startingCapital={budget?.startingCapital || 1}
+          lineItems={budget?.lineItems || []}
+        />
+      </ToggleShow>
 
-            <button
-              className="rounded-md px-4 py-2 bg-red-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-red-500 hover:text-zinc-300"
-              onClick={handleDeleteButtonClick}
-            >
-              Delete Line Item
-            </button>
-          </div>
-        )}
+      <ToggleShow label={ToggleLabels.Table}>
+        <LineItemActions
+          currentLineItem={currentLineItem}
+          onSave={handleSaveButtonClick}
+          onCancel={handleCancelButtonClick}
+          onDelete={handleDeleteButtonClick}
+        />
+        <Table
+          data={budget?.lineItems || []}
+          columns={budgetColumns}
+          showFooter
+          selectedRowId={currentLineItem?.id}
+          onRowClick={(row: LineItemWithCategory) => setCurrentLineItem(row)}
+          onRowChange={handleRowChange}
+        />
+        <LineItemActions
+          currentLineItem={currentLineItem}
+          onSave={handleSaveButtonClick}
+          onCancel={handleCancelButtonClick}
+          onDelete={handleDeleteButtonClick}
+        />
+      </ToggleShow>
 
-        <button
-          className="rounded-md px-4 py-2 bg-blue-600 text-zinc-200 border-b-4 border-zinc-700 hover:border-b-zinc-200 hover:bg-blue-500 hover:text-zinc-300 "
-          onClick={toggleShowAddLineItem}
-        >
-          {showAddLineItem ? "Hide Form" : "Add Line Item"}
-        </button>
-        {showAddLineItem && (
-          <CreateLineItemForm budgetId={id || "NaN"} refetch={refetch} />
-        )}
-      </div>
-    </>
+      <ToggleShow label={ToggleLabels.AddLineItem}>
+        <CreateLineItemForm budgetId={id || "NaN"} refetch={refetch} />
+      </ToggleShow>
+    </ToggleProvider>
   );
 }

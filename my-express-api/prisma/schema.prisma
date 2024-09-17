@@ -13,6 +13,7 @@ enum Recurrence {
   WEEKLY
   MONTHLY
   YEARLY
+  ONCE
 }
 
 enum Currency {
@@ -28,6 +29,8 @@ model User {
   password   String   @default("DefaultPassword")
   isVerified Boolean  @default(false)
   budgets    Budget[]
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @updatedAt
 }
 
 model Budget {
@@ -38,6 +41,8 @@ model Budget {
   userId          String
   user            User       @relation(fields: [userId], references: [id])
   lineItems       LineItem[]
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @updatedAt
 }
 
 model LineItem {
@@ -45,11 +50,13 @@ model LineItem {
   name        String
   amount      Float
   currency    Currency     @default(DKK)
-  recurrence  Recurrence?  
-  categoryId  String?      
-  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull) // Set to null if Category is deleted
+  recurrence  Recurrence  
+  categoryId  String      
+  category    Category    @relation(fields: [categoryId], references: [id]) 
   budgetId    String
   budget      Budget       @relation(fields: [budgetId], references: [id])
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @updatedAt
 }
 
 
@@ -58,5 +65,7 @@ model Category {
   name        String    @default("Default category name")
   description String    @default("A category description for default category name")
   colorHex    String
-  lineItems   LineItem[] // Back-reference to LineItem
+  lineItems   LineItem[] 
+  createdOn  DateTime @default(now())
+  updatedOn  DateTime @updatedAt
 }

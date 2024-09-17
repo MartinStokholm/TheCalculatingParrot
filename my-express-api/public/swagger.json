@@ -28,6 +28,14 @@
 			},
 			"DefaultSelection_Prisma._36_UserPayload_": {
 				"properties": {
+					"updatedOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"isVerified": {
 						"type": "boolean"
 					},
@@ -45,6 +53,8 @@
 					}
 				},
 				"required": [
+					"updatedOn",
+					"createdOn",
 					"isVerified",
 					"password",
 					"name",
@@ -116,11 +126,20 @@
 					"DAILY",
 					"WEEKLY",
 					"MONTHLY",
-					"YEARLY"
+					"YEARLY",
+					"ONCE"
 				]
 			},
 			"DefaultSelection_Prisma._36_LineItemPayload_": {
 				"properties": {
+					"updatedOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"budgetId": {
 						"type": "string"
 					},
@@ -145,6 +164,8 @@
 					}
 				},
 				"required": [
+					"updatedOn",
+					"createdOn",
 					"budgetId",
 					"categoryId",
 					"recurrence",
@@ -195,6 +216,14 @@
 			},
 			"DefaultSelection_Prisma._36_CategoryPayload_": {
 				"properties": {
+					"updatedOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"colorHex": {
 						"type": "string"
 					},
@@ -209,6 +238,8 @@
 					}
 				},
 				"required": [
+					"updatedOn",
+					"createdOn",
 					"colorHex",
 					"description",
 					"name",
@@ -242,6 +273,14 @@
 			},
 			"DefaultSelection_Prisma._36_BudgetPayload_": {
 				"properties": {
+					"updatedOn": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"createdOn": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"userId": {
 						"type": "string"
 					},
@@ -261,6 +300,8 @@
 					}
 				},
 				"required": [
+					"updatedOn",
+					"createdOn",
 					"userId",
 					"savings",
 					"startingCapital",
@@ -279,12 +320,7 @@
 						"type": "string"
 					},
 					"recurrence": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Recurrence"
-							}
-						],
-						"nullable": true
+						"$ref": "#/components/schemas/Recurrence"
 					},
 					"currency": {
 						"$ref": "#/components/schemas/Currency"
@@ -297,12 +333,7 @@
 						"type": "string"
 					},
 					"category": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/CategoryNoId"
-							}
-						],
-						"nullable": true
+						"$ref": "#/components/schemas/CategoryNoId"
 					},
 					"categoryId": {
 						"type": "string"

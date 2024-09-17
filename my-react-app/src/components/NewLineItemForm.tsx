@@ -62,7 +62,10 @@ export const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
   if (error) return <div>Error loading categories</div>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 shadow-md bg-zinc-300 p-4 my-4 rounded-3xl"
+    >
       <FormInput
         label="Name"
         name="name"
@@ -108,7 +111,7 @@ export const CreateLineItemForm: React.FC<CreateLineItemFormProps> = ({
       />
       <FormInput
         label="Category"
-        name="categoryId" // Change to categoryId to capture the selected category ID
+        name="categoryId"
         type="select"
         options={categories}
         register={register}

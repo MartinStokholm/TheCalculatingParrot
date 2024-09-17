@@ -9,7 +9,7 @@ export const budgetSchema = z.object({
     .number()
     .min(0, "Starting capital must be a positive number"),
   savings: z.number().min(0, "Savings must be a positive number").optional(),
-  lineItems: z.array(lineItemSchema).optional(), // lineItems is optional
+  lineItems: z.array(lineItemSchema), // lineItems is optional
   userId: z.string().min(1, "User ID is required"),
 });
 

@@ -216,6 +216,8 @@ export type UsersResponse = {
   name: string;
 };
 export type DefaultSelectionPrisma36UserPayload = {
+  updatedOn: string;
+  createdOn: string;
   isVerified: boolean;
   password: string;
   name: string;
@@ -235,9 +237,16 @@ export type UserLogin = {
   password: string;
   email: string;
 };
-export type $36EnumsRecurrence = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+export type $36EnumsRecurrence =
+  | "DAILY"
+  | "WEEKLY"
+  | "MONTHLY"
+  | "YEARLY"
+  | "ONCE";
 export type $36EnumsCurrency = "USD" | "EUR" | "DKK";
 export type DefaultSelectionPrisma36LineItemPayload = {
+  updatedOn: string;
+  createdOn: string;
   budgetId: string;
   categoryId: string;
   recurrence: $36EnumsRecurrence;
@@ -255,6 +264,8 @@ export type LineItemCreate = {
   categoryId: string;
 };
 export type DefaultSelectionPrisma36CategoryPayload = {
+  updatedOn: string;
+  createdOn: string;
   colorHex: string;
   description: string;
   name: string;
@@ -267,6 +278,8 @@ export type CategoryNoId = {
   name: string;
 };
 export type DefaultSelectionPrisma36BudgetPayload = {
+  updatedOn: string;
+  createdOn: string;
   userId: string;
   savings: number;
   startingCapital: number;
@@ -276,11 +289,11 @@ export type DefaultSelectionPrisma36BudgetPayload = {
 export type Budget = DefaultSelectionPrisma36BudgetPayload;
 export type LineItemWithCategory = {
   id: string;
-  recurrence: $36EnumsRecurrence | null;
+  recurrence: $36EnumsRecurrence;
   currency: $36EnumsCurrency;
   amount: number;
   name: string;
-  category: CategoryNoId | null;
+  category: CategoryNoId;
   categoryId: string;
 };
 export type BudgetWithLineItems = {

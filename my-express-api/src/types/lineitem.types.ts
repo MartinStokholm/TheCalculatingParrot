@@ -2,7 +2,7 @@ import { Currency, Recurrence } from "@prisma/client";
 import { CategoryNoId } from "./category.types";
 
 export interface LineitemNoId {
-  recurrence: Recurrence | null;
+  recurrence: Recurrence;
   currency: Currency;
   amount: number;
   name: string;
@@ -11,11 +11,11 @@ export interface LineitemNoId {
 
 export interface LineItemWithCategory {
   id: string;
-  recurrence: Recurrence | null;
+  recurrence: Recurrence;
   currency: Currency;
   amount: number;
   name: string;
-  category: CategoryNoId | null;
+  category: CategoryNoId;
   categoryId: string;
 }
 

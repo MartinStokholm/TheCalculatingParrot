@@ -8,6 +8,7 @@ import {
   partialBudgetSchema,
 } from "../models/budget.schema";
 import { BudgetResponse } from "../types/budget.types";
+import { Currency, Recurrence } from "@prisma/client";
 
 @Service()
 export class BudgetService {
@@ -57,6 +58,11 @@ export class BudgetService {
             name: "Update this lineitem with an expense ",
             amount: 69,
             categoryId: defaultCategory?.id,
+            recurrence: Recurrence.ONCE,
+            currency: Currency.DKK,
+            category: {
+              connect: { id: defaultCategory?.id },
+            },
           },
         ],
       },

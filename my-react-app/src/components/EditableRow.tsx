@@ -7,7 +7,11 @@ interface EditableRowProps<T> {
   onChange: (field: keyof T, value: string | number) => void;
 }
 
-const EditableRow = <T,>({ row, columns, onChange }: EditableRowProps<T>) => {
+export const EditableRow = <T,>({
+  row,
+  columns,
+  onChange,
+}: EditableRowProps<T>) => {
   const [localRow, setLocalRow] = useState(row);
 
   useEffect(() => {
@@ -31,12 +35,10 @@ const EditableRow = <T,>({ row, columns, onChange }: EditableRowProps<T>) => {
             onChange={(e) =>
               handleInputChange(col.id as keyof T, e.target.value)
             }
-            className="text-center whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900 rounded-full m-2"
+            className="text-center whitespace-nowrap px-6 py-4 text-sm font-light text-zinc-900 rounded-full m-2"
           />
         </td>
       ))}
     </tr>
   );
 };
-
-export default EditableRow;
