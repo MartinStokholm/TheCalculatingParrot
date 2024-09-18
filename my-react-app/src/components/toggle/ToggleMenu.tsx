@@ -8,7 +8,7 @@ interface ToggleMenuProps {
 
 export const ToggleMenu: React.FC<ToggleMenuProps> = ({ labels }) => {
   return (
-    <div className="flex flex-col min-w-full bg-slate-300 p-2 rounded-lg px-4">
+    <div className="flex flex-col min-w-full bg-slate-300 p-2 rounded-t-lg px-4">
       <div className="flex justify-between">
         {labels.map((label) => (
           <ToggleButton key={label} label={label} />

@@ -34,7 +34,7 @@ export const Table = <T extends Identifiable>({
   });
 
   return (
-    <div className="flex flex-col bg-white rounded-3xl shadow-md my-4">
+    <div className="flex flex-col bg-white rounded-3xl shadow-md">
       <div className="inline-block min-w-full p-4">
         <div className="overflow-x-auto">
           <table className="min-w-full text-center bg-zinc-300 table table-zebra ">

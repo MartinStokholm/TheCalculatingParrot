@@ -10,5 +10,5 @@ interface ToggleShowProps {
 export const ToggleShow: React.FC<ToggleShowProps> = ({ label, children }) => {
   const { value } = useToggle(label);
 
-  return <>{value && <div>{children}</div>}</>;
+  return <>{value && <>{children}</>}</>;
 };

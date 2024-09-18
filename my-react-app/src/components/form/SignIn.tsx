@@ -59,7 +59,7 @@ export function SignInForm() {
       />
 
       <form
-        className="shadow-md flex flex-col p-4 gap-4"
+        className="shadow-md flex flex-col p-4 gap-4 bg-white rounded-3xl"
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormInput

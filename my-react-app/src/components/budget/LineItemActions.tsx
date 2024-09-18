@@ -18,7 +18,7 @@ export function LineItemActions({
   if (!currentLineItem) return null;
 
   return (
-    <div className="flex justify-between bg-white p-4 rounded-3xl shadow-md mx-4 mt-4">
+    <div className="flex justify-center gap-4 font-light mb-4">
       <Button
         onClick={onSave}
         className="bg-blue-600 text-zinc-200 border-zinc-700 hover:bg-blue-500"

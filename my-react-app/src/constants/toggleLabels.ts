@@ -3,6 +3,7 @@ export const ToggleLabels = {
   Summary: "Summary",
   Table: "Table",
   AddLineItem: "Creation",
+  CategoryOverview: "Overview",
 } as const;
 
 export type ToggleLabelKeys = keyof typeof ToggleLabels;

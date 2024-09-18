@@ -7,10 +7,11 @@ export enum TitleSizes {
 type TitleProps = {
   text: string;
   size: TitleSizes;
+  color?: string;
   className?: string;
 };
 
-export function Title({ text, size, className }: TitleProps) {
+export function Title({ text, size, className, color }: TitleProps) {
   let localClassName = "";
   switch (size) {
     case TitleSizes.Large:
@@ -24,10 +25,16 @@ export function Title({ text, size, className }: TitleProps) {
       break;
   }
 
+  if (color) {
+    localClassName += ` text-${color}`;
+  } else {
+    localClassName += " text-zinc-800";
+  }
+
   return (
     <h1
       className={
-        "border-b-4  border-blue-200 pb-1 m-4 font-light text-zinc-800  " +
+        "border-b-4  border-blue-200 pb-1 m-4 font-light   " +
         localClassName +
         " " +
         className

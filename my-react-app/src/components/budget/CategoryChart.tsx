@@ -74,7 +74,7 @@ export function CategoryChart({ lineItems }: CategoryChartProps) {
   const chartData = Object.values(data);
 
   return (
-    <div>
+    <>
       <div className="flex justify-center bg-white shadow-md mb-4 rounded-t-3xl">
         <button
           className={`px-4 py-2 mx-2 my-4 rounded-3xl ${
@@ -125,6 +125,6 @@ export function CategoryChart({ lineItems }: CategoryChartProps) {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </>
   );
 }

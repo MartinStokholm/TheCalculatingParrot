@@ -65,7 +65,7 @@ export function BudgetSummary({
 
   // Return the JSX to display the budget summary
   return (
-    <div className="stats stats-vertical lg:stats-horizontal shadow py-2 my-4">
+    <div className="stats stats-vertical lg:stats-horizontal shadow">
       <div className="stat">
         <div className="stat-title">Weekly Surplus</div>
         <div className="stat-value">{surplus.week.toFixed(0)} DKK</div>
