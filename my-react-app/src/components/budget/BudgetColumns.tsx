@@ -1,21 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table";
+
 import {
   LineItemWithCategory,
-  useDeleteLineItemMutation,
   useGetBudgetQuery,
-} from "../../redux/api/endpoints/calculatingParrotApi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+  useUpdateLineItemMutation,
+  useDeleteLineItemMutation,
+} from "@/redux/api/endpoints/calculatingParrotApi";
+
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { useParams } from "react-router-dom";
+import { EditLineitemPopover } from "./EditLineItemPopover";
 
 export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
   {
@@ -107,6 +103,7 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     cell: ({ row }) => {
       const lineitem = row.original;
       const { id } = useParams<{ id: string }>();
@@ -114,44 +111,21 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
       const [deleteLineItem] = useDeleteLineItemMutation();
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white p-4 rounded-3xl">
-            <DropdownMenuLabel className="text-lg font-bold">
-              Actions
-            </DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(lineitem.id)}
-            >
-              Copy lineitem ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => console.log("Edit lineitem", lineitem)}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              onClick={async () => {
-                try {
-                  await deleteLineItem({ lineItemId: lineitem.id }).unwrap();
-                  refetch();
-                } catch (error) {
-                  console.error("Failed to delete line item:", error);
-                }
-              }}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex gap-4">
+          <EditLineitemPopover lineitem={lineitem} refetch={refetch} />
+          <Button
+            onClick={async () => {
+              try {
+                await deleteLineItem({ lineItemId: lineitem.id }).unwrap();
+                refetch();
+              } catch (error) {
+                console.error("Failed to delete line item:", error);
+              }
+            }}
+          >
+            Delete
+          </Button>
+        </div>
       );
     },
   },

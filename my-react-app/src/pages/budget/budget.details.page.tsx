@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { WidgetBox } from "@/components/common/WidgetBox";
 import { Title, TitleSizes } from "@/components/common/Title";
@@ -10,19 +10,13 @@ import { BudgetColumns } from "@/components/budget/BudgetColumns";
 import { CategoryChart } from "@/components/budget/CategoryChart";
 import { BudgetSummary } from "@/components/budget/BudgetSummary";
 import { CreateLineItemForm } from "@/components/budget/NewLineItemForm";
-import { LineItemActions } from "@/components/budget/LineItemActions";
 
 import { ToggleShow } from "@/components/toggle/ToggleShow";
 import { ToggleMenu } from "@/components/toggle/ToggleMenu";
 import { ToggleProvider } from "@/components/toggle/ToggleContext";
 import { ToggleLabels } from "@/constants/toggleLabels";
 
-import {
-  LineItemWithCategory,
-  useGetBudgetQuery,
-  useUpdateLineItemMutation,
-  useDeleteLineItemMutation,
-} from "@/redux/api/endpoints/calculatingParrotApi";
+import { useGetBudgetQuery } from "@/redux/api/endpoints/calculatingParrotApi";
 
 import {
   getCoreRowModel,
@@ -42,10 +36,6 @@ export default function BudgetDetailsPage() {
     refetch,
   } = useGetBudgetQuery({ budgetId: id || "NaN" });
 
-  const [currentLineItem, setCurrentLineItem] =
-    useState<LineItemWithCategory | null>(null);
-  const [deleteLineItem] = useDeleteLineItemMutation();
-  const [updateLineItem] = useUpdateLineItemMutation();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
@@ -63,52 +53,6 @@ export default function BudgetDetailsPage() {
       rowSelection,
     },
   });
-
-  const handleDeleteButtonClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    if (currentLineItem) {
-      try {
-        await deleteLineItem({ lineItemId: currentLineItem.id }).unwrap();
-        setCurrentLineItem(null);
-        refetch();
-      } catch (error) {
-        console.error("Failed to delete line item:", error);
-      }
-    }
-  };
-
-  const handleSaveButtonClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    if (currentLineItem) {
-      try {
-        await updateLineItem({
-          lineItemId: currentLineItem.id,
-          lineItemCreate: {
-            name: currentLineItem.name,
-            amount: currentLineItem.amount,
-            currency: currentLineItem.currency,
-            categoryId: currentLineItem.categoryId,
-            recurrence: currentLineItem.recurrence || undefined,
-          },
-        }).unwrap();
-        setCurrentLineItem(null);
-        refetch();
-      } catch (error) {
-        console.error("Failed to update line item:", error);
-      }
-    }
-  };
-
-  const handleCancelButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    setCurrentLineItem(null);
-  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -143,7 +87,7 @@ export default function BudgetDetailsPage() {
             className="place-self-start ml-0 w-[33%]"
             size={TitleSizes.Small}
             text="Category Overview"
-            color="zinc-100"
+            color="white"
           />
           <CategoryChart lineItems={budget?.lineItems || []} />
         </WidgetBox>
@@ -154,7 +98,7 @@ export default function BudgetDetailsPage() {
             className="place-self-start ml-0 w-[33%]"
             size={TitleSizes.Small}
             text="Budget Summary"
-            color="zinc-100"
+            color="white"
           />
           <BudgetSummary
             startingCapital={budget?.startingCapital || 0}
@@ -168,13 +112,7 @@ export default function BudgetDetailsPage() {
             className="place-self-start ml-0 w-[33%]"
             size={TitleSizes.Small}
             text="Manage Budget"
-            color="zinc-100"
-          />
-          <LineItemActions
-            currentLineItem={currentLineItem}
-            onSave={handleSaveButtonClick}
-            onCancel={handleCancelButtonClick}
-            onDelete={handleDeleteButtonClick}
+            color="white"
           />
 
           <DataTable table={table} />
@@ -186,7 +124,7 @@ export default function BudgetDetailsPage() {
             className="place-self-start ml-0 w-[33%]"
             size={TitleSizes.Small}
             text="Add to budget"
-            color="zinc-100"
+            color="white"
           />
           <CreateLineItemForm budgetId={id || "NaN"} refetch={refetch} />
         </WidgetBox>

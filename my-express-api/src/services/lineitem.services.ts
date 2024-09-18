@@ -4,7 +4,7 @@ import {
   createLineItemSchema,
   lineItemSchema,
 } from "../models/lineitem.schema";
-import { LineItemCreate } from "../types/lineitem.types";
+import { LineItemCreate, LineItemWithCategory } from "../types/lineitem.types";
 
 @Service()
 export class LineItemService {
@@ -16,9 +16,10 @@ export class LineItemService {
     });
   }
 
-  async getLineItem(id: string) {
+  async getLineItem(id: string): Promise<LineItemWithCategory | null> {
     return await this.prisma.lineItem.findUnique({
       where: { id },
+      include: { category: true },
     });
   }
 
@@ -37,7 +38,10 @@ export class LineItemService {
     });
   }
 
-  async updateLineItem(id: string, updatedLineItem: LineItemCreate) {
+  async updateLineItem(
+    id: string,
+    updatedLineItem: LineItemCreate
+  ): Promise<LineItemWithCategory> {
     const parsedLineItem = lineItemSchema.partial().safeParse(updatedLineItem);
 
     if (!parsedLineItem.success) {
@@ -47,6 +51,7 @@ export class LineItemService {
     return await this.prisma.lineItem.update({
       where: { id },
       data: parsedLineItem.data,
+      include: { category: true },
     });
   }
 

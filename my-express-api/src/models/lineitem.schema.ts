@@ -3,7 +3,7 @@ import { z } from "zod";
 
 // Define the schema for LineItem
 export const lineItemSchema = z.object({
-  id: z.string().optional(), // id is optional because it is auto-generated
+  id: z.string(), // id is optional because it is auto-generated
   name: z.string().min(1, "Name is required"),
   amount: z.number(),
   categoryId: z.string(),
@@ -14,5 +14,5 @@ export const lineItemSchema = z.object({
 
 export const createLineItemSchema = lineItemSchema.omit({ budgetId: true });
 
-export type LineItemSchema = z.infer<typeof lineItemSchema>;
+export type LineItemSchema = ReturnType<typeof lineItemSchema.parse>;
 export type CreateLineItemSchema = z.infer<typeof createLineItemSchema>;

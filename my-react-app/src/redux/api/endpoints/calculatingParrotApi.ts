@@ -154,11 +154,13 @@ export type LoginApiResponse = /** status 200 Ok */ UserLoginResponse;
 export type LoginApiArg = {
   userLogin: UserLogin;
 };
-export type GetLineItemApiResponse = /** status 200 Ok */ LineItem | null;
+export type GetLineItemApiResponse =
+  /** status 200 Ok */ LineItemWithCategory | null;
 export type GetLineItemApiArg = {
   lineItemId: string;
 };
-export type UpdateLineItemApiResponse = /** status 200 Ok */ LineItem;
+export type UpdateLineItemApiResponse =
+  /** status 200 Ok */ LineItemWithCategory;
 export type UpdateLineItemApiArg = {
   lineItemId: string;
   lineItemCreate: LineItemCreate;
@@ -244,6 +246,27 @@ export type $36EnumsRecurrence =
   | "YEARLY"
   | "ONCE";
 export type $36EnumsCurrency = "USD" | "EUR" | "DKK";
+export type CategoryNoId = {
+  colorHex: string;
+  description: string;
+  name: string;
+};
+export type LineItemWithCategory = {
+  id: string;
+  recurrence: $36EnumsRecurrence;
+  currency: $36EnumsCurrency;
+  amount: number;
+  name: string;
+  category: CategoryNoId;
+  categoryId: string;
+};
+export type LineItemCreate = {
+  name: string;
+  amount: number;
+  currency: $36EnumsCurrency;
+  recurrence?: $36EnumsRecurrence;
+  categoryId: string;
+};
 export type DefaultSelectionPrisma36LineItemPayload = {
   updatedOn: string;
   createdOn: string;
@@ -256,13 +279,6 @@ export type DefaultSelectionPrisma36LineItemPayload = {
   id: string;
 };
 export type LineItem = DefaultSelectionPrisma36LineItemPayload;
-export type LineItemCreate = {
-  name: string;
-  amount: number;
-  currency: $36EnumsCurrency;
-  recurrence?: $36EnumsRecurrence;
-  categoryId: string;
-};
 export type DefaultSelectionPrisma36CategoryPayload = {
   updatedOn: string;
   createdOn: string;
@@ -272,11 +288,6 @@ export type DefaultSelectionPrisma36CategoryPayload = {
   id: string;
 };
 export type Category = DefaultSelectionPrisma36CategoryPayload;
-export type CategoryNoId = {
-  colorHex: string;
-  description: string;
-  name: string;
-};
 export type DefaultSelectionPrisma36BudgetPayload = {
   updatedOn: string;
   createdOn: string;
@@ -287,15 +298,6 @@ export type DefaultSelectionPrisma36BudgetPayload = {
   id: string;
 };
 export type Budget = DefaultSelectionPrisma36BudgetPayload;
-export type LineItemWithCategory = {
-  id: string;
-  recurrence: $36EnumsRecurrence;
-  currency: $36EnumsCurrency;
-  amount: number;
-  name: string;
-  category: CategoryNoId;
-  categoryId: string;
-};
 export type BudgetWithLineItems = {
   id: string;
   name: string;
