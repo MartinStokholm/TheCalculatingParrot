@@ -44,13 +44,15 @@ const formSchema = z.object({
   categoryId: z.string().min(0, { message: "Category is required" }),
 });
 
+type CreateLineItemPopoverProps = {
+  budgetId: string;
+  refetch: () => void;
+};
+
 export function CreateLineItemPopover({
   budgetId,
   refetch,
-}: {
-  budgetId: string;
-  refetch: () => void;
-}) {
+}: CreateLineItemPopoverProps) {
   const recurrenceOptions: $36EnumsRecurrence[] = [
     "DAILY",
     "WEEKLY",
@@ -101,6 +103,10 @@ export function CreateLineItemPopover({
         toast.error("Failed to create line item");
       }
     }
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -235,7 +241,9 @@ export function CreateLineItemPopover({
                 Create
               </Button>
               <PopoverClose>
-                <Button variant={"ghost"}>Cancel</Button>
+                <Button onClick={handleCancel} variant={"ghost"} type="reset">
+                  Cancel
+                </Button>
               </PopoverClose>
             </div>
           </form>

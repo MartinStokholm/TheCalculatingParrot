@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown, DeleteIcon } from "lucide-react";
 import { EditLineitemPopover } from "./EditLineItemPopover";
 import { DeleteLineItemPopover } from "./DeleteLineItemPopover";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
   {
@@ -12,7 +13,7 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     header: () => <div className="text-start text-slate-800">Select</div>,
     cell: ({ row }) => (
       <Checkbox
-        disabled={false} // Disable checkbox for now maybe use it later
+        disabled={false}
         checked={row.getIsSelected()}
         onCheckedChange={(value) => {
           row.toggleSelected(!!value);
@@ -102,12 +103,22 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     cell: ({ row }) => {
       const lineitem = row.original;
       const isSelected = row.getIsSelected();
+      const onCheckedChange = (value: CheckedState) => {
+        row.toggleSelected(!!value);
+      };
+
       return (
         <div className="flex gap-4 justify-between ">
           {(isSelected && (
             <>
-              <EditLineitemPopover lineitem={lineitem} />
-              <DeleteLineItemPopover lineitemId={lineitem.id} />
+              <EditLineitemPopover
+                lineitem={lineitem}
+                onCheckedChange={onCheckedChange}
+              />
+              <DeleteLineItemPopover
+                lineitemId={lineitem.id}
+                onCheckedChange={onCheckedChange}
+              />
             </>
           )) || (
             <>

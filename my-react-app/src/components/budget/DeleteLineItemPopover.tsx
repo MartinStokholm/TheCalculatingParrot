@@ -16,10 +16,12 @@ import { useState } from "react";
 
 type DeleteLineItemPopoverProps = {
   lineitemId: string;
+  onCheckedChange: (value: boolean) => void;
 };
 
 export function DeleteLineItemPopover({
   lineitemId,
+  onCheckedChange,
 }: DeleteLineItemPopoverProps) {
   const { id } = useParams<{ id: string }>();
   const { refetch } = useGetBudgetQuery({ budgetId: id || "NaN" });
@@ -31,6 +33,7 @@ export function DeleteLineItemPopover({
       await deleteLineItem({ lineItemId: lineitemId }).unwrap();
       refetch();
       setIsOpen(false);
+      onCheckedChange(false);
       toast.success("Line item deleted successfully");
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -39,6 +42,11 @@ export function DeleteLineItemPopover({
         toast.error("something went wrong");
       }
     }
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+    onCheckedChange(false);
   };
 
   return (
@@ -60,7 +68,9 @@ export function DeleteLineItemPopover({
             Delete
           </Button>
           <PopoverClose>
-            <Button variant={"ghost"}>Cancel</Button>
+            <Button onClick={handleCancel} variant={"ghost"}>
+              Cancel
+            </Button>
           </PopoverClose>
         </div>
       </PopoverContent>

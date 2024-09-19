@@ -29,9 +29,13 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 type EditLineitemPopoverProps = {
   lineitem: LineItemWithCategory;
+  onCheckedChange: (value: boolean) => void;
 };
 
-export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
+export function EditLineitemPopover({
+  lineitem,
+  onCheckedChange,
+}: EditLineitemPopoverProps) {
   const [formData, setFormData] = useState<LineItemWithCategory>(lineitem);
   const { id } = useParams<{ id: string }>();
   const { refetch } = useGetBudgetQuery({ budgetId: id || "NaN" });
@@ -82,6 +86,7 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
       toast.success("Line item updated");
       refetch();
       setIsOpen(false);
+      onCheckedChange(false);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -90,6 +95,12 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
       }
     }
   };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+    onCheckedChange(false);
+  };
+
   const recurrenceOptions: $36EnumsRecurrence[] = [
     "DAILY",
     "WEEKLY",
@@ -129,6 +140,7 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
               <Input
                 id="amount"
                 type="number"
+                value={formData.amount}
                 onChange={handleInputChange}
                 className="col-span-2 h-8"
               />
@@ -198,7 +210,9 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
           </div>
           <Button type="submit">Save</Button>
           <PopoverClose>
-            <Button variant={"ghost"}>Cancel</Button>
+            <Button onClick={handleCancel} variant={"ghost"}>
+              Cancel
+            </Button>
           </PopoverClose>
         </form>
       </PopoverContent>
