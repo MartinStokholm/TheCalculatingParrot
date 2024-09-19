@@ -84,7 +84,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.CategoryOverview}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 w-[33%]"
+            className="place-self-start ml-0 "
             size={TitleSizes.Small}
             text="Category Overview"
             color="white"
@@ -95,7 +95,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.Summary}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 w-[33%]"
+            className="place-self-start ml-0"
             size={TitleSizes.Small}
             text="Budget Summary"
             color="white"
@@ -109,7 +109,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.Table}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 w-[33%]"
+            className="place-self-start ml-0 "
             size={TitleSizes.Small}
             text="Manage Budget"
             color="white"
@@ -121,7 +121,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.AddLineItem}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 w-[33%]"
+            className="place-self-start ml-0 "
             size={TitleSizes.Small}
             text="Add to budget"
             color="white"

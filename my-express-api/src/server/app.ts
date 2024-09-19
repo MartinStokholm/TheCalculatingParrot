@@ -46,7 +46,7 @@ app.use(
     explorer: true,
     swaggerOptions: {
       url: "/swagger.json",
-      docExpansion: "none",
+
       persistAuthorization: true,
     },
   })

@@ -18,9 +18,9 @@ export function DataTable<TData, TValue>({
   table,
 }: DataTableProps<TData, TValue>) {
   return (
-    <div>
-      <div className="rounded-lg border-4">
-        <Table>
+    <div className="overflow-x-hidden ">
+      <div className="rounded-lg border-b-8 w-full">
+        <Table className="relative w-full overflow-x-hidden">
           <TableHeader className="bg-white border-b-slate-700 border-b-4">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -70,7 +70,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="flex justify-between">
-        <div className="p-2 text-sm text-muted-foreground flex items-center justify-start">
+        <div className="p-2 text-sm text-muted-foreground flex items-center justify-start text-white">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
