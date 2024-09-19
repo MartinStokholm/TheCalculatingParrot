@@ -25,6 +25,7 @@ import {
 import { useState } from "react";
 import { LoadingSpinner } from "../state/LoadingSpinner";
 import { useParams } from "react-router-dom";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type EditLineitemPopoverProps = {
   lineitem: LineItemWithCategory;
@@ -35,6 +36,8 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
   const { id } = useParams<{ id: string }>();
   const { refetch } = useGetBudgetQuery({ budgetId: id || "NaN" });
   const [updateLineItem] = useUpdateLineItemMutation();
+  const [isOpen, setIsOpen] = useState(false);
+
   const {
     data: categories,
     error: categoriesError,
@@ -78,6 +81,7 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
       }).unwrap();
       toast.success("Line item updated");
       refetch();
+      setIsOpen(false);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -96,9 +100,11 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
   const currencyOptions: $36EnumsCurrency[] = ["USD", "EUR", "DKK"];
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button variant="outline" size={"sm"}>
+          Edit
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <form onSubmit={handleSubmit} className="grid gap-4">
@@ -123,7 +129,6 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
               <Input
                 id="amount"
                 type="number"
-                value={formData.amount.toString()}
                 onChange={handleInputChange}
                 className="col-span-2 h-8"
               />
@@ -192,6 +197,9 @@ export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
             </div>
           </div>
           <Button type="submit">Save</Button>
+          <PopoverClose>
+            <Button variant={"ghost"}>Cancel</Button>
+          </PopoverClose>
         </form>
       </PopoverContent>
     </Popover>

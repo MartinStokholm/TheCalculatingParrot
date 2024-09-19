@@ -9,9 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   table: ReactTable<TData>;
+  value?: TValue; // This is a generic value that can be passed to the cell renderer
 }
 
 export function DataTable<TData, TValue>({
@@ -69,29 +71,24 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between">
-        <div className="p-2 text-sm text-muted-foreground flex items-center justify-start text-white">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+      <div className="flex justify-between py-4 gap-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ArrowBigLeftDash /> Previous
+        </Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next <ArrowBigRightDash />
+        </Button>
       </div>
     </div>
   );

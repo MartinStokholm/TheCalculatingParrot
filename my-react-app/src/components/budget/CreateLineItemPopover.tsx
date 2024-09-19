@@ -63,9 +63,9 @@ export function CreateLineItemPopover({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      amount: 0,
-      recurrence: "MONTHLY",
+      name: "Expenses have a negative amount",
+      amount: -100,
+      recurrence: "ONCE",
       currency: "DKK",
       categoryId: "",
     },
@@ -80,7 +80,6 @@ export function CreateLineItemPopover({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
       await createLineItem({
         budgetId,
         lineItemCreate: {
@@ -111,7 +110,7 @@ export function CreateLineItemPopover({
       </PopoverTrigger>
       <PopoverContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField
               control={form.control}
               name="name"
@@ -231,7 +230,7 @@ export function CreateLineItemPopover({
                 </FormItem>
               )}
             />
-            <div className="flex justify-between">
+            <div className="flex justify-between pt-4">
               <Button variant={"default"} type="submit">
                 Create
               </Button>

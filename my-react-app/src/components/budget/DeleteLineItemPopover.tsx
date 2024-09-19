@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -30,15 +31,20 @@ export function DeleteLineItemPopover({
       await deleteLineItem({ lineItemId: lineitemId }).unwrap();
       refetch();
       setIsOpen(false);
-    } catch (error) {
-      console.error("Failed to delete line item:", error);
+      toast.success("Line item deleted successfully");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("something went wrong");
+      }
     }
   };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant={"destructive"}>
+        <Button variant={"destructive"} size={"sm"}>
           Delete <DeleteIcon className="ml-2" />
         </Button>
       </PopoverTrigger>

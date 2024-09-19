@@ -2,20 +2,20 @@ import { ColumnDef } from "@tanstack/react-table";
 import { LineItemWithCategory } from "@/redux/api/endpoints/calculatingParrotApi";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, DeleteIcon } from "lucide-react";
 import { EditLineitemPopover } from "./EditLineItemPopover";
 import { DeleteLineItemPopover } from "./DeleteLineItemPopover";
 
 export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
   {
     id: "select",
+    header: () => <div className="text-start text-slate-800">Select</div>,
     cell: ({ row }) => (
       <Checkbox
-        disabled={true} // Disable checkbox for now maybe use it later
+        disabled={false} // Disable checkbox for now maybe use it later
         checked={row.getIsSelected()}
         onCheckedChange={(value) => {
           row.toggleSelected(!!value);
-          console.log(row.getAllCells().map((cell) => cell.getValue()));
         }}
         aria-label="Select row"
       />
@@ -63,9 +63,9 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     },
   },
   {
-    id: "currency",
-    header: () => <div className="text-start text-slate-800">Currency</div>,
-    accessorKey: "currency",
+    id: "recurrence",
+    header: "Recurrence",
+    accessorKey: "recurrence",
     cell: (row) => row.renderValue(),
   },
   {
@@ -90,20 +90,35 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     },
   },
   {
-    id: "recurrence",
-    header: "Recurrence",
-    accessorKey: "recurrence",
-    cell: (row) => row.renderValue(),
-  },
-  {
     id: "actions",
-    header: "Actions",
+    header: ({ table }) => {
+      const isSomeRowsSelected = table.getIsSomeRowsSelected();
+      return isSomeRowsSelected ? (
+        <p className="text-slate-800 underline">Actions</p>
+      ) : (
+        <p>Actions</p>
+      );
+    },
     cell: ({ row }) => {
       const lineitem = row.original;
+      const isSelected = row.getIsSelected();
       return (
-        <div className="flex gap-4">
-          <EditLineitemPopover lineitem={lineitem} />
-          <DeleteLineItemPopover lineitemId={lineitem.id} />
+        <div className="flex gap-4 justify-between ">
+          {(isSelected && (
+            <>
+              <EditLineitemPopover lineitem={lineitem} />
+              <DeleteLineItemPopover lineitemId={lineitem.id} />
+            </>
+          )) || (
+            <>
+              <Button disabled variant="outline" size={"sm"}>
+                Edit
+              </Button>{" "}
+              <Button disabled variant={"destructive"} size={"sm"}>
+                Delete <DeleteIcon className="ml-2" />
+              </Button>
+            </>
+          )}
         </div>
       );
     },
