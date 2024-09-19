@@ -32,6 +32,7 @@ import {
 } from "@/redux/api/endpoints/calculatingParrotApi";
 import { LoadingSpinner } from "@/components/state/LoadingSpinner";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -58,7 +59,7 @@ export function CreateLineItemPopover({
     "ONCE",
   ];
   const currencyOptions: $36EnumsCurrency[] = ["USD", "EUR", "DKK"];
-
+  const [isOpen, setIsOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -93,6 +94,7 @@ export function CreateLineItemPopover({
       form.reset();
       refetch();
       toast.success("Line item created successfully");
+      setIsOpen(false);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error("Failed to create line item: " + error.message);
@@ -103,7 +105,7 @@ export function CreateLineItemPopover({
   };
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button variant={"default"}>Create Line Item</Button>
       </PopoverTrigger>
