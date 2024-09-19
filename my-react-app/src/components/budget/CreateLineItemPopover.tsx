@@ -240,10 +240,12 @@ export function CreateLineItemPopover({
               <Button variant={"default"} type="submit">
                 Create
               </Button>
-              <PopoverClose>
-                <Button onClick={handleCancel} variant={"ghost"} type="reset">
-                  Cancel
-                </Button>
+              <PopoverClose
+                onClick={handleCancel}
+                type="reset"
+                className="hover:underline"
+              >
+                Cancel
               </PopoverClose>
             </div>
           </form>

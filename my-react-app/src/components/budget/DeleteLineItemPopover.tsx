@@ -67,10 +67,12 @@ export function DeleteLineItemPopover({
           <Button variant={"destructive"} onClick={handleDelete}>
             Delete
           </Button>
-          <PopoverClose>
-            <Button onClick={handleCancel} variant={"ghost"}>
-              Cancel
-            </Button>
+          <PopoverClose
+            onClick={handleCancel}
+            type="reset"
+            className="hover:underline"
+          >
+            Cancel
           </PopoverClose>
         </div>
       </PopoverContent>

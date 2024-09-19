@@ -19,6 +19,9 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   table,
 }: DataTableProps<TData, TValue>) {
+  const pageIndex = table.getState().pagination.pageIndex + 1; // Adding 1 to make it 1-based index
+  const pageCount = table.getPageCount();
+
   return (
     <div className="overflow-x-hidden ">
       <div className="rounded-lg border-b-8 w-full">
@@ -80,7 +83,9 @@ export function DataTable<TData, TValue>({
         >
           <ArrowBigLeftDash /> Previous
         </Button>
-
+        <p>
+          Page {pageIndex} of {table.getPageCount()}
+        </p>
         <Button
           variant="outline"
           size="sm"

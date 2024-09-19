@@ -209,10 +209,12 @@ export function EditLineitemPopover({
             </div>
           </div>
           <Button type="submit">Save</Button>
-          <PopoverClose>
-            <Button onClick={handleCancel} variant={"ghost"}>
-              Cancel
-            </Button>
+          <PopoverClose
+            onClick={handleCancel}
+            type="reset"
+            className="hover:underline"
+          >
+            Cancel
           </PopoverClose>
         </form>
       </PopoverContent>
