@@ -193,6 +193,34 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"LineItemCreate": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"amount": {
+						"type": "number",
+						"format": "double"
+					},
+					"currency": {
+						"$ref": "#/components/schemas/Currency"
+					},
+					"recurrence": {
+						"$ref": "#/components/schemas/Recurrence"
+					},
+					"categoryId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"amount",
+					"currency",
+					"categoryId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"DefaultSelection_Prisma._36_LineItemPayload_": {
 				"properties": {
 					"updatedOn": {
@@ -242,34 +270,6 @@
 			"LineItem": {
 				"$ref": "#/components/schemas/DefaultSelection_Prisma._36_LineItemPayload_",
 				"description": "Model LineItem"
-			},
-			"LineItemCreate": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"amount": {
-						"type": "number",
-						"format": "double"
-					},
-					"currency": {
-						"$ref": "#/components/schemas/Currency"
-					},
-					"recurrence": {
-						"$ref": "#/components/schemas/Recurrence"
-					},
-					"categoryId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name",
-					"amount",
-					"currency",
-					"categoryId"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"DefaultSelection_Prisma._36_CategoryPayload_": {
 				"properties": {
@@ -768,7 +768,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/LineItem"
+									"$ref": "#/components/schemas/LineItemCreate"
 								}
 							}
 						}

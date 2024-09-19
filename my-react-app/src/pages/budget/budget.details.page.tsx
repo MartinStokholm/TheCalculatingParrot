@@ -9,7 +9,6 @@ import { LoadingSpinner } from "@/components/state/LoadingSpinner";
 import { BudgetColumns } from "@/components/budget/BudgetColumns";
 import { CategoryChart } from "@/components/budget/CategoryChart";
 import { BudgetSummary } from "@/components/budget/BudgetSummary";
-import { CreateLineItemForm } from "@/components/budget/NewLineItemForm";
 
 import { ToggleShow } from "@/components/toggle/ToggleShow";
 import { ToggleMenu } from "@/components/toggle/ToggleMenu";
@@ -26,6 +25,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { DataTable } from "@/components/budget/DataTable";
+import { CreateLineItemPopover } from "@/components/budget/CreateLineItemPopover";
 
 export default function BudgetDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -78,7 +78,6 @@ export default function BudgetDetailsPage() {
           ToggleLabels.CategoryOverview,
           ToggleLabels.Summary,
           ToggleLabels.Table,
-          ToggleLabels.AddLineItem,
         ]}
       />
       <ToggleShow label={ToggleLabels.CategoryOverview}>
@@ -116,17 +115,7 @@ export default function BudgetDetailsPage() {
           />
 
           <DataTable table={table} />
-        </WidgetBox>
-      </ToggleShow>
-      <ToggleShow label={ToggleLabels.AddLineItem}>
-        <WidgetBox>
-          <Title
-            className="place-self-start ml-0 "
-            size={TitleSizes.Small}
-            text="Add to budget"
-            color="white"
-          />
-          <CreateLineItemForm budgetId={id || "NaN"} refetch={refetch} />
+          <CreateLineItemPopover budgetId={id || "NaN"} refetch={refetch} />
         </WidgetBox>
       </ToggleShow>
     </ToggleProvider>

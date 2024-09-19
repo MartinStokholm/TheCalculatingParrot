@@ -12,7 +12,10 @@ export const lineItemSchema = z.object({
   budgetId: z.string().min(1, "Budget ID is required"),
 });
 
-export const createLineItemSchema = lineItemSchema.omit({ budgetId: true });
+export const createLineItemSchema = lineItemSchema.omit({
+  budgetId: true,
+  id: true,
+});
 
 export type LineItemSchema = ReturnType<typeof lineItemSchema.parse>;
 export type CreateLineItemSchema = z.infer<typeof createLineItemSchema>;

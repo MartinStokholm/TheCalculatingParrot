@@ -37,7 +37,7 @@ export class LineItemController extends Controller {
   public async createLineItem(
     @Path() budgetId: string,
     @Body() requestBody: LineItemCreate
-  ): Promise<LineItem> {
+  ): Promise<LineItemCreate> {
     return await this.lineItemService.createLineItem(budgetId, requestBody);
   }
 

@@ -2,7 +2,6 @@
 export const ToggleLabels = {
   Summary: "Summary",
   Table: "Table",
-  AddLineItem: "Creation",
   CategoryOverview: "Overview",
 } as const;
 
