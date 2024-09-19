@@ -20,18 +20,20 @@ import {
   useUpdateLineItemMutation,
   $36EnumsRecurrence,
   $36EnumsCurrency,
+  useGetBudgetQuery,
 } from "@/redux/api/endpoints/calculatingParrotApi";
 import { useState } from "react";
 import { LoadingSpinner } from "../state/LoadingSpinner";
+import { useParams } from "react-router-dom";
 
-export function EditLineitemPopover({
-  lineitem,
-  refetch,
-}: {
+type EditLineitemPopoverProps = {
   lineitem: LineItemWithCategory;
-  refetch: () => void;
-}) {
+};
+
+export function EditLineitemPopover({ lineitem }: EditLineitemPopoverProps) {
   const [formData, setFormData] = useState<LineItemWithCategory>(lineitem);
+  const { id } = useParams<{ id: string }>();
+  const { refetch } = useGetBudgetQuery({ budgetId: id || "NaN" });
   const [updateLineItem] = useUpdateLineItemMutation();
   const {
     data: categories,
@@ -76,9 +78,12 @@ export function EditLineitemPopover({
       }).unwrap();
       toast.success("Line item updated");
       refetch();
-    } catch (error: any) {
-      toast.error(error.data.error);
-      console.error(error.data.error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("something went wrong");
+      }
     }
   };
   const recurrenceOptions: $36EnumsRecurrence[] = [

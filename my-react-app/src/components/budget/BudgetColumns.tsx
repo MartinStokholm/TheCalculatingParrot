@@ -1,23 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table";
-
-import {
-  LineItemWithCategory,
-  useGetBudgetQuery,
-  useUpdateLineItemMutation,
-  useDeleteLineItemMutation,
-} from "@/redux/api/endpoints/calculatingParrotApi";
-
+import { LineItemWithCategory } from "@/redux/api/endpoints/calculatingParrotApi";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
-import { useParams } from "react-router-dom";
 import { EditLineitemPopover } from "./EditLineItemPopover";
+import { DeleteLineItemPopover } from "./DeleteLineItemPopover";
 
 export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
   {
     id: "select",
     cell: ({ row }) => (
       <Checkbox
+        disabled={true} // Disable checkbox for now maybe use it later
         checked={row.getIsSelected()}
         onCheckedChange={(value) => {
           row.toggleSelected(!!value);
@@ -106,25 +100,10 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const lineitem = row.original;
-      const { id } = useParams<{ id: string }>();
-      const { refetch } = useGetBudgetQuery({ budgetId: id || "NaN" });
-      const [deleteLineItem] = useDeleteLineItemMutation();
-
       return (
         <div className="flex gap-4">
-          <EditLineitemPopover lineitem={lineitem} refetch={refetch} />
-          <Button
-            onClick={async () => {
-              try {
-                await deleteLineItem({ lineItemId: lineitem.id }).unwrap();
-                refetch();
-              } catch (error) {
-                console.error("Failed to delete line item:", error);
-              }
-            }}
-          >
-            Delete
-          </Button>
+          <EditLineitemPopover lineitem={lineitem} />
+          <DeleteLineItemPopover lineitemId={lineitem.id} />
         </div>
       );
     },

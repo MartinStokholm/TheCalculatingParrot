@@ -63,11 +63,7 @@ export default function BudgetDetailsPage() {
 
   return (
     <ToggleProvider>
-      <Title
-        className="place-self-start ml-0 w-full"
-        size={TitleSizes.Large}
-        text={`${budget?.name}`}
-      />
+      <Title size={TitleSizes.Large} text={`${budget?.name}`} />
       <Title
         className="place-self-start ml-0 border-b-0"
         size={TitleSizes.Medium}

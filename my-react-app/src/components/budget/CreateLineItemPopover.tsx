@@ -30,14 +30,16 @@ import {
   useCreateLineItemMutation,
   useGetCategoriesQuery,
 } from "@/redux/api/endpoints/calculatingParrotApi";
-import { LoadingSpinner } from "../state/LoadingSpinner";
-import { useState } from "react";
+import { LoadingSpinner } from "@/components/state/LoadingSpinner";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   amount: z.number(),
-  recurrence: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY", "ONCE"]),
-  currency: z.enum(["USD", "EUR", "DKK"]),
+  recurrence: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY", "ONCE"], {
+    message: "Recurrence is required",
+  }),
+  currency: z.enum(["USD", "EUR", "DKK"], { message: "Currency is required" }),
   categoryId: z.string().min(0, { message: "Category is required" }),
 });
 
@@ -56,8 +58,6 @@ export function CreateLineItemPopover({
     "ONCE",
   ];
   const currencyOptions: $36EnumsCurrency[] = ["USD", "EUR", "DKK"];
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,7 +93,6 @@ export function CreateLineItemPopover({
       form.reset();
       refetch();
       toast.success("Line item created successfully");
-      setIsOpen(false);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error("Failed to create line item: " + error.message);
@@ -106,12 +105,7 @@ export function CreateLineItemPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          variant={isOpen ? "destructive" : "default"}
-        >
-          {isOpen ? "Cancel" : "Create Line Item"}
-        </Button>
+        <Button variant={"default"}>Create Line Item</Button>
       </PopoverTrigger>
       <PopoverContent>
         <Form {...form}>
@@ -213,7 +207,11 @@ export function CreateLineItemPopover({
                     ) : categoriesError ? (
                       <p className="text-red-500">Error loading categories</p>
                     ) : (
-                      <Select {...field} name="categoryId">
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        name="categoryId"
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
@@ -232,7 +230,12 @@ export function CreateLineItemPopover({
               )}
             />
             <div className="flex justify-between">
-              <Button type="submit">Create</Button>
+              <Button variant={"default"} type="submit">
+                Create
+              </Button>
+              <PopoverClose>
+                <Button variant={"ghost"}>Cancel</Button>
+              </PopoverClose>
             </div>
           </form>
         </Form>

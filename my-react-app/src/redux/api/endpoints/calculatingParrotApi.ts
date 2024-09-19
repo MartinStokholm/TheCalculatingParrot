@@ -169,7 +169,7 @@ export type DeleteLineItemApiResponse = /** status 200 Ok */ LineItem;
 export type DeleteLineItemApiArg = {
   lineItemId: string;
 };
-export type CreateLineItemApiResponse = /** status 200 Ok */ LineItem;
+export type CreateLineItemApiResponse = /** status 200 Ok */ LineItemCreate;
 export type CreateLineItemApiArg = {
   budgetId: string;
   lineItemCreate: LineItemCreate;
