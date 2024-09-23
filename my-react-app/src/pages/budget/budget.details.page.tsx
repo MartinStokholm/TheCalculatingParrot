@@ -64,11 +64,7 @@ export default function BudgetDetailsPage() {
   return (
     <ToggleProvider>
       <Title size={TitleSizes.Large} text={`${budget?.name}`} />
-      <Title
-        className="place-self-start ml-0 border-b-0"
-        size={TitleSizes.Medium}
-        text={`Starting capital: ${budget?.startingCapital}`}
-      />
+
       <ToggleMenu
         labels={[
           ToggleLabels.CategoryOverview,
@@ -79,7 +75,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.CategoryOverview}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 "
+            className="place-self-start"
             size={TitleSizes.Small}
             text="Category Overview"
             color="white"
@@ -90,7 +86,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.Summary}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0"
+            className="place-self-start"
             size={TitleSizes.Small}
             text="Budget Summary"
             color="white"
@@ -104,7 +100,7 @@ export default function BudgetDetailsPage() {
       <ToggleShow label={ToggleLabels.Table}>
         <WidgetBox>
           <Title
-            className="place-self-start ml-0 "
+            className="place-self-start"
             size={TitleSizes.Small}
             text="Manage Budget"
             color="white"

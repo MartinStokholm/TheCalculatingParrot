@@ -58,37 +58,39 @@ export function SignInForm() {
         text="Please sign in below to enable stuff"
       />
 
-      <form
-        className="shadow-md flex flex-col p-4 gap-4 bg-white rounded-3xl"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <FormInput
-          label="Email"
-          name="email"
-          type="email"
-          register={register}
-          validation={{ required: "Email is required" }}
-          error={errors.email?.message}
-          placeholder="Enter your email"
-        />
+      <div className="flex flex-2 justify-center">
+        <form
+          className="shadow-md flex flex-col p-4 gap-4 bg-white rounded-3xl"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <FormInput
+            label="Email"
+            name="email"
+            type="email"
+            register={register}
+            validation={{ required: "Email is required" }}
+            error={errors.email?.message}
+            placeholder="Enter your email"
+          />
 
-        <FormInput
-          label="Password"
-          name="password"
-          type="password"
-          register={register}
-          validation={{ required: "Password is required" }}
-          error={errors.password?.message}
-          placeholder="********"
-        />
+          <FormInput
+            label="Password"
+            name="password"
+            type="password"
+            register={register}
+            validation={{ required: "Password is required" }}
+            error={errors.password?.message}
+            placeholder="********"
+          />
 
-        <FormSubmit
-          isLoading={isLoading}
-          submitText="Sign In"
-          submittingText="Signing in..."
-        />
-        {apiError && <p className="text-red-500">{apiError}</p>}
-      </form>
+          <FormSubmit
+            isLoading={isLoading}
+            submitText="Sign In"
+            submittingText="Signing in..."
+          />
+          {apiError && <p className="text-red-500">{apiError}</p>}
+        </form>
+      </div>
     </>
   );
 }

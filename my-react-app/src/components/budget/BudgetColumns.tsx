@@ -28,7 +28,7 @@ export const BudgetColumns: ColumnDef<LineItemWithCategory, any>[] = [
     id: "name",
     header: () => <div className="text-start text-slate-800">Name</div>,
     accessorKey: "name",
-    cell: (row) => row.renderValue(),
+    cell: (row) => <p className="text-white"> {row.renderValue()}</p>,
   },
   {
     id: "amount",

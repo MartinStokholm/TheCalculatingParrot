@@ -19,13 +19,10 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   table,
 }: DataTableProps<TData, TValue>) {
-  const pageIndex = table.getState().pagination.pageIndex + 1; // Adding 1 to make it 1-based index
-  const pageCount = table.getPageCount();
-
   return (
     <div className="overflow-x-hidden ">
       <div className="rounded-lg border-b-8 w-full">
-        <Table className="relative w-full overflow-x-hidden">
+        <Table className="relative w-full overflow-x-hidden ">
           <TableHeader className="bg-white border-b-slate-700 border-b-4">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -48,6 +45,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  className="bg-slate-800"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -84,7 +82,8 @@ export function DataTable<TData, TValue>({
           <ArrowBigLeftDash /> Previous
         </Button>
         <p>
-          Page {pageIndex} of {table.getPageCount()}
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
         </p>
         <Button
           variant="outline"
